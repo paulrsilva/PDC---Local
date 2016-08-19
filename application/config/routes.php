@@ -53,5 +53,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 // $route['404_override'] = '';
 // $route['translate_uri_dashes'] = FALSE;
 
-$route['default_controller'] = 'pages/view';
-$route['(:any)'] = 'pages/view/$1';
+// $route['default_controller'] = 'pages/view';
+
+$route['default_controller'] = 'dashboard';
+//$route['(:any)'] = 'dashboard/dash/$1';
+
+# $route['(:any)'] = 'dashboard/$1';
+
+$route['404_override']='';
+$route['translate_uri_dashes'] = TRUE;
+
+//$route['admin'] = 'admin/dashboard';
+
+
