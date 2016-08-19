@@ -7,13 +7,14 @@
  * Header and Sidebar of each page
  *
  */
+$this->load->helper('url');
 ?>
 
 <!-- Preloader -->
 <!-- Preloader functionality (initialized in js/app.js) - pageLoading() -->
 <!-- Used only if page preloader is enabled from inc/config (PHP version) or the class 'page-loading' is added in body element (HTML version) -->
 <div class="preloader themed-background">
-    <h1 class="push-top-bottom text-light text-center"><strong>Pro</strong>UI</h1>
+    <h1 class="push-top-bottom text-light text-center"><strong>PDC</strong> Admin</h1>
     <div class="inner">
         <h3 class="text-light visible-lt-ie9 visible-lt-ie10"><strong>Loading..</strong></h3>
         <div class="preloader-spinner hidden-lt-ie9 hidden-lt-ie10"></div>
@@ -90,73 +91,73 @@
                     <li>
                         <a href="javascript:void(0)" class="chat-user-online">
                             <span></span>
-                            <img src="images/placeholders/avatars/avatar12.jpg" alt="avatar" class="img-circle">
+                            <img src="<?php echo base_url(); ?>images/placeholders/avatars/avatar12.jpg" alt="avatar" class="img-circle">
                         </a>
                     </li>
                     <li>
                         <a href="javascript:void(0)" class="chat-user-online">
                             <span></span>
-                            <img src="images/placeholders/avatars/avatar15.jpg" alt="avatar" class="img-circle">
+                            <img src="<?php echo base_url(); ?>images/placeholders/avatars/avatar15.jpg" alt="avatar" class="img-circle">
                         </a>
                     </li>
                     <li>
                         <a href="javascript:void(0)" class="chat-user-online">
                             <span></span>
-                            <img src="images/placeholders/avatars/avatar10.jpg" alt="avatar" class="img-circle">
+                            <img src="<?php echo base_url(); ?>images/placeholders/avatars/avatar10.jpg" alt="avatar" class="img-circle">
                         </a>
                     </li>
                     <li>
                         <a href="javascript:void(0)" class="chat-user-online">
                             <span></span>
-                            <img src="images/placeholders/avatars/avatar4.jpg" alt="avatar" class="img-circle">
+                            <img src="<?php echo base_url(); ?>images/placeholders/avatars/avatar4.jpg" alt="avatar" class="img-circle">
                         </a>
                     </li>
                     <li>
                         <a href="javascript:void(0)" class="chat-user-away">
                             <span></span>
-                            <img src="images/placeholders/avatars/avatar7.jpg" alt="avatar" class="img-circle">
+                            <img src="<?php echo base_url(); ?>images/placeholders/avatars/avatar7.jpg" alt="avatar" class="img-circle">
                         </a>
                     </li>
                     <li>
                         <a href="javascript:void(0)" class="chat-user-away">
                             <span></span>
-                            <img src="images/placeholders/avatars/avatar9.jpg" alt="avatar" class="img-circle">
+                            <img src="<?php echo base_url(); ?>images/placeholders/avatars/avatar9.jpg" alt="avatar" class="img-circle">
                         </a>
                     </li>
                     <li>
                         <a href="javascript:void(0)" class="chat-user-busy">
                             <span></span>
-                            <img src="images/placeholders/avatars/avatar16.jpg" alt="avatar" class="img-circle">
+                            <img src="<?php echo base_url(); ?>images/placeholders/avatars/avatar16.jpg" alt="avatar" class="img-circle">
                         </a>
                     </li>
                     <li>
                         <a href="javascript:void(0)">
                             <span></span>
-                            <img src="images/placeholders/avatars/avatar1.jpg" alt="avatar" class="img-circle">
+                            <img src="<?php echo base_url(); ?>images/placeholders/avatars/avatar1.jpg" alt="avatar" class="img-circle">
                         </a>
                     </li>
                     <li>
                         <a href="javascript:void(0)">
                             <span></span>
-                            <img src="images/placeholders/avatars/avatar4.jpg" alt="avatar" class="img-circle">
+                            <img src="<?php echo base_url(); ?>images/placeholders/avatars/avatar4.jpg" alt="avatar" class="img-circle">
                         </a>
                     </li>
                     <li>
                         <a href="javascript:void(0)">
                             <span></span>
-                            <img src="images/placeholders/avatars/avatar3.jpg" alt="avatar" class="img-circle">
+                            <img src="<?php echo base_url(); ?>images/placeholders/avatars/avatar3.jpg" alt="avatar" class="img-circle">
                         </a>
                     </li>
                     <li>
                         <a href="javascript:void(0)">
                             <span></span>
-                            <img src="images/placeholders/avatars/avatar13.jpg" alt="avatar" class="img-circle">
+                            <img src="<?php echo base_url(); ?>images/placeholders/avatars/avatar13.jpg" alt="avatar" class="img-circle">
                         </a>
                     </li>
                     <li>
                         <a href="javascript:void(0)">
                             <span></span>
-                            <img src="images/placeholders/avatars/avatar5.jpg" alt="avatar" class="img-circle">
+                            <img src="<?php echo base_url(); ?>images/placeholders/avatars/avatar5.jpg" alt="avatar" class="img-circle">
                         </a>
                     </li>
                 </ul>
@@ -166,7 +167,7 @@
                 <div class="chat-talk display-none">
                     <!-- Chat Info -->
                     <div class="chat-talk-info sidebar-section">
-                        <img src="images/placeholders/avatars/avatar5.jpg" alt="avatar" class="img-circle pull-left">
+                        <img src="<?php echo base_url(); ?>images/placeholders/avatars/avatar5.jpg" alt="avatar" class="img-circle pull-left">
                         <strong>John</strong> Doe
                         <button id="chat-talk-close-btn" class="btn btn-xs btn-default pull-right">
                             <i class="fa fa-times"></i>
@@ -270,7 +271,7 @@
                 <div class="sidebar-section sidebar-user clearfix">
                     <div class="sidebar-user-avatar">
                         <a href="page_ready_user_profile.php">
-                            <img src="images/placeholders/avatars/avatar2.jpg" alt="avatar">
+                            <img src="<?php echo base_url(); ?>images/placeholders/avatars/avatar2.jpg" alt="avatar">
                         </a>
                     </div>
                     <div class="sidebar-user-name">John Doe</div>
@@ -291,28 +292,28 @@
                         <a href="javascript:void(0)" class="themed-background-dark-default themed-border-default" data-theme="default" data-toggle="tooltip" title="Default Blue"></a>
                     </li>
                     <li>
-                        <a href="javascript:void(0)" class="themed-background-dark-night themed-border-night" data-theme="css/themes/night.css" data-toggle="tooltip" title="Night"></a>
+                        <a href="javascript:void(0)" class="themed-background-dark-night themed-border-night" data-theme="<?php echo base_url(); ?>css/themes/night.css" data-toggle="tooltip" title="Night"></a>
                     </li>
                     <li>
-                        <a href="javascript:void(0)" class="themed-background-dark-amethyst themed-border-amethyst" data-theme="css/themes/amethyst.css" data-toggle="tooltip" title="Amethyst"></a>
+                        <a href="javascript:void(0)" class="themed-background-dark-amethyst themed-border-amethyst" data-theme="<?php echo base_url(); ?>css/themes/amethyst.css" data-toggle="tooltip" title="Amethyst"></a>
                     </li>
                     <li>
-                        <a href="javascript:void(0)" class="themed-background-dark-modern themed-border-modern" data-theme="css/themes/modern.css" data-toggle="tooltip" title="Modern"></a>
+                        <a href="javascript:void(0)" class="themed-background-dark-modern themed-border-modern" data-theme="<?php echo base_url(); ?>css/themes/modern.css" data-toggle="tooltip" title="Modern"></a>
                     </li>
                     <li>
-                        <a href="javascript:void(0)" class="themed-background-dark-autumn themed-border-autumn" data-theme="css/themes/autumn.css" data-toggle="tooltip" title="Autumn"></a>
+                        <a href="javascript:void(0)" class="themed-background-dark-autumn themed-border-autumn" data-theme="<?php echo base_url(); ?>css/themes/autumn.css" data-toggle="tooltip" title="Autumn"></a>
                     </li>
                     <li>
-                        <a href="javascript:void(0)" class="themed-background-dark-flatie themed-border-flatie" data-theme="css/themes/flatie.css" data-toggle="tooltip" title="Flatie"></a>
+                        <a href="javascript:void(0)" class="themed-background-dark-flatie themed-border-flatie" data-theme="<?php echo base_url(); ?>css/themes/flatie.css" data-toggle="tooltip" title="Flatie"></a>
                     </li>
                     <li>
-                        <a href="javascript:void(0)" class="themed-background-dark-spring themed-border-spring" data-theme="css/themes/spring.css" data-toggle="tooltip" title="Spring"></a>
+                        <a href="javascript:void(0)" class="themed-background-dark-spring themed-border-spring" data-theme="<?php echo base_url(); ?>css/themes/spring.css" data-toggle="tooltip" title="Spring"></a>
                     </li>
                     <li>
-                        <a href="javascript:void(0)" class="themed-background-dark-fancy themed-border-fancy" data-theme="css/themes/fancy.css" data-toggle="tooltip" title="Fancy"></a>
+                        <a href="javascript:void(0)" class="themed-background-dark-fancy themed-border-fancy" data-theme="<?php echo base_url(); ?>css/themes/fancy.css" data-toggle="tooltip" title="Fancy"></a>
                     </li>
                     <li>
-                        <a href="javascript:void(0)" class="themed-background-dark-fire themed-border-fire" data-theme="css/themes/fire.css" data-toggle="tooltip" title="Fire"></a>
+                        <a href="javascript:void(0)" class="themed-background-dark-fire themed-border-fire" data-theme="<?php echo base_url(); ?>css/themes/fire.css" data-toggle="tooltip" title="Fire"></a>
                     </li>
                 </ul>
                 <!-- END Theme Colors -->
@@ -639,7 +640,7 @@
                 <!-- User Dropdown -->
                 <li class="dropdown">
                     <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">
-                        <img src="images/placeholders/avatars/avatar2.jpg" alt="avatar"> <i class="fa fa-angle-down"></i>
+                        <img src="<?php echo base_url(); ?>images/placeholders/avatars/avatar2.jpg" alt="avatar"> <i class="fa fa-angle-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-custom dropdown-menu-right">
                         <li class="dropdown-header text-center">Account</li>
@@ -665,7 +666,7 @@
                         </li>
                         <li class="divider"></li>
                         <li>
-                            <a href="page_ready_user_profile.php">
+                            <a href="index.php/dashboard/user_profile">
                                 <i class="fa fa-user fa-fw pull-right"></i>
                                 Profile
                             </a>
