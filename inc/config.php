@@ -7,6 +7,7 @@
  * Configuration file. It contains variables used in the template as well as the primary navigation array from which the navigation is created
  *
  */
+ $this->load->helper('url');
 
 /* Template variables */
 $template = array(
@@ -354,7 +355,7 @@ $primary_nav = array(
             ),
             array(
                 'name'  => 'User Profile',
-                'url'   => 'page_ready_user_profile.php'
+                'url'   => 'index.php/dashboard/teste'
             ),
             array(
                 'name'  => 'Contacts',

@@ -262,25 +262,25 @@ $this->load->helper('url');
             <!-- Sidebar Content -->
             <div class="sidebar-content">
                 <!-- Brand -->
-                <a href="index.php" class="sidebar-brand">
-                    <i class="gi gi-flash"></i><strong>Pro</strong>UI
+                <a href="<?php echo base_url(); ?>" class="sidebar-brand">
+                    <i class="gi gi-group"></i><strong>PDC</strong> Controle
                 </a>
                 <!-- END Brand -->
 
                 <!-- User Info -->
                 <div class="sidebar-section sidebar-user clearfix">
                     <div class="sidebar-user-avatar">
-                        <a href="page_ready_user_profile.php">
+                        <a href="user_profile">
                             <img src="<?php echo base_url(); ?>images/placeholders/avatars/avatar2.jpg" alt="avatar">
                         </a>
                     </div>
-                    <div class="sidebar-user-name">John Doe</div>
+                    <div class="sidebar-user-name"><?php echo $nome ?></div>
                     <div class="sidebar-user-links">
-                        <a href="page_ready_user_profile.php" data-toggle="tooltip" data-placement="bottom" title="Profile"><i class="gi gi-user"></i></a>
-                        <a href="page_ready_inbox.php" data-toggle="tooltip" data-placement="bottom" title="Messages"><i class="gi gi-envelope"></i></a>
+                        <a href="user_profile" data-toggle="tooltip" data-placement="bottom" title="Profile"><i class="gi gi-user"></i></a>
+                        <a href="inbox" data-toggle="tooltip" data-placement="bottom" title="Messages"><i class="gi gi-envelope"></i></a>
                         <!-- Opens the user settings modal that can be found at the bottom of each page (page_footer.php in PHP version) -->
                         <a href="#modal-user-settings" data-toggle="modal" class="enable-tooltip" data-placement="bottom" title="Settings"><i class="gi gi-cogwheel"></i></a>
-                        <a href="login.php" data-toggle="tooltip" data-placement="bottom" title="Logout"><i class="gi gi-exit"></i></a>
+                        <a href="dashboard/logout" data-toggle="tooltip" data-placement="bottom" title="Logout"><i class="gi gi-exit"></i></a>
                     </div>
                 </div>
                 <!-- END User Info -->

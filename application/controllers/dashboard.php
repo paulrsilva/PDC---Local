@@ -41,6 +41,7 @@ class dashboard extends CI_Controller {
                 // Whoops, we don't have a page for that!
                 show_404(); 
             }
+            $this->load->helper('url');
             $this->load->view('/'.$page, $data);
         }
        
@@ -66,11 +67,18 @@ class dashboard extends CI_Controller {
                 // Whoops, we don't have a page for that!
                 show_404(); 
             }
+            $this->load->helper('url');
             $data['title'] = ucfirst($page); // Colocar o nome do candidato aqui
             $this->load->view('/'.$page, $data);
 
         }
-
+        
+        public function logout()
+        {
+            $this->session->sess_destroy();
+            $this->load->helper('url');
+            redirect('/');
+        }
 
         public function dash ($page='dashboard')
         {
@@ -112,7 +120,7 @@ class dashboard extends CI_Controller {
                if($result)
                {                   
                    //$this->load->view("dashboard");
-                   redirect('index.php/admin/dashboard');                   
+                   redirect('/');                   
                } else
                {
                     redirect('/');
