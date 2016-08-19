@@ -1,0 +1,53 @@
+RewriteEngine On
+RewriteBase /PDC/ci
+
+RewriteCond %{REQUEST_URI} ^system.*
+RewriteRule ^(.*)$ /index.php?/$1 [L]
+
+RewriteCond %{REQUEST_URI} ^application.*
+RewriteRule ^(.*)$ /index.php?/$1 [L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ /index.php?/$1 [L]
+
+
+----
+#outro
+RewriteEngine On
+
+SetEnvIf Host localhost/paul/PDC/ci$ CI_ENV=production
+SetEnvIf Host localhost/paul/PDC/ci$ CI_ENV=testing
+SetEnvIf Host localhost$ CI_ENV=development
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond $1 !^(index\.php|images|css|fonts|js|robots\.txt)
+RewriteRule ^(.*)$ index.php/$1 [L,QSA]
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    RewriteBase /
+    # Alterar para o caminho de login
+    # Caso a autenticação esteja no root, apenas manter apenas: /
+
+
+    RewriteCond %{REQUEST_URI} ^system.*
+    RewriteRule ^(.*)$ index.php/$1 [L]
+
+    RewriteCond %{REQUEST_URI} ^application.*
+    RewriteRule ^(.*)$ index.php/$1 [L]
+
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond $1 !^(index\.php|images|css|fonts|js|robots\.txt)
+    RewriteRule ^(.*)$ index.php/$1 [L]
+</IfModule>
+
+
+<IfModule !mod_rewrite.c>
+
+    ErrorDocument 404 /index.php
+
+</IfModule>
