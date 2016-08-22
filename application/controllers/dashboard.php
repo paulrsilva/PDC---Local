@@ -4,10 +4,18 @@
 
 class dashboard extends CI_Controller {
     
-    
-        public function __construct() {
+    public $status;
+    public $roles;
+
+
+    public function __construct() {
             parent::__construct();
             $this->load->model('PDCModel');
+            $this->load->library('form_validation');
+            $this->load->helper('security');
+            $this->form_validation->set_error_delimiters('<div class="error">', '</div>');
+            $this->status = $this->config->item('status');
+            $this->roles = $this->config->item('roles');
         }
 
 
@@ -123,25 +131,51 @@ class dashboard extends CI_Controller {
                    redirect('/');                   
                } else
                {
-                    redirect('/');
+                   $this->session->set_flashdata('flash_message', 'The login was unsucessful');
+                   //redirect('/');
+                   redirect(site_url().'dashboard/login');
                }       
             }
             
         }
-
-        public function user_profile($page='user_profile')
+        
+        public function registra_usuario()
         {
-         if ( ! file_exists(APPPATH.'views/'.$page.'.php'))
-            {
-                // Whoops, we don't have a page for that!
-                show_404(); 
-            } 
+            $this->form_validation->set_rules('register-firstname', 'First Name', 'required');
+            $this->form_validation->set_rules('register-lastname', 'Last Name', 'required');    
+            $this->form_validation->set_rules('register-email', 'Email', 'required|valid_email');  
             
-            //echo $page;
-            $this->load->helper('url');
-            $this->load->view('/'.$page);            
-        }
+            if ($this->form_validation->run() == false)
+                {
+                    echo 'falha de registro';
+                    //$this->load->view("login");
+                } else 
+                    {
+                        if($this->PDCModel->isDuplicate($this->input->post('register-email')))
+                        {
+                            echo 'email duplicado'; //Verificar como chamar msg bootstrp do controlador ci
+                        } else {
+                                $clean = $this->security->xss_clean($this->input->post(NULL, TRUE));
+                                $id = $this->PDCModel->insertUser($clean); 
+                                $token = $this->PDCModel->insertToken($id);                                        
 
+                                $qstring = base64_encode($token);                    
+                                $url = site_url() . 'dashboard/complete/token/' . $qstring;
+                                $link = '<a href="' . $url . '">' . $url . '</a>'; 
+
+                                $message = '';                     
+                                $message .= '<strong>You have signed up with our website</strong><br>';
+                                $message .= '<strong>Please click:</strong> ' . $link;                          
+                                echo $message; //send this in email
+                                exit;   
+                        }
+                        
+                    } 
+        }
+        
+        
+
+        
         public function dash2 ($page='admin_page')
         {
          if ( ! file_exists(APPPATH.'views/'.$page.'.php'))

@@ -3,24 +3,19 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/Users/paulinorochaesilva/Sites/PDC/ci/application/controllers/admin/dashboard.php</file>
-            <file>file:/Users/paulinorochaesilva/Sites/PDC/ci/.htaccess</file>
-            <file>file:/Users/paulinorochaesilva/Sites/PDC/ci/application/controllers/home.php</file>
+            <file>file:/Users/paulinorochaesilva/Sites/PDC/ci/inc/page_head.php</file>
+            <file>file:/Users/paulinorochaesilva/Sites/PDC/ci/inc/template_start.php</file>
             <file>file:/Users/paulinorochaesilva/Sites/PDC/ci/application/views/admin/dashboard.php</file>
-            <file>file:/Users/paulinorochaesilva/Sites/PDC/ci/application/views/login_form.php</file>
-            <file>file:/Users/paulinorochaesilva/Sites/PDC/ci/application/models/login_database.php</file>
+            <file>file:/Users/paulinorochaesilva/Sites/PDC/ci/inc/page_footer.php</file>
             <file>file:/Users/paulinorochaesilva/Sites/PDC/ci/application/controllers/Pages.php</file>
-            <file>file:/Users/paulinorochaesilva/Sites/PDC/ci/application/views/registration_form.php</file>
-            <file>file:/Users/paulinorochaesilva/Sites/PDC/ci/application/views/admin/dashboard_view.php</file>
-            <file>file:/Users/paulinorochaesilva/Sites/PDC/ci/application/views/App/contact.php</file>
-            <file>file:/Users/paulinorochaesilva/Sites/PDC/ci/application/controllers/user_authentication.php</file>
-            <file>file:/Users/paulinorochaesilva/Sites/PDC/ci/application/views/admin_page.php</file>
-            <file>file:/Users/paulinorochaesilva/Sites/PDC/ci/application/config/routes.php</file>
+            <file>file:/Users/paulinorochaesilva/Sites/PDC/ci/inc/template_scripts.php</file>
+            <file>file:/Users/paulinorochaesilva/Sites/PDC/ci/inc/template_end.php</file>
             <file>file:/Users/paulinorochaesilva/Sites/PDC/ci/application/controllers/dashboard.php</file>
+            <file>file:/Users/paulinorochaesilva/Sites/PDC/ci/application/config/routes.php</file>
             <file>file:/Users/paulinorochaesilva/Sites/PDC/ci/application/views/login.php</file>
-            <file>file:/Users/paulinorochaesilva/Sites/PDC/ci/application/models/PDCModel.php</file>
             <file>file:/Users/paulinorochaesilva/Sites/PDC/ci/application/config/config.php</file>
-            <file>file:/Users/paulinorochaesilva/Sites/PDC/ci/application/views/pages/login.php</file>
+            <file>file:/Users/paulinorochaesilva/Sites/PDC/ci/application/views/user_profile.php</file>
+            <file>file:/Users/paulinorochaesilva/Sites/PDC/ci/application/config/autoload.php</file>
         </group>
     </open-files>
 </project-private>
