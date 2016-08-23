@@ -42,10 +42,12 @@ Class PDCModel extends CI_Model {
     // Pre-cadastro usuário
      public function insertUser($d)
     {  
+         //require 'application/libraries/Password.php';
             $string = array(
                 'first_name'=>$d['register-firstname'],
                 'last_name'=>$d['register-lastname'],
                 'email'=>$d['register-email'],
+                'password'=>$d['register-password'],
                 'role'=>$this->roles[0], 
                 'status'=>$this->status[0]
             );
@@ -103,18 +105,30 @@ Class PDCModel extends CI_Model {
         
     } 
     
+    
+    
+    
+    
     public function updateUserInfo($post)
     {
         $data = array(
-               'password' => $post['password'],
+               //'password' => $post['password'],
                'last_login' => date('Y-m-d h:i:s A'), 
                'status' => $this->status[1]
             );
+        
         $this->db->where('id', $post['user_id']);
+        //$this->db->where('id', 19);
         $this->db->update('users', $data); 
         $success = $this->db->affected_rows(); 
         
+        //$this->db->where('id', $idUsuario);
+        //$this->db->update('users', $data); 
+      
+        echo 'parece que atualizou';
+        
         if(!$success){
+            echo 'impossivel atualizar user';
             error_log('Unable to updateUserInfo('.$post['user_id'].')');
             return false;
         }
@@ -150,13 +164,24 @@ Class PDCModel extends CI_Model {
             foreach ($query->result() as $rows)
             {
                //Adiciona todos os dados na sessão
-              
                 $newdata = array(
                    'email' => $rows->email,
                    'logged_in' => TRUE,
                    'nome' => $rows->first_name,
-                    'sobrenome' =>$rows->last_name,                  
-                    );          
+                    'sobrenome' =>$rows->last_name,
+                    );     
+                
+                $idUsuario = $rows->id;
+                
+                //atualiza ultimo login do usuário
+               $data = array(
+                    'last_login' => date('Y-m-d h:i:s A'), 
+                    //'status' => $this->status[1]
+               );
+                                
+                $this->db->where('id', $idUsuario);
+                $this->db->update('users', $data); 
+      
             }
             $this->session->set_userdata($newdata);
             return true;

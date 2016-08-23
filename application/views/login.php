@@ -1,6 +1,18 @@
 <?php include 'inc/config.php'; ?>
 <?php include 'inc/template_start.php'; ?>
 
+
+<!-- Alertas de Erro --!>
+    <?php
+            $arr = $this->session->flashdata(); 
+            if(!empty($arr['flash_message'])){
+                $html = '<center> <div class="bg-warning container flash-message">';
+                $html .= $arr['flash_message']; 
+                $html .= '</div></center>';
+                echo $html;
+            }
+    ?>
+
 <!-- Login Background -->
 <div id="login-background">
     <!-- For best results use an image with a resolution of 2560x400 pixels (prefer a blurred image for smaller file size) -->
@@ -9,11 +21,13 @@
 <!-- END Login Background -->
 
 <!-- Login Container -->
+
 <div id="login-container" class="animation-fadeIn">
     <!-- Login Title -->
     <div class="login-title text-center">
         <h1><i class="gi gi-flash"></i> <strong><?php echo $template['name']; ?></strong><br><small>Faça seu <strong>Login</strong> ou <strong>Registre-se</strong></small></h1>
     </div>
+
     <!-- END Login Title -->
 
     <!-- Login Block -->
