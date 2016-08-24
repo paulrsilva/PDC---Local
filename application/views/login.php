@@ -25,7 +25,7 @@
 <div id="login-container" class="animation-fadeIn">
     <!-- Login Title -->
     <div class="login-title text-center">
-        <h1><i class="gi gi-flash"></i> <strong><?php echo $template['name']; ?></strong><br><small>Faça seu <strong>Login</strong> ou <strong>Registre-se</strong></small></h1>
+        <h1><i class="gi gi-ok_2"></i> <strong><?php echo $template['name']; ?></strong><br><small>Faça seu <strong>Login</strong> ou <strong>Registre-se</strong></small></h1>
     </div>
 
     <!-- END Login Title -->
@@ -142,19 +142,19 @@
             </div>
             <div class="form-group form-actions">
                 <div class="col-xs-6">
-                    <a href="#modal-terms" data-toggle="modal" class="register-terms">Terms</a>
-                    <label class="switch switch-primary" data-toggle="tooltip" title="Agree to the terms">
+                    <a href="#modal-terms" data-toggle="modal" class="register-terms">Termos</a>
+                    <label class="switch switch-primary" data-toggle="tooltip" title="Aceitar termos de uso">
                         <input type="checkbox" id="register-terms" name="register-terms">
                         <span></span>
                     </label>
                 </div>
                 <div class="col-xs-6 text-right">
-                    <button type="submit" class="btn btn-sm btn-success"><i class="fa fa-plus"></i> Register Account</button>
+                    <button type="submit" class="btn btn-sm btn-success"><i class="fa fa-plus"></i> Criar uma conta</button>
                 </div>
             </div>
             <div class="form-group">
                 <div class="col-xs-12 text-center">
-                    <small>Do you have an account?</small> <a href="javascript:void(0)" id="link-register"><small>Login</small></a>
+                    <small>Já tem uma conta?</small> <a href="javascript:void(0)" id="link-register"><small>Login</small></a>
                 </div>
             </div>
         </form>
@@ -164,7 +164,7 @@
 
     <!-- Footer -->
     <footer class="text-muted text-center">
-        <small><span id="year-copy"></span> &copy; <a href="http://goo.gl/TDOSuC" target="_blank"><?php echo $template['name'] . ' ' . $template['version']; ?></a></small>
+        <small><span id="year-copy"></span> &copy; <a href="http://neoplace.com.br" target="_blank"><?php echo $template['name'] . ' ' . $template['version']; ?></a></small>
     </footer>
     <!-- END Footer -->
 </div>
@@ -176,7 +176,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">Terms &amp; Conditions</h4>
+                <h4 class="modal-title">Termos &amp; Condições</h4>
             </div>
             <div class="modal-body">
                 <h4>Title</h4>
