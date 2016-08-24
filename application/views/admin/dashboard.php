@@ -37,27 +37,27 @@ if (isset($this->session->userdata['logged_in'])) {
                     <div class="row text-center">
                         <div class="col-xs-4 col-sm-3">
                             <h2 class="animation-hatch">
-                                $<strong>93.7k</strong><br>
-                                <small><i class="fa fa-thumbs-o-up"></i> Great</small>
+                                R$<strong><?php echo $orcamento ?></strong><br>
+                                <small><i class="fa fa-money"></i> Orçamento</small>
                             </h2>
                         </div>
                         <div class="col-xs-4 col-sm-3">
                             <h2 class="animation-hatch">
-                                <strong>167k</strong><br>
-                                <small><i class="fa fa-heart-o"></i> Likes</small>
+                                <strong><?php echo $avaliacoes ?></strong><br>
+                                <small><i class="fa fa-heart-o"></i> Avaliações</small>
                             </h2>
                         </div>
                         <div class="col-xs-4 col-sm-3">
                             <h2 class="animation-hatch">
-                                <strong>101</strong><br>
-                                <small><i class="fa fa-calendar-o"></i> Events</small>
+                                <strong><?php echo $avisos ?></strong><br>
+                                <small><i class="fa fa-calendar-o"></i> Avisos</small>
                             </h2>
                         </div>
                         <!-- We hide the last stat to fit the other 3 on small devices -->
                         <div class="col-sm-3 hidden-xs">
                             <h2 class="animation-hatch">
-                                <strong>27&deg; C</strong><br>
-                                <small><i class="fa fa-map-marker"></i> Sydney</small>
+                                <strong><?php echo $PrevisaoTempo ?>&deg; C</strong><br>
+                                <small><i class="fa fa-map-marker"></i> <?php echo $localizacao ?></small>
                             </h2>
                         </div>
                     </div>

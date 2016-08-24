@@ -107,6 +107,11 @@ class dashboard extends CI_Controller {
             }
             $data['title'] = ucfirst($page); // Colocar o nome do candidato aqui
             $data['PeriodoDoDia'] = $this->PeriodoDia();
+            $data['orcamento']= $this->orcamento();
+            $data['avaliacoes']=  $this->avaliacoes();
+            $data['avisos']= $this->avisos();
+            $data['localizacao']= $this->localizacao();
+            $data['PrevisaoTempo']= $this->PrevisaoTempo();
             $this->load->view('admin/'.$page, $data);
         }
     
@@ -369,8 +374,20 @@ class dashboard extends CI_Controller {
             } else {
                 $periodo = 'Olá';
             }
-            echo $gmdate;
+            //echo $gmdate;
             return $periodo;
+        }
+        
+        public function orcamento(){
+            return '00,00';
+        }
+        
+        public function avaliacoes(){
+            return '14';
+        }
+        
+        public function avisos(){
+            return '02';
         }
 
         public function testeHoras(){
@@ -382,10 +399,18 @@ class dashboard extends CI_Controller {
              $gmdate = gmdate("G:i", time()-($ms)); // the "-" can be switched to a plus if that's what your time zone is.
              echo "Your current time now is :  $gmdate  ";
         }
+        
+        public function localizacao(){
+            return 'Curitiba';
+        }
+
+        public function PrevisaoTempo(){
+            return '15';
+        }
+
 
         
 
-        
         public function dash2 ($page='admin_page')
         {
          if ( ! file_exists(APPPATH.'views/'.$page.'.php'))
