@@ -72,7 +72,7 @@
         <!-- END Login Form -->
 
         <!-- Reminder Form -->
-        <form action="login.php#reminder" method="post" id="form-reminder" class="form-horizontal form-bordered form-control-borderless display-none">
+        <form action="<?php echo site_url('index.php/dashboard/forgot'); ?>" method="post" id="form-reminder" class="form-horizontal form-bordered form-control-borderless display-none">
             <div class="form-group">
                 <div class="col-xs-12">
                     <div class="input-group">

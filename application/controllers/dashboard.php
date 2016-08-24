@@ -92,6 +92,7 @@ class dashboard extends CI_Controller {
         
         public function logout()
         {
+            $this->PDCModel->logout($this->session->email);
             $this->session->sess_destroy();
             $this->load->helper('url');
             redirect('/');
@@ -128,9 +129,12 @@ class dashboard extends CI_Controller {
             else
             {
                $email=$this->input->post('login-email');
+               
                $password= $this->input->post('login-password');
                
-               $result=$this->PDCModel->login($email,$password);
+               $hashpwd= $this->hashPassword($password,$email);
+               
+               $result=$this->PDCModel->login($email,$hashpwd);
                
                $this->load->helper('url');
 
@@ -169,16 +173,7 @@ class dashboard extends CI_Controller {
                             $this->session->set_flashdata('flash_message', 'Email já Cadastrado');
                             redirect('/login#register');
                         } else {
-                            /**
-                              $this->load->library('password');  
-                              $clean = $this->security->xss_clean($this->input->post(NULL, TRUE));     
-                              $post = $this->input->post(NULL, TRUE);
-                              $cleanPost = $this->security->xss_clean($post);
-                              $hashed = $this->password->create_hash($cleanPost['register-password']);                
-                              $cleanPost['register-password'] = $hashed;  
-                              $id = $this->PDCModel->insertUser($clean);  
-                              $token = $this->PDCModel->insertToken($id);                             
-                            **/
+
                                 //$this->load->library('password');  #a biblioteca Password estava dando problemas
 
                                 $clean = $this->security->xss_clean($this->input->post(NULL, TRUE));
@@ -195,8 +190,8 @@ class dashboard extends CI_Controller {
                                 $link = '<a href="' . $url . '">' . $url . '</a>'; 
 
                                 $message = '';                     
-                                $message .= '<strong>You have signed up with our website</strong><br>';
-                                $message .= '<strong>Please click:</strong> ' . $link;                          
+                                $message .= '<strong>Você cadastrou-se no PDC</strong><br>';
+                                $message .= '<strong>Clique para Validar seu endereço de email</strong> ' . $link;                          
                                 echo $message; //send this in email
                                 exit;   
                       
@@ -232,33 +227,129 @@ class dashboard extends CI_Controller {
                 $this->load->view('login/header');
                 $this->load->view('login/complete', $data);
                 $this->load->view('login/footer');
+                
+               // echo $data['email'].' '.$data['user_id'];
             }else{
                 
-                $this->load->library('password');                 
+                //$this->load->library('password');    # biblioteca externa libraries/Password não carregando. Verificar             
                 $post = $this->input->post(NULL, TRUE);
                 
                 $cleanPost = $this->security->xss_clean($post);
                 
-                $hashed = $this->password->create_hash($cleanPost['password']);                
+                //$hashed = $this->password->create_hash($cleanPost['password']); // Antiga utilizacao da bib. ext. Password
+                
+                $hashed = $this->hashPassword($cleanPost['password'],$data['email']);
+                
                 $cleanPost['password'] = $hashed;
+                
                 unset($cleanPost['passconf']);
+                
                 $userInfo = $this->PDCModel->updateUserInfo($cleanPost);
                 if(!$userInfo){
-                    $this->session->set_flashdata('flash_message', 'There was a problem updating your record');
+                    $this->session->set_flashdata('flash_message', 'Houve um problema na atualização do usuário');
                     redirect(site_url().'dashboard/login');
                 }
                 
-                //echo 'O QUE ACONTECE>????';
-
                 unset($userInfo->password);
                 
                 foreach($userInfo as $key=>$val){
                     $this->session->set_userdata($key, $val);
                 }
-                redirect(site_url().'dashboard/dash');
+                redirect(site_url().'/');
                 
             }
         }
+        
+        public function forgot()
+        {   
+            $this->form_validation->set_rules('reminder-email', 'Email', 'required|valid_email'); 
+            
+            if($this->form_validation->run() == FALSE) {
+                //$this->load->view('header');
+                //$this->load->view('forgot');
+                //$this->load->view('footer');
+                redirect('/login#reminder');
+                
+            }else{
+                $email = $this->input->post('reminder-email');  
+                $clean = $this->security->xss_clean($email);
+                $userInfo = $this->PDCModel->getUserInfoByEmail($clean);
+                
+                if(!$userInfo){
+                    $this->session->set_flashdata('flash_message', 'Email não encontrado');
+                    redirect(site_url().'/login#reminder');
+                }   
+                
+                if($userInfo->status != $this->status[1]){ //if status is not approved
+                    $this->session->set_flashdata('flash_message', 'Sua Conta ainda não foi validada/aprovada');
+                    redirect(site_url().'/login#reminder');
+                }
+                
+                //build token 
+				
+                $token = $this->PDCModel->insertToken($userInfo->id);                    
+                $qstring = base64_encode($token);                    
+                $url = site_url() . 'dashboard/reset_password/token/' . $qstring;
+                $link = '<a href="' . $url . '">' . $url . '</a>'; 
+                
+                $message = '';                     
+                $message .= '<strong>Uma redefinição de senha foi solicitada</strong><br>';
+                $message .= '<strong>Clique abaixo para gerar outra senha</strong> ' . $link;             
+                echo $message; //send this through mail
+                exit;   
+            }  
+        }   
+        
+        public function reset_password()
+        {
+            $token = base64_decode($this->uri->segment(4));       
+            $cleanToken = $this->security->xss_clean($token);
+            
+            $user_info = $this->PDCModel->isTokenValid($cleanToken); //either false or array();               
+            
+            if(!$user_info){
+                $this->session->set_flashdata('flash_message', 'O Token é inválido ou expirou');
+                redirect(site_url().'/login#reminder');
+            }            
+            $data = array(
+                'firstName'=> $user_info->first_name, 
+                'email'=>$user_info->email, 
+                'user_id'=>$user_info->id, 
+                'token'=>base64_encode($token)
+            );
+           
+            $this->form_validation->set_rules('password', 'Password', 'required|min_length[5]');
+            $this->form_validation->set_rules('passconf', 'Password Confirmation', 'required|matches[password]');              
+            
+            if ($this->form_validation->run() == FALSE) {   
+                $this->load->view('login/header');
+                $this->load->view('login/reset_password', $data);
+                $this->load->view('login/footer');
+            }else{
+                                
+                //$this->load->library('password');                 
+                //$post = $this->input->post(NULL, TRUE);                
+                //$cleanPost = $this->security->xss_clean($post);                
+                //$hashed = $this->password->create_hash($cleanPost['password']); 
+                
+                $clean = $this->security->xss_clean($this->input->post(NULL, TRUE));
+
+                $hashed = $this->hashPassword($clean['password'],$clean['email']);
+
+                $clean['password'] = $hashed;
+                $id = $this->PDCModel->insertUser($clean); 
+                $token = $this->PDCModel->insertToken($id); 
+
+                unset($clean['passconf']);   
+                
+                if(!$this->PDCModel->updatePassword($clean)){
+                    $this->session->set_flashdata('flash_message', 'Houve um problema na atualização de senha');
+                }else{
+                    $this->session->set_flashdata('flash_message', 'Sua senha foi alterada. Entre Novamente');
+                }
+                redirect(site_url().'/');                
+            }
+        }       
         
         
 

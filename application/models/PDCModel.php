@@ -105,28 +105,19 @@ Class PDCModel extends CI_Model {
         
     } 
     
-    
-    
-    
-    
     public function updateUserInfo($post)
     {
         $data = array(
                //'password' => $post['password'],
                'last_login' => date('Y-m-d h:i:s A'), 
-               'status' => $this->status[1]
+               'status' => $this->status[1],
+                'email_verificado' => 1 //se a primeira verificação for por email
             );
         
         $this->db->where('id', $post['user_id']);
-        //$this->db->where('id', 19);
         $this->db->update('users', $data); 
         $success = $this->db->affected_rows(); 
-        
-        //$this->db->where('id', $idUsuario);
-        //$this->db->update('users', $data); 
-      
-        echo 'parece que atualizou';
-        
+              
         if(!$success){
             echo 'impossivel atualizar user';
             error_log('Unable to updateUserInfo('.$post['user_id'].')');
@@ -144,7 +135,7 @@ Class PDCModel extends CI_Model {
             $row = $q->row();
             return $row;
         }else{
-            error_log('no user found getUserInfo('.$id.')');
+            error_log('usuário não encontrado('.$id.')');
             return false;
         }
     }
@@ -176,6 +167,7 @@ Class PDCModel extends CI_Model {
                 //atualiza ultimo login do usuário
                $data = array(
                     'last_login' => date('Y-m-d h:i:s A'), 
+                    'logado'=>1
                     //'status' => $this->status[1]
                );
                                 
@@ -190,24 +182,42 @@ Class PDCModel extends CI_Model {
                 return FALSE;
             }
         
-        
-        /**
-        $condition = "email =" . "'" . $data['email'] . "' AND " . "password =" . "'" . $data['password'] . "'";
-        $this->db->select('*');
-        $this->db->from('email');
-        $this->db->where($condition);
-        $this->db->limit(1);
-        $query = $this->db->get();
-
-        if ($query->num_rows() == 1) {
-        return true;
-        } else {
-        return false;
-        }
-         * **/
-        
-    
     }
+    
+    public function logout($email)
+    {
+        
+        $this->db->where('email',$email);
+        $this->db->update('users', array('logado' => 0));
+               
+        
+    }
+    
+    
+    public function getUserInfoByEmail($email)
+    {
+        $q = $this->db->get_where('users', array('email' => $email), 1);  
+        if($this->db->affected_rows() > 0){
+            $row = $q->row();
+            return $row;
+        }else{
+            error_log('usuário não encontrado('.$email.')');
+            return false;
+        }
+    }   
+    
+    public function updatePassword($post)
+    {   
+        $this->db->where('id', $post['user_id']);
+        $this->db->update('users', array('password' => $post['password'])); 
+        $success = $this->db->affected_rows(); 
+        
+        if(!$success){
+            error_log('Unable to updatePassword('.$post['user_id'].')');
+            return false;
+        }        
+        return true;
+    } 
 
     // Read data from database to show data in admin page
     public function read_user_information($username) {
