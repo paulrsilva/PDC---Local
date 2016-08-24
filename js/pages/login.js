@@ -165,25 +165,25 @@ var Login = function() {
                 },
                 messages: {
                     'register-firstname': {
-                        required: 'Please enter your firstname',
-                        minlength: 'Please enter your firstname'
+                        required: 'Por favor insira seu nome',
+                        minlength: 'Por favor insira seu nome'
                     },
                     'register-lastname': {
-                        required: 'Please enter your lastname',
-                        minlength: 'Please enter your lastname'
+                        required: 'Por favor insira seu sobrenome',
+                        minlength: 'Por favor insira seu sobrenome'
                     },
-                    'register-email': 'Please enter a valid email address',
+                    'register-email': 'Coloque um email válido',
                     'register-password': {
-                        required: 'Please provide a password',
-                        minlength: 'Your password must be at least 5 characters long'
+                        required: 'É necessário definir uma senha',
+                        minlength: 'A senha precisa de no mínimo 5 caracteres'
                     },
                     'register-password-verify': {
-                        required: 'Please provide a password',
-                        minlength: 'Your password must be at least 5 characters long',
-                        equalTo: 'Please enter the same password as above'
+                        required: 'falta confirmar a senha',
+                        minlength: 'A senha precisa de no mínimo 5 caracteres',
+                        equalTo: 'As senhas precisam coincidir'
                     },
                     'register-terms': {
-                        required: 'Please accept the terms!'
+                        required: 'Por favor leia e aceite os termos de uso'
                     }
                 }
             });

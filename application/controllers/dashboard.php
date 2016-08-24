@@ -85,8 +85,8 @@ class dashboard extends CI_Controller {
                 show_404(); 
             }
             $this->load->helper('url');
-            $data['title'] = ucfirst($page); // Colocar o nome do candidato aqui
-            $this->load->view('/'.$page, $data);
+            //$data['title'] = ucfirst($page); // Colocar o nome do candidato aqui
+            $this->load->view('/'.$page);
 
         }
         
@@ -106,6 +106,7 @@ class dashboard extends CI_Controller {
                 show_404(); 
             }
             $data['title'] = ucfirst($page); // Colocar o nome do candidato aqui
+            $data['PeriodoDoDia'] = $this->PeriodoDia();
             $this->load->view('admin/'.$page, $data);
         }
     
@@ -146,7 +147,7 @@ class dashboard extends CI_Controller {
                {
                    $this->session->set_flashdata('flash_message', 'Falha de Login. Email ou senha incorretos');
                    //redirect('/');
-                   redirect(site_url().'dashboard/login');
+                   redirect(site_url().'');
                }       
             }
             
@@ -351,6 +352,37 @@ class dashboard extends CI_Controller {
             }
         }       
         
+        public function PeriodoDia(){
+            
+            //$horaAtual = date('H:i'); - Hora do Servidor
+            $h = "3";// Hour for time zone goes here e.g. +7 or -4, just remove the + or -
+            $hm = $h * 60; 
+            $ms = $hm * 60;
+            $gmdate = gmdate("G:i", time()-($ms)); // the "-" can be switched to a plus if that's what your time zone is.
+            
+            if ($gmdate >0) {
+              $periodo = 'Bom dia';  
+            } else if ($gmtdate >12) {
+              $periodo = 'Boa Tarde';   
+            } else if ($gmtdate >18){
+               $periodo = 'Boa Noite'; 
+            } else {
+                $periodo = 'Olá';
+            }
+            echo $gmdate;
+            return $periodo;
+        }
+
+        public function testeHoras(){
+             //echo date('H:i');
+             $horaAtual = date('H:i');
+             $h = "3";// Hour for time zone goes here e.g. +7 or -4, just remove the + or -
+             $hm = $h * 60; 
+             $ms = $hm * 60;
+             $gmdate = gmdate("G:i", time()-($ms)); // the "-" can be switched to a plus if that's what your time zone is.
+             echo "Your current time now is :  $gmdate  ";
+        }
+
         
 
         
