@@ -12,6 +12,8 @@ class dashboard extends CI_Controller {
             parent::__construct();
             $this->load->model('PDCModel');
             $this->load->library('form_validation');
+            $this->load->library('xmlrpc');
+            $this->load->library('xmlrpcs');
             $this->load->helper('security');
             $this->form_validation->set_error_delimiters('<div class="error">', '</div>');
             $this->status = $this->config->item('status');
@@ -55,7 +57,20 @@ class dashboard extends CI_Controller {
        
         public function teste()
             {
-                echo 'Funcão de Teste';
+                //echo 'Funcão de Teste';
+                $this->load->library('xmlrpc');
+                $this->load->library('xmlrpcs');
+
+                $this->xmlrpc->server('http://rpc.pingomatic.com/', 80);
+                $this->xmlrpc->method('weblogUpdates.ping');
+
+                $request = array('My Photoblog', 'http://www.my-site.com/photoblog/');
+                $this->xmlrpc->request($request);
+
+                if ( ! $this->xmlrpc->send_request())
+                {
+                        echo $this->xmlrpc->display_error();
+                }
             }
             
             
@@ -365,11 +380,11 @@ class dashboard extends CI_Controller {
             $ms = $hm * 60;
             $gmdate = gmdate("G:i", time()-($ms)); // the "-" can be switched to a plus if that's what your time zone is.
             
-            if ($gmdate >0) {
+            if ($gmdate >0 AND $gmdate < 12 ) {
               $periodo = 'Bom dia';  
-            } else if ($gmtdate >12) {
+            } else if ($gmdate >12 AND $gmdate <19) {
               $periodo = 'Boa Tarde';   
-            } else if ($gmtdate >18){
+            } else if ($gmdate >19){
                $periodo = 'Boa Noite'; 
             } else {
                 $periodo = 'Olá';
@@ -405,7 +420,75 @@ class dashboard extends CI_Controller {
         }
 
         public function PrevisaoTempo(){
-            return '15';
+            
+            
+            /** manual input - problema no xpath
+            $cidade='Curitiba';
+            $estado='Parana;';
+            $pais='Brazil';
+            $idioma='pt-br';
+            $googleWeather='http://www.google.com/ig/api';
+            
+            //formatando a url de requisição à API do Google
+            $apiURL=$googleWeather.'?weather='.urlencode($cidade).','.urlencode($estado).','.urlencode($pais).'&hl='.$idioma;
+            
+            // exemplo url formatada: http://www.google.com/ig/api?weather=Curitiba,Parana%3B,Brazil&hl=pt-br
+            
+            //passando os dados para o SimpleXML
+            
+            //$resultado=  file_get_contents($apiURL);
+            
+            $resultado=  file_get_contents('http://www.google.com/ig/api?weather=Maringa,Parana,Brazil&hl=pt-br');
+            
+            
+            // O SimpleXML precisa receber valores em UTF-8, então usamos o uft8_encode()
+            
+            $xml = simplexml_load_string(utf8_encode($resultado));
+            
+            //separando as informações XML
+            
+            //$info = $xml->xpath('/xml_api_reply/weather/forecast_information');
+            
+            //$atual = $xml->xpath('/xml_api_reply/weather/current_conditions');
+            
+            //$proximos = $xml->xpath('/xml_api_reply/weather/forecast_conditions');
+            
+            //echo $atual[0]->temp_c['data']; 
+   
+             */
+            
+            //
+            //$this->load->library('google_weather_api');
+            
+            /**
+            
+            $weather = new weather();
+            if (!empty($_GET['loc'])) {
+                    $weather->location = $_GET['loc'];
+            }
+            $weather->get();
+            if($weather->error){
+                    die('We couldn\'t find your location.');
+            }else{
+                    echo '
+                    <div id="currentWeather">
+                            <h1>Now in '.ucwords($weather->location).': '.$weather->current->temp_c['data'].' &#8451;</h1>
+                            <img src="http://www.google.com/' .$weather->current->icon['data'] . '"/>
+                            <p>'.$weather->current->condition['data'].'</p>
+                            <p>'.$weather->current->humidity['data'].'</p>
+                            <p>'.$weather->current->wind_condition['data'].'</p>
+                    </div>
+                    ';
+                    // display more days info
+                    // print_r($weather->nextdays);
+                    //$weather->display();
+
+                        
+                    }
+             * 
+             */
+            
+            return '26';
         }
 
 

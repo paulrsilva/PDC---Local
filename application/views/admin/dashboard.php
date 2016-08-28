@@ -28,7 +28,7 @@ if (isset($this->session->userdata['logged_in'])) {
             <div class="row">
                 <!-- Main Title (hidden on small devices for the statistics to fit) -->
                 <div class="col-md-4 col-lg-6 hidden-xs hidden-sm">
-                    <h1><?php echo $PeriodoDoDia ?> <strong><?php echo $nome." ".$sobrenome ?> </strong><br><small><? echo $statusconexao ?></small></h1>
+                    <h1><?php echo $PeriodoDoDia ?> <strong><?php echo $nome ?> </strong><br><small><? echo $statusconexao ?></small></h1>
                 </div>
                 <!-- END Main Title -->
 
