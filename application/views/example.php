@@ -1,35 +1,26 @@
 <?php
 
- /**
-    $feed = file_get_contents("http://weather.yahooapis.com/forecastrss?w=2295424&u=c");
-    $xml = new SimpleXmlElement($feed);
-    foreach($xml->channel->item as $entry1)
-    {
-        $yweather1 = $entry1->children("http://xml.weather.yahoo.com/ns/rss/1.0");
-        $tag1 = $yweather1->condition;
-        foreach($tag1->attributes() as $a => $b)
-       {
-            if($a == 'text')
-            {
-                $weather_climate = $b;
-            }
-            if($a == 'temp')
-            {
-                    $weather_temperature = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;".$b."&deg;";
-            }
-       }
-    }
-    $image_name =explode("<img src=",$xml->channel->item->description);
-    $w_image = explode("/>",$image_name[1]);
-    $weather_image = $w_image[0];
-    echo 'Weather image: <img src='.$weather_image.'>';
-    echo "<br><br><br>";
-    echo $weather_climate;
-    echo $weather_temperature.'C';
-  * 
-  */
+/**
+    $BASE_URL = "http://query.yahooapis.com/v1/public/yql";
+    $yql_query = 'select wind from weather.forecast where woeid in (select woeid from geo.places(1) where text="chicago, il")';
+    $yql_query_url = $BASE_URL . "?q=" . urlencode($yql_query) . "&format=json";
+    // Make call with cURL
+    $session = curl_init($yql_query_url);
+    curl_setopt($session, CURLOPT_RETURNTRANSFER,true);
+    $json = curl_exec($session);
+    // Convert JSON to PHP object
+     $phpObj =  json_decode($json);
+    var_dump($phpObj);
+ * 
+ */
 
+// 26798558 - Curitiba
+
+    $feed = file_get_contents("http://weather.yahooapis.com/forecastrss?w=2442047&u=c");
+    
+    print($feed);
+    
+    echo 'adasdasd';
     
     
-    echo 'amo vc. A única pessoa que queria estar aqui agora está meio chateada comigo e com o Gabriel no colo.';
 ?>

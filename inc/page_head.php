@@ -196,7 +196,7 @@ $this->load->helper('url');
 
                 <!-- Activity -->
                 <a href="javascript:void(0)" class="sidebar-title">
-                    <i class="fa fa-globe pull-right"></i> <strong>Activity</strong>UI
+                    <i class="fa fa-globe pull-right"></i> <strong>Atividade</strong>UI
                 </a>
                 <div class="sidebar-section">
                     <div class="alert alert-danger alert-alt">
@@ -209,7 +209,7 @@ $this->load->helper('url');
                     </div>
                     <div class="alert alert-success alert-alt">
                         <small>3 hours ago</small><br>
-                        <i class="fa fa-plus fa-fw"></i> <a href="page_ready_user_profile.php"><strong>John Doe</strong></a> would like to become friends!<br>
+                        <i class="fa fa-plus fa-fw"></i> <a href="page_ready_user_profile.php"><strong><?php echo $nome ?></strong></a> would like to become friends!<br>
                         <a href="javascript:void(0)" class="btn btn-xs btn-primary"><i class="fa fa-check"></i> Accept</a>
                         <a href="javascript:void(0)" class="btn btn-xs btn-default"><i class="fa fa-times"></i> Ignore</a>
                     </div>
@@ -430,12 +430,12 @@ $this->load->helper('url');
                     <span class="sidebar-header-options clearfix">
                         <a href="javascript:void(0)" data-toggle="tooltip" title="Refresh"><i class="gi gi-refresh"></i></a>
                     </span>
-                    <span class="sidebar-header-title">Activity</span>
+                    <span class="sidebar-header-title">Atividade</span>
                 </div>
                 <div class="sidebar-section">
                     <div class="alert alert-success alert-alt">
                         <small>5 min ago</small><br>
-                        <i class="fa fa-thumbs-up fa-fw"></i> You had a new sale ($10)
+                        <i class="fa fa-facebook-square"></i> Novas Curtidas (7)
                     </div>
                     <div class="alert alert-info alert-alt">
                         <small>10 min ago</small><br>
@@ -562,7 +562,7 @@ $this->load->helper('url');
                 </ul>
                 <form action="page_ready_search_results.php" class="navbar-form navbar-left" role="search">
                     <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Search..">
+                        <input type="text" class="form-control" placeholder="Procurar..">
                     </div>
                 </form>
             </div>
@@ -620,7 +620,7 @@ $this->load->helper('url');
             <!-- Search Form -->
             <form action="page_ready_search_results.php" method="post" class="navbar-form-custom" role="search">
                 <div class="form-group">
-                    <input type="text" id="top-search" name="top-search" class="form-control" placeholder="Search..">
+                    <input type="text" id="top-search" name="top-search" class="form-control" placeholder="Procurar..">
                 </div>
             </form>
             <!-- END Search Form -->

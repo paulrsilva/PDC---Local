@@ -63,23 +63,23 @@ $primary_nav = array(
         'icon'  => 'gi gi-stopwatch'
     ),
     array(
-        'name'  => 'Widget Kit',
-        'opt'   => '<a href="javascript:void(0)" data-toggle="tooltip" title="Quick Settings"><i class="gi gi-settings"></i></a>' .
-                   '<a href="javascript:void(0)" data-toggle="tooltip" title="Create the most amazing pages with the widget kit!"><i class="gi gi-lightbulb"></i></a>',
+        'name'  => 'Central Administrativa',
+        'opt'   => '<a href="javascript:void(0)" data-toggle="tooltip" title="Configurações"><i class="gi gi-settings"></i></a>' .
+                   '<a href="javascript:void(0)" data-toggle="tooltip" title="Dicas para Configuração de Campanha!"><i class="gi gi-lightbulb"></i></a>',
         'url'   => 'header',
     ),
     array(
-        'name'  => 'Statistics',
+        'name'  => 'Estatísticas',
         'url'   => 'page_widgets_stats.php',
         'icon'  => 'gi gi-charts'
     ),
     array(
-        'name'  => 'Social',
+        'name'  => 'Redes Sociais',
         'url'   => 'page_widgets_social.php',
         'icon'  => 'gi gi-share_alt'
     ),
     array(
-        'name'  => 'Media',
+        'name'  => 'Mídia',
         'url'   => 'page_widgets_media.php',
         'icon'  => 'gi gi-film'
     ),
@@ -89,8 +89,8 @@ $primary_nav = array(
         'icon'  => 'gi gi-link'
     ),
     array(
-        'name'  => 'Design Kit',
-        'opt'   => '<a href="javascript:void(0)" data-toggle="tooltip" title="Quick Settings"><i class="gi gi-settings"></i></a>',
+        'name'  => 'Central do Candidato',
+        'opt'   => '<a href="javascript:void(0)" data-toggle="tooltip" title="Configurações"><i class="gi gi-settings"></i></a>',
         'url'   => 'header'
     ),
     array(
@@ -248,8 +248,8 @@ $primary_nav = array(
         )
     ),
     array(
-        'name'  => 'Develop Kit',
-        'opt'   => '<a href="javascript:void(0)" data-toggle="tooltip" title="Quick Settings"><i class="gi gi-settings"></i></a>',
+        'name'  => 'Mobilização de Campanha',
+        'opt'   => '<a href="javascript:void(0)" data-toggle="tooltip" title="Configurações"><i class="gi gi-settings"></i></a>',
         'url'   => 'header',
     ),
     array(

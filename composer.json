@@ -4,6 +4,7 @@
 	"type": "project",
 	"homepage": "https://codeigniter.com",
 	"license": "MIT",
+        "minimum-stability": "dev",
 	"support": {
 		"forum": "http://forum.codeigniter.com/",
 		"wiki": "https://github.com/bcit-ci/CodeIgniter/wiki",
@@ -11,7 +12,9 @@
 		"source": "https://github.com/bcit-ci/CodeIgniter"
 	},
 	"require": {
-		"php": ">=5.2.4"
+		"php": ">=5.2.4",
+                "artur-gajewski/google-weather": "dev-master"
+
 	},
 	"suggest": {
 		"paragonie/random_compat": "Provides better randomness in PHP 5.x"

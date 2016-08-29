@@ -11,6 +11,7 @@ class dashboard extends CI_Controller {
     public function __construct() {
             parent::__construct();
             $this->load->model('PDCModel');
+            $this->load->helper('url');
             $this->load->library('form_validation');
             $this->load->library('xmlrpc');
             $this->load->library('xmlrpcs');
@@ -18,6 +19,10 @@ class dashboard extends CI_Controller {
             $this->form_validation->set_error_delimiters('<div class="error">', '</div>');
             $this->status = $this->config->item('status');
             $this->roles = $this->config->item('roles');
+            
+
+  
+            //$this->load->library('google_weather_api'); 
         }
 
 
@@ -57,20 +62,77 @@ class dashboard extends CI_Controller {
        
         public function teste()
             {
-                //echo 'Funcão de Teste';
+               // echo 'Funcão de Teste';
                 $this->load->library('xmlrpc');
                 $this->load->library('xmlrpcs');
-
-                $this->xmlrpc->server('http://rpc.pingomatic.com/', 80);
-                $this->xmlrpc->method('weblogUpdates.ping');
-
-                $request = array('My Photoblog', 'http://www.my-site.com/photoblog/');
-                $this->xmlrpc->request($request);
-
-                if ( ! $this->xmlrpc->send_request())
-                {
-                        echo $this->xmlrpc->display_error();
-                }
+                $this->load->helper('url');
+                //$this->load->library('gweather');
+                      
+                
+                
+                //$feed = file_get_contents("http://weather.yahooapis.com/forecastrss?w=2295424&u=c");
+                //$xml = new SimpleXmlElement($feed);
+                
+                //$url = 'http://weather.yahooapis.com/forecastrss?w=2295424&u=c';
+  
+                
+                //$handle=  fopen($url, "rb");
+                //$contents = stream_get_contents($handle);
+                //fclose($handle);
+                //$xml =  $contents;
+                
+               // $weatherData = $this->simplexml->xml_parse($xml);
+                
+               // $fields = array();
+               //$fields['temp'] = $weatherData['channel']['item']['yweather:condition']['@attributes']['temp'];
+               //$fields['conditions'] = $weatherData['channel']['item']['yweather:condition']['@attributes']['text'];
+               // $fields['recorded_at'] = date('Y-m-d H:i:s',strtotime($weatherData['channel']['item']['yweather:condition']['@attributes']['date']));
+                
+               // echo $fields['temp'];
+                
+                $feed = file_get_contents("http://weather.yahooapis.com/forecastrss?OAuth=dj0yJmk9VkZhVmNLWElBUmt6JmQ9WVdrOWQwNU9iV3BNTkhFbWNHbzlNQS0tJnM9Y29uc3VtZXJzZWNyZXQmeD1jOQ--,w=2442047&u=c");
+                
+                print($feed);
+                
+                echo 'teste function';
+                
+                
+                
+                
+                
+                /**
+                
+                   foreach($xml->channel->item as $entry1)
+                   {
+                       $yweather1 = $entry1->children("http://xml.weather.yahoo.com/ns/rss/1.0");
+                       $tag1 = $yweather1->condition;
+                       foreach($tag1->attributes() as $a => $b)
+                      {
+                           if($a == 'text')
+                           {
+                               $weather_climate = $b;
+                           }
+                           if($a == 'temp')
+                           {
+                                   $weather_temperature = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;".$b."&deg;";
+                           }
+                      }
+                   }
+                   $image_name =explode("<img src=",$xml->channel->item->description);
+                   $w_image = explode("/>",$image_name[1]);
+                   $weather_image = $w_image[0];
+                   echo 'Weather image: <img src='.$weather_image.'>';
+                   echo "<br><br><br>";
+                   echo $weather_climate;
+                   echo $weather_temperature.'C';
+                   echo '----';
+                 * 
+                 * @param string $pass
+                 * @param type $salt
+                 * @return type
+                 */
+                
+                                
             }
             
             
@@ -421,7 +483,11 @@ class dashboard extends CI_Controller {
 
         public function PrevisaoTempo(){
             
-            
+            $this->load->library('xmlrpc');
+            $this->load->library('xmlrpcs');
+            $this->load->helper('url');
+            //$this->load->library('Google_weather_api');            
+                    
             /** manual input - problema no xpath
             $cidade='Curitiba';
             $estado='Parana;';
@@ -487,6 +553,7 @@ class dashboard extends CI_Controller {
                     }
              * 
              */
+            
             
             return '26';
         }
