@@ -66,7 +66,7 @@ if (isset($this->session->userdata['logged_in'])) {
             </div>
         </div>
         <!-- For best results use an image with a resolution of 2560x248 pixels (You can also use a blurred image with ratio 10:1 - eg: 1000x100 pixels - it will adjust and look great!) -->
-        <img src="<?php echo base_url(); ?>images/placeholders/headers/dashboard_header.jpg" alt="header image" class="animation-pulseSlow">
+        <img src="<?php echo base_url(); ?>images/placeholders/headers/dashboard_header_psdb.jpg" alt="header image" class="animation-pulseSlow">
     </div>
     <!-- END Dashboard Header -->
 
@@ -80,8 +80,8 @@ if (isset($this->session->userdata['logged_in'])) {
                         <i class="fa fa-file-text"></i>
                     </div>
                     <h3 class="widget-content text-right animation-pullDown">
-                        New <strong>Article</strong><br>
-                        <small>Mountain Trip</small>
+                        Nova <strong>Campanha</strong><br>
+                        <small>Mídias Sociais</small>
                     </h3>
                 </div>
             </a>
@@ -95,8 +95,8 @@ if (isset($this->session->userdata['logged_in'])) {
                         <i class="gi gi-usd"></i>
                     </div>
                     <h3 class="widget-content text-right animation-pullDown">
-                        + <strong>250%</strong><br>
-                        <small>Sales Today</small>
+                         R$ <strong>0,00%</strong><br>
+                        <small>Doações de Campanha</small>
                     </h3>
                 </div>
             </a>
@@ -111,7 +111,7 @@ if (isset($this->session->userdata['logged_in'])) {
                     </div>
                     <h3 class="widget-content text-right animation-pullDown">
                         5 <strong>Messages</strong>
-                        <small>Support Center</small>
+                        <small>Comitê de Campanha</small>
                     </h3>
                 </div>
             </a>
@@ -125,8 +125,8 @@ if (isset($this->session->userdata['logged_in'])) {
                         <i class="gi gi-picture"></i>
                     </div>
                     <h3 class="widget-content text-right animation-pullDown">
-                        +30 <strong>Photos</strong>
-                        <small>Gallery</small>
+                        +30 <strong>Fotos</strong>
+                        <small>Redes Sociais</small>
                     </h3>
                 </div>
             </a>
@@ -144,8 +144,8 @@ if (isset($this->session->userdata['logged_in'])) {
                         <span id="mini-chart-sales"></span>
                     </div>
                     <h3 class="widget-content animation-pullDown visible-lg">
-                        Latest <strong>Sales</strong>
-                        <small>Per hour</small>
+                        Registro <strong>Histórico</strong>
+                        <small>Iniciativas - Resultados</small>
                     </h3>
                 </div>
             </a>
@@ -163,8 +163,8 @@ if (isset($this->session->userdata['logged_in'])) {
                         <span id="mini-chart-brand"></span>
                     </div>
                     <h3 class="widget-content animation-pullDown visible-lg">
-                        Our <strong>Brand</strong>
-                        <small>Popularity over time</small>
+                        Evolução <strong>de Campanha</strong>
+                        <small>Aumento de Citações/Áreas </small>
                     </h3>
                 </div>
             </a>
@@ -186,8 +186,8 @@ if (isset($this->session->userdata['logged_in'])) {
                         </div>
                     </div>
                     <h3 class="widget-content-light">
-                        Latest <strong>News</strong>
-                        <small><a href="page_ready_timeline.php"><strong>View all</strong></a></small>
+                        Ultimas <strong>Notícias</strong>
+                        <small><a href="page_ready_timeline.php"><strong>Ver tudo</strong></a></small>
                     </h3>
                 </div>
                 <div class="widget-extra">
@@ -196,7 +196,7 @@ if (isset($this->session->userdata['logged_in'])) {
                         <ul class="timeline-list">
                             <li class="active">
                                 <div class="timeline-icon"><i class="gi gi-airplane"></i></div>
-                                <div class="timeline-time"><small>just now</small></div>
+                                <div class="timeline-time"><small>Agora</small></div>
                                 <div class="timeline-content">
                                     <p class="push-bit"><a href="index.php/dashboard/teste"><strong>Jordan Carter</strong></a></p>
                                     <p class="push-bit">The trip was an amazing and a life changing experience!!</p>
@@ -217,7 +217,7 @@ if (isset($this->session->userdata['logged_in'])) {
                             </li>
                             <li class="active">
                                 <div class="timeline-icon themed-background-fire themed-border-fire"><i class="fa fa-file-text"></i></div>
-                                <div class="timeline-time"><small>5 min ago</small></div>
+                                <div class="timeline-time"><small>5 min atrás</small></div>
                                 <div class="timeline-content">
                                     <p class="push-bit"><a href="page_ready_user_profile.php"><strong>Administrator</strong></a></p>
                                     <strong>Free courses</strong> for all our customers at A1 Conference Room - 9:00 <strong>am</strong> tomorrow!
@@ -285,22 +285,22 @@ if (isset($this->session->userdata['logged_in'])) {
                         </div>
                     </div>
                     <h3 class="widget-content-light">
-                        Your <strong>VIP Plan</strong>
-                        <small><a href="page_ready_pricing_tables.php"><strong>Upgrade</strong></a></small>
+                        Seu <strong>Plano de Mensagens</strong>
+                        <small><a href="page_ready_pricing_tables.php"><strong>Atualizar</strong></a></small>
                     </h3>
                 </div>
                 <div class="widget-extra-full">
                     <div class="row text-center">
                         <div class="col-xs-6 col-lg-3">
                             <h3>
-                                <strong>35</strong> <small>/50</small><br>
-                                <small><i class="fa fa-folder-open-o"></i> Projects</small>
+                                <strong>2</strong> <small>/7</small><br>
+                                <small><i class="fa fa-folder-open-o"></i> Projetos</small>
                             </h3>
                         </div>
                         <div class="col-xs-6 col-lg-3">
                             <h3>
                                 <strong>25</strong> <small>/100GB</small><br>
-                                <small><i class="fa fa-hdd-o"></i> Storage</small>
+                                <small><i class="fa fa-hdd-o"></i> Armazenameto</small>
                             </h3>
                         </div>
                         <div class="col-xs-6 col-lg-3">
@@ -326,8 +326,8 @@ if (isset($this->session->userdata['logged_in'])) {
                     <!-- Widget Header -->
                     <div class="widget-header text-center themed-background">
                         <h3 class="widget-content-light text-left pull-left animation-pullDown">
-                            <strong>Sales</strong> &amp; <strong>Earnings</strong><br>
-                            <small>Last Year</small>
+                            <strong>Intenção de Voto</strong> &amp; <strong> Citações</strong><br>
+                            <small>último semestre</small>
                         </h3>
                         <!-- Flot Charts (initialized in js/pages/index.js), for more examples you can check out http://www.flotcharts.org/ -->
                         <div id="dash-widget-chart" class="chart"></div>
@@ -338,13 +338,13 @@ if (isset($this->session->userdata['logged_in'])) {
                     <div class="widget-main">
                         <div class="row text-center">
                             <div class="col-xs-4">
-                                <h3 class="animation-hatch"><strong>7.500</strong><br><small>Clients</small></h3>
+                                <h3 class="animation-hatch"><strong>4.200</strong><br><small>Seguidores</small></h3>
                             </div>
                             <div class="col-xs-4">
-                                <h3 class="animation-hatch"><strong>10.970</strong><br><small>Sales</small></h3>
+                                <h3 class="animation-hatch"><strong>6.970</strong><br><small>Votos Potenciais</small></h3>
                             </div>
                             <div class="col-xs-4">
-                                <h3 class="animation-hatch">$<strong>31.230</strong><br><small>Earnings</small></h3>
+                                <h3 class="animation-hatch">$<strong>0,0</strong><br><small>Just. Campanha</small></h3>
                             </div>
                         </div>
                     </div>

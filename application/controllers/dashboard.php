@@ -19,9 +19,6 @@ class dashboard extends CI_Controller {
             $this->form_validation->set_error_delimiters('<div class="error">', '</div>');
             $this->status = $this->config->item('status');
             $this->roles = $this->config->item('roles');
-            
-
-  
             //$this->load->library('google_weather_api'); 
         }
 
@@ -135,17 +132,18 @@ class dashboard extends CI_Controller {
                                 
             }
             
-            
-            function hashPassword($pass,$salt=FALSE)
+         
+                    
+        function hashPassword($pass,$salt=FALSE)
             {
                 //coloca o Salt no inicio, meio e fim da senha
                 if (!empty($salt)) { $pass=$salt.implode ($salt, str_split ($pass,  floor (strlen ($pass/2))).$salt); }
                 return md5($salt) ;
                 
-            }
+        }
 
 
-            public function verifica_sessao() //substituir com função privada ?
+        public function verifica_sessao() //substituir com função privada ?
         {
           if ($this->session->userdata('logged_in')){
             return TRUE;
@@ -189,6 +187,7 @@ class dashboard extends CI_Controller {
             $data['avisos']= $this->avisos();
             $data['localizacao']= $this->localizacao();
             $data['PrevisaoTempo']= $this->PrevisaoTempo();
+            //$data['listaEstados']=  $this->listaEstados();
             $this->load->view('admin/'.$page, $data);
         }
     
@@ -455,6 +454,48 @@ class dashboard extends CI_Controller {
             return $periodo;
         }
         
+        public function finalizaCadastro($page='add_candidato'){
+          if ( ! file_exists(APPPATH.'views/'.$page.'.php'))
+            {
+                // Whoops, we don't have a page for that!
+                show_404(); 
+            }
+            $this->load->helper('url');
+            //$data['listaEstados']=  $this->listaEstados();
+            $data['estado']=$this->PDCModel->lista_estados();
+            $data['cidade']=$this->PDCModel->lista_cidades();
+            $this->load->view('/'.$page, $data);
+        }
+        
+        public function mostra_ufs(){
+            //$query = $this->db->query('SELECT * FROM estado');
+            
+            $query = $this->db->query('SELECT * FROM estado');
+            $row = $query->row_array();
+            foreach ($row as $uf) {
+                
+            //echo $row->idestado.' '.$row->nome.'<br>';
+                echo $uf['nome'];
+            }
+            //return $row;
+            //return $row;
+
+            /**
+            foreach ($query->result() as $row) {
+                
+                //echo $row->idestado.' '.$row->nome.'<br>';
+                echo $row['nome'];
+            }
+             * 
+             * @return string
+             */
+            
+        }
+        
+        public function atualiza_cidades($idestado){
+            $data['cidade']=$this->PDCModel->lista_cidades();
+        }
+
         public function orcamento(){
             return '00,00';
         }
@@ -555,11 +596,9 @@ class dashboard extends CI_Controller {
              */
             
             
-            return '26';
+            return '14';
         }
 
-
-        
 
         public function dash2 ($page='admin_page')
         {

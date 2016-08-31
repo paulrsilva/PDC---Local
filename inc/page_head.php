@@ -84,7 +84,7 @@ $this->load->helper('url');
                 <!-- Chat -->
                 <!-- Chat demo functionality initialized in js/app.js -> chatUi() -->
                 <a href="page_ready_chat.php" class="sidebar-title">
-                    <i class="gi gi-comments pull-right"></i> <strong>Chat</strong>UI
+                    <i class="gi gi-comments pull-right"></i> <strong>Mob.</strong>Campanha
                 </a>
                 <!-- Chat Users -->
                 <ul class="chat-users clearfix">
@@ -167,8 +167,8 @@ $this->load->helper('url');
                 <div class="chat-talk display-none">
                     <!-- Chat Info -->
                     <div class="chat-talk-info sidebar-section">
-                        <img src="<?php echo base_url(); ?>images/placeholders/avatars/avatar5.jpg" alt="avatar" class="img-circle pull-left">
-                        <strong>John</strong> Doe
+                        <img src="<?php echo base_url(); ?>images/placeholders/avatars/AvatarFGz.jpg" alt="avatar" class="img-circle pull-left">
+                        <strong>Francisco Garcez</strong> 45145
                         <button id="chat-talk-close-btn" class="btn btn-xs btn-default pull-right">
                             <i class="fa fa-times"></i>
                         </button>
@@ -177,11 +177,11 @@ $this->load->helper('url');
 
                     <!-- Chat Messages -->
                     <ul class="chat-talk-messages">
-                        <li class="text-center"><small>Yesterday, 18:35</small></li>
-                        <li class="chat-talk-msg animation-slideRight">Hey admin?</li>
-                        <li class="chat-talk-msg animation-slideRight">How are you?</li>
-                        <li class="text-center"><small>Today, 7:10</small></li>
-                        <li class="chat-talk-msg chat-talk-msg-highlight themed-border animation-slideLeft">I'm fine, thanks!</li>
+                        <li class="text-center"><small>Ontem, 18:35</small></li>
+                        <li class="chat-talk-msg animation-slideRight">Olá Francisco?</li>
+                        <li class="chat-talk-msg animation-slideRight">Olá. O sistema está funcionando?</li>
+                        <li class="text-center"><small>Hoje, 7:10</small></li>
+                        <li class="chat-talk-msg chat-talk-msg-highlight themed-border animation-slideLeft">Parece que sim.!</li>
                     </ul>
                     <!-- END Chat Messages -->
 
@@ -200,47 +200,47 @@ $this->load->helper('url');
                 </a>
                 <div class="sidebar-section">
                     <div class="alert alert-danger alert-alt">
-                        <small>just now</small><br>
-                        <i class="fa fa-thumbs-up fa-fw"></i> Upgraded to Pro plan
+                        <small>Agora</small><br>
+                        <i class="fa fa-thumbs-up fa-fw"></i> Atualize seus dados
                     </div>
                     <div class="alert alert-info alert-alt">
-                        <small>2 hours ago</small><br>
-                        <i class="gi gi-coins fa-fw"></i> You had a new sale!
+                        <small>2 horas atrás</small><br>
+                        <i class="gi gi-coins fa-fw"></i> Nova Busca no Youtube!
                     </div>
                     <div class="alert alert-success alert-alt">
-                        <small>3 hours ago</small><br>
-                        <i class="fa fa-plus fa-fw"></i> <a href="page_ready_user_profile.php"><strong><?php echo $nome ?></strong></a> would like to become friends!<br>
-                        <a href="javascript:void(0)" class="btn btn-xs btn-primary"><i class="fa fa-check"></i> Accept</a>
-                        <a href="javascript:void(0)" class="btn btn-xs btn-default"><i class="fa fa-times"></i> Ignore</a>
+                        <small>3 horas atrás/small><br>
+                        <i class="fa fa-plus fa-fw"></i> <a href="page_ready_user_profile.php"><strong><?php echo $nome ?></strong></a> Nova solicitação de amizade!<br>
+                        <a href="javascript:void(0)" class="btn btn-xs btn-primary"><i class="fa fa-check"></i> Aceitar</a>
+                        <a href="javascript:void(0)" class="btn btn-xs btn-default"><i class="fa fa-times"></i> Ignorar</a>
                     </div>
                     <div class="alert alert-warning alert-alt">
-                        <small>2 days ago</small><br>
-                        Running low on space<br><strong>18GB in use</strong> 2GB left<br>
-                        <a href="page_ready_pricing_tables.php" class="btn btn-xs btn-primary"><i class="fa fa-arrow-up"></i> Upgrade Plan</a>
+                        <small>2 dias atrás</small><br>
+                        Notificação <br><strong>Blog.</strong> Fora do Ar<br>
+                        <a href="page_ready_pricing_tables.php" class="btn btn-xs btn-primary"><i class="fa fa-arrow-up"></i> Avaliar</a>
                     </div>
                 </div>
                 <!-- END Activity -->
 
                 <!-- Messages -->
                 <a href="page_ready_inbox.php" class="sidebar-title">
-                    <i class="fa fa-envelope pull-right"></i> <strong>Messages</strong>UI (5)
+                    <i class="fa fa-envelope pull-right"></i> <strong>Mensagens</strong>UI (5)
                 </a>
                 <div class="sidebar-section">
                     <div class="alert alert-alt">
-                        Debra Stanley<small class="pull-right">just now</small><br>
-                        <a href="page_ready_inbox_message.php"><strong>New Follower</strong></a>
+                        Debra Stanley<small class="pull-right">Agora</small><br>
+                        <a href="page_ready_inbox_message.php"><strong>Novo Seguidor</strong></a>
                     </div>
                     <div class="alert alert-alt">
-                        Sarah Cole<small class="pull-right">2 min ago</small><br>
-                        <a href="page_ready_inbox_message.php"><strong>Your subscription was updated</strong></a>
+                        Sarah Cole<small class="pull-right">2 min.</small><br>
+                        <a href="page_ready_inbox_message.php"><strong>Sua assinatura foi atualizada</strong></a>
                     </div>
                     <div class="alert alert-alt">
-                        Bryan Porter<small class="pull-right">10 min ago</small><br>
-                        <a href="page_ready_inbox_message.php"><strong>A great opportunity</strong></a>
+                        Bryan Porter<small class="pull-right">10 min</small><br>
+                        <a href="page_ready_inbox_message.php"><strong>Aumento de #hashtags</strong></a>
                     </div>
                     <div class="alert alert-alt">
                         Jose Duncan<small class="pull-right">30 min ago</small><br>
-                        <a href="page_ready_inbox_message.php"><strong>Account Activation</strong></a>
+                        <a href="page_ready_inbox_message.php"><strong>Conta Ativada</strong></a>
                     </div>
                     <div class="alert alert-alt">
                         Henry Ellis<small class="pull-right">40 min ago</small><br>
@@ -271,10 +271,10 @@ $this->load->helper('url');
                 <div class="sidebar-section sidebar-user clearfix">
                     <div class="sidebar-user-avatar">
                         <a href="user_profile">
-                            <img src="<?php echo base_url(); ?>images/placeholders/avatars/avatar2.jpg" alt="avatar">
+                            <img src="<?php echo base_url(); ?>images/placeholders/avatars/AvatarFGz.jpg" alt="avatar">
                         </a>
                     </div>
-                    <div class="sidebar-user-name"><?php echo $nome ?></div>
+                    <div class="sidebar-user-name"><?php echo 'F.Garcez 45145' ?></div>
                     <div class="sidebar-user-links">
                         <a href="user_profile" data-toggle="tooltip" data-placement="bottom" title="Profile"><i class="gi gi-user"></i></a>
                         <a href="inbox" data-toggle="tooltip" data-placement="bottom" title="Messages"><i class="gi gi-envelope"></i></a>
@@ -439,15 +439,15 @@ $this->load->helper('url');
                     </div>
                     <div class="alert alert-info alert-alt">
                         <small>10 min ago</small><br>
-                        <i class="fa fa-arrow-up fa-fw"></i> Upgraded to Pro plan
+                        <i class="fa fa-arrow-up fa-fw"></i> Perfil Atualizado
                     </div>
                     <div class="alert alert-warning alert-alt">
                         <small>3 hours ago</small><br>
-                        <i class="fa fa-exclamation fa-fw"></i> Running low on space<br><strong>18GB in use</strong> 2GB left
+                        <i class="fa fa-exclamation fa-fw"></i> Notificação<br><strong>Página fora do Ar</strong> Blog
                     </div>
                     <div class="alert alert-danger alert-alt">
-                        <small>Yesterday</small><br>
-                        <i class="fa fa-bug fa-fw"></i> <a href="javascript:void(0)"><strong>New bug submitted</strong></a>
+                        <small>Ontem</small><br>
+                        <i class="fa fa-bug fa-fw"></i> <a href="https://www.youtube.com/watch?v=vtETq5Ii0xM)"><strong>Detratação Via Youtube</strong></a>
                     </div>
                 </div>
                 <!-- END Sidebar Notifications -->
@@ -523,29 +523,29 @@ $this->load->helper('url');
                         <a href="javascript:void(0)">Home</a>
                     </li>
                     <li>
-                        <a href="javascript:void(0)">Profile</a>
+                        <a href="javascript:void(0)">Perfil</a>
                     </li>
                     <li class="dropdown">
-                        <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">Settings <i class="fa fa-angle-down"></i></a>
+                        <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">Configurações <i class="fa fa-angle-down"></i></a>
                         <ul class="dropdown-menu">
-                            <li><a href="javascript:void(0)"><i class="fa fa-asterisk fa-fw pull-right"></i> General</a></li>
-                            <li><a href="javascript:void(0)"><i class="fa fa-lock fa-fw pull-right"></i> Security</a></li>
-                            <li><a href="javascript:void(0)"><i class="fa fa-user fa-fw pull-right"></i> Account</a></li>
-                            <li><a href="javascript:void(0)"><i class="fa fa-magnet fa-fw pull-right"></i> Subscription</a></li>
+                            <li><a href="javascript:void(0)"><i class="fa fa-asterisk fa-fw pull-right"></i> Geral</a></li>
+                            <li><a href="javascript:void(0)"><i class="fa fa-lock fa-fw pull-right"></i> Segurança</a></li>
+                            <li><a href="javascript:void(0)"><i class="fa fa-user fa-fw pull-right"></i> Conta</a></li>
+                            <li><a href="javascript:void(0)"><i class="fa fa-magnet fa-fw pull-right"></i> Equipe</a></li>
                             <li class="divider"></li>
                             <li class="dropdown-submenu">
-                                <a href="javascript:void(0)" tabindex="-1"><i class="fa fa-chevron-right fa-fw pull-right"></i> More Settings</a>
+                                <a href="javascript:void(0)" tabindex="-1"><i class="fa fa-chevron-right fa-fw pull-right"></i> Conf.Adicionais</a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="javascript:void(0)" tabindex="-1">Second level</a></li>
-                                    <li><a href="javascript:void(0)">Second level</a></li>
-                                    <li><a href="javascript:void(0)">Second level</a></li>
+                                    <li><a href="javascript:void(0)" tabindex="-1">Campanha</a></li>
+                                    <li><a href="javascript:void(0)">Redes Sociais</a></li>
+                                    <li><a href="javascript:void(0)">Páginas</a></li>
                                     <li class="divider"></li>
                                     <li class="dropdown-submenu">
-                                        <a href="javascript:void(0)" tabindex="-1"><i class="fa fa-chevron-right fa-fw pull-right"></i> More Settings</a>
+                                        <a href="javascript:void(0)" tabindex="-1"><i class="fa fa-chevron-right fa-fw pull-right"></i> Financeiro</a>
                                         <ul class="dropdown-menu">
-                                            <li><a href="javascript:void(0)">Third level</a></li>
-                                            <li><a href="javascript:void(0)">Third level</a></li>
-                                            <li><a href="javascript:void(0)">Third level</a></li>
+                                            <li><a href="javascript:void(0)">Inf. Bancárias</a></li>
+                                            <li><a href="javascript:void(0)">Doações</a></li>
+                                            <li><a href="javascript:void(0)">Just.TRE</a></li>
                                         </ul>
                                     </li>
                                 </ul>
@@ -553,10 +553,10 @@ $this->load->helper('url');
                         </ul>
                     </li>
                     <li class="dropdown">
-                        <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">Contact <i class="fa fa-angle-down"></i></a>
+                        <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">Contato <i class="fa fa-angle-down"></i></a>
                         <ul class="dropdown-menu">
-                            <li><a href="javascript:void(0)"><i class="fa fa-envelope-o fa-fw pull-right"></i> By Email</a></li>
-                            <li><a href="javascript:void(0)"><i class="fa fa-phone fa-fw pull-right"></i> By Phone</a></li>
+                            <li><a href="javascript:void(0)"><i class="fa fa-envelope-o fa-fw pull-right"></i> Via Email</a></li>
+                            <li><a href="javascript:void(0)"><i class="fa fa-phone fa-fw pull-right"></i> Por Telefone</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -640,24 +640,24 @@ $this->load->helper('url');
                 <!-- User Dropdown -->
                 <li class="dropdown">
                     <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">
-                        <img src="<?php echo base_url(); ?>images/placeholders/avatars/avatar2.jpg" alt="avatar"> <i class="fa fa-angle-down"></i>
+                        <img src="<?php echo base_url(); ?>images/placeholders/avatars/AvatarFGz.jpg" alt="avatar"> <i class="fa fa-angle-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-custom dropdown-menu-right">
-                        <li class="dropdown-header text-center">Account</li>
+                        <li class="dropdown-header text-center">Conta</li>
                         <li>
                             <a href="page_ready_timeline.php">
                                 <i class="fa fa-clock-o fa-fw pull-right"></i>
                                 <span class="badge pull-right">10</span>
-                                Updates
+                                Atualizações
                             </a>
                             <a href="page_ready_inbox.php">
                                 <i class="fa fa-envelope-o fa-fw pull-right"></i>
                                 <span class="badge pull-right">5</span>
-                                Messages
+                                Mensagens
                             </a>
                             <a href="page_ready_pricing_tables.php"><i class="fa fa-magnet fa-fw pull-right"></i>
                                 <span class="badge pull-right">3</span>
-                                Subscriptions
+                                Assinaturas
                             </a>
                             <a href="page_ready_faq.php"><i class="fa fa-question fa-fw pull-right"></i>
                                 <span class="badge pull-right">11</span>
@@ -668,12 +668,12 @@ $this->load->helper('url');
                         <li>
                             <a href="index.php/dashboard/user_profile">
                                 <i class="fa fa-user fa-fw pull-right"></i>
-                                Profile
+                                Perfil
                             </a>
                             <!-- Opens the user settings modal that can be found at the bottom of each page (page_footer.php in PHP version) -->
                             <a href="#modal-user-settings" data-toggle="modal">
                                 <i class="fa fa-cog fa-fw pull-right"></i>
-                                Settings
+                                Configurações
                             </a>
                         </li>
                         <li class="divider"></li>
@@ -681,23 +681,23 @@ $this->load->helper('url');
                             <a href="page_ready_lock_screen.php"><i class="fa fa-lock fa-fw pull-right"></i> Lock Account</a>
                             <a href="login.php"><i class="fa fa-ban fa-fw pull-right"></i> Logout</a>
                         </li>
-                        <li class="dropdown-header text-center">Activity</li>
+                        <li class="dropdown-header text-center">Atividade</li>
                         <li>
                             <div class="alert alert-success alert-alt">
-                                <small>5 min ago</small><br>
-                                <i class="fa fa-thumbs-up fa-fw"></i> You had a new sale ($10)
+                                <small>5 min atrás</small><br>
+                                <i class="fa fa-thumbs-up fa-fw"></i> Vc recebeu nova doação ($10)
                             </div>
                             <div class="alert alert-info alert-alt">
-                                <small>10 min ago</small><br>
-                                <i class="fa fa-arrow-up fa-fw"></i> Upgraded to Pro plan
+                                <small>10 min atrás</small><br>
+                                <i class="fa fa-arrow-up fa-fw"></i> Perfil Atualizado
                             </div>
                             <div class="alert alert-warning alert-alt">
-                                <small>3 hours ago</small><br>
-                                <i class="fa fa-exclamation fa-fw"></i> Running low on space<br><strong>18GB in use</strong> 2GB left
+                                <small>3 hours atrás</small><br>
+                                <i class="fa fa-exclamation fa-fw"></i> Detratação <br><strong>Youtube</strong> Verificar
                             </div>
                             <div class="alert alert-danger alert-alt">
-                                <small>Yesterday</small><br>
-                                <i class="fa fa-bug fa-fw"></i> <a href="javascript:void(0)" class="alert-link">New bug submitted</a>
+                                <small>Ontem</small><br>
+                                <i class="fa fa-bug fa-fw"></i> <a href="javascript:void(0)" class="alert-link">Blog fora do Ar</a>
                             </div>
                         </li>
                     </ul>
