@@ -5,15 +5,11 @@
         <group>
             <file>file:/Users/paulinorochaesilva/Sites/PDC/ci/inc/page_head.php</file>
             <file>file:/Users/paulinorochaesilva/Sites/PDC/ci/application/controllers/dashboard.php</file>
-            <file>file:/Users/paulinorochaesilva/Sites/PDC/ci/application/views/adicionar_candidato.php</file>
             <file>file:/Users/paulinorochaesilva/Sites/PDC/ci/application/views/add_candidato.php</file>
             <file>file:/Users/paulinorochaesilva/Sites/PDC/ci/application/views/login.php</file>
             <file>file:/Users/paulinorochaesilva/Sites/PDC/ci/application/models/PDCModel.php</file>
             <file>file:/Users/paulinorochaesilva/Sites/PDC/ci/application/views/admin/dashboard.php</file>
-            <file>file:/Users/paulinorochaesilva/Sites/PDC/ci/inc/template_start.php</file>
-            <file>file:/Users/paulinorochaesilva/Sites/PDC/ci/application/config/autoload.php</file>
             <file>file:/Users/paulinorochaesilva/Sites/PDC/ci/application/controllers/Pages.php</file>
-            <file>file:/Users/paulinorochaesilva/Sites/PDC/ci/composer.json</file>
         </group>
     </open-files>
 </project-private>

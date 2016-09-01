@@ -454,16 +454,16 @@ class dashboard extends CI_Controller {
             return $periodo;
         }
         
-        public function finalizaCadastro($page='add_candidato'){
+        public function finalizaCadastro($idestado, $page='add_candidato'){
           if ( ! file_exists(APPPATH.'views/'.$page.'.php'))
             {
                 // Whoops, we don't have a page for that!
                 show_404(); 
             }
             $this->load->helper('url');
-            //$data['listaEstados']=  $this->listaEstados();
             $data['estado']=$this->PDCModel->lista_estados();
-            $data['cidade']=$this->PDCModel->lista_cidades();
+            $data['uf_selecionada']=  $this->PDCModel->estado_selecionado($idestado);
+            $data['cidade']=$this->PDCModel->lista_cidades($idestado);
             $this->load->view('/'.$page, $data);
         }
         
@@ -492,8 +492,18 @@ class dashboard extends CI_Controller {
             
         }
         
-        public function atualiza_cidades($idestado){
-            $data['cidade']=$this->PDCModel->lista_cidades();
+        public function atualiza_cidades($idestado, $page='add_candidato'){
+         if ( ! file_exists(APPPATH.'views/'.$page.'.php'))
+            {
+                // Whoops, we don't have a page for that!
+                show_404(); 
+            }
+            $this->load->helper('url');
+            $data['estado']=$this->PDCModel->lista_estados();
+            $data['uf_selecionada']=  $this->PDCModel->estado_selecionado($idestado);
+            $data['cidade']=$this->PDCModel->lista_cidades($idestado);
+            //$this->load->view('/add_candidato', $data);
+            $this->load->view('/'.$page, $data);
         }
 
         public function orcamento(){

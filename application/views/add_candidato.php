@@ -3,6 +3,7 @@
 <?php include 'inc/page_head.php'; ?>
 
 <!-- Pegando as cidades do estado selecionado -->
+<?php $uf_cidades=$_GET['uf_cidades'] ?> 
 
 <!-- Page content -->
 <div id="page-content">
@@ -70,17 +71,21 @@
                                 <?php foreach($estado as $uf):?>
                                     <option value="<?php echo $uf->idestado?>"><?php echo $uf->nome ?></option>
                                 <?php endforeach;?>  
-                                    <option selected="selected">Paraná</option>    
+                                    
+                                    <option selected="selected"><?php echo $uf_selecionada; ?></option>   
                          </select>
                         
                         <script type="text/javascript">
                             function getval(iduf) {
                               //alert(iduf.value);
-                              var uf_cidades = iduf.value;
+                              //var uf_cidades = iduf.value;
+                              
+                              if (iduf.selectedIndex !=''){
+                                  var uf_cidades = iduf.value;
+                                  document.location=('./finalizaCadastro/' + uf_cidades); 
+                              }    
                             }
-                        </script>
-                        
-                        
+                        </script>                     
                     </div>
 
                 </div>

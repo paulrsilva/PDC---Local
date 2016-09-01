@@ -242,6 +242,19 @@ Class PDCModel extends CI_Model {
         return $query_result;
     }
     
+    //Retorna apenas uma linha com o estado selecionado
+    public function estado_selecionado($idestado){ 
+        if (!isset($idestado)){
+            $idUf=18; //Se ão estiver definido na chamada, puxa as cidades do PR
+        } else {
+            $idUf=$idestado;
+        }
+        $query = $this->db->query("SELECT nome from estado WHERE idestado=$idUf");
+        $row = $query->row();
+        return $row->nome;
+    }
+
+
     public function lista_cidades($idestado){
 
         if (!isset($idestado)){
