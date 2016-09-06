@@ -5,5 +5,10 @@
         <data xmlns="http://www.netbeans.org/ns/php-project/1">
             <name>PDC</name>
         </data>
+        <spellchecker-wordlist xmlns="http://www.netbeans.org/ns/spellchecker-wordlist/1">
+            <word>Candidato</word>
+            <word>CPF</word>
+            <word>Partido</word>
+        </spellchecker-wordlist>
     </configuration>
 </project>

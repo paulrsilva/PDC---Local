@@ -267,6 +267,12 @@ Class PDCModel extends CI_Model {
         return $query_result;
     }
 
+    
+    public function lista_partidos(){
+        $query = $this->db->get('Partidos');
+        $query_result = $query->result();
+        return $query_result;
+    }
 
     /**
     public function ListaEstados(){

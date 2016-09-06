@@ -90,7 +90,8 @@ $primary_nav = array(
     ),
     array(
         'name'  => 'Central do Candidato',
-        'opt'   => '<a href="javascript:void(0)" data-toggle="tooltip" title="Configurações"><i class="gi gi-settings"></i></a>',
+        'opt'   => '<a href="javascript:void(0)" data-toggle="tooltip" title="Configurações"><i class="gi gi-settings"></i></a>' . 
+        '<a href="javascript:void(0)" data-toggle="tooltip" title="Central de Adm. do Candidadto"><i class="gi gi-radar"></i></a>',
         'url'   => 'header'
     ),
     array(

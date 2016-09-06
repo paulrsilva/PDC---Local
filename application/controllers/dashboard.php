@@ -464,6 +464,7 @@ class dashboard extends CI_Controller {
             $data['estado']=$this->PDCModel->lista_estados();
             $data['uf_selecionada']=  $this->PDCModel->estado_selecionado($idestado);
             $data['cidade']=$this->PDCModel->lista_cidades($idestado);
+            $data['partidos']=$this->PDCModel->lista_partidos();
             $this->load->view('/'.$page, $data);
         }
         
@@ -502,7 +503,8 @@ class dashboard extends CI_Controller {
             $data['estado']=$this->PDCModel->lista_estados();
             $data['uf_selecionada']=  $this->PDCModel->estado_selecionado($idestado);
             $data['cidade']=$this->PDCModel->lista_cidades($idestado);
-            //$this->load->view('/add_candidato', $data);
+            //$data['partidos']=$this->PDCModel->lista_partidos();
+  
             $this->load->view('/'.$page, $data);
         }
 

@@ -55,9 +55,9 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-md-4 control-label" for="example-clickable-email">Celular</label>
+                    <label class="col-md-4 control-label" for="masked_phone">Celular</label>
                     <div class="col-md-5">
-                        <input type="text" id="example-clickable-celular" name="example-clickable-celular" class="form-control" placeholder="(xx)xxxx-xxxx">
+                        <input type="text" id="masked_phone" name="masked_phone" class="form-control" placeholder="(99)9999-9999">
                     </div>
                 </div>
                 <div class="form-group">
@@ -90,10 +90,11 @@
 
                 </div>
                 <div class="form-group">
-                    <label class="col-md-4 control-label" for="example-clickable-Cidade">Cidade</label>
+                    <label class="col-md-4 control-label" for="clickable-Cidade">Cidade</label>
                     <div class="col-md-5">                 
                          <select id="user-cidade" name="user-cidade" class="select-chosen" data-placeholder="Selecione sua Cidade" style="width: 250px;">
-                                 
+                              <option></option><!-- Required for data-placeholder attribute to work with Chosen plugin -->  
+ 
                                 <?php foreach($cidade as $cidade):?>
                                     <option value="<?php echo $cidade->idcidade?>"><?php echo $cidade->nome ?></option>
                                 <?php endforeach;?>  
@@ -101,6 +102,32 @@
                          </select>
                     </div>
                 </div>
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="example-clickable-Role">Eu Sou</label>
+                    <div class="col-md-5">                 
+                         <select id="user-role" name="user-role" class="select-chosen" data-placeholder="Forma de Atuação" style="width: 250px;">
+                               
+                                <option value="0">Tipo de Acesso</option>
+                                <option value="3">Agência</option>
+                                <option value="4">Candidato</option>
+                                <option value="5">Consultor</option>
+                                <option value="6">Equipe</option>
+                                <option value="7">Partido/Franqueado</option>                              
+
+                         </select>
+                        <?php echo $role; ?>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="USER-CPF">CPF</label>
+                    <div class="col-md-5">                 
+                        <input type="text" id="masked_ssn" name="masked_ssn" class="form-control" placeholder="999-99-9999">  
+
+                    </div>
+                </div>
+                
+                
             </div>
             <!-- END First Step -->
 
@@ -119,29 +146,105 @@
                 </div>
                 <!-- END Step Info -->
                 <div class="form-group">
-                    <label class="col-md-4 control-label" for="example-clickable-firstname">Firstname</label>
+                    <label class="col-md-4 control-label" for="clickable-NomeCandidato">Nome Candidato</label>
                     <div class="col-md-5">
-                        <input type="text" id="example-clickable-firstname" name="example-clickable-firstname" class="form-control" placeholder="John..">
+                        <input type="text" id="clickable-NomeCandidato" name="clickable-NomeCandidato" class="form-control" placeholder="Nome Completo Candidato">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-md-4 control-label" for="example-clickable-lastname">Lastname</label>
+                    <label class="col-md-4 control-label" for="clickable-NomeUrna">Nome Urna</label>
                     <div class="col-md-5">
-                        <input type="text" id="example-clickable-lastname" name="example-clickable-lastname" class="form-control" placeholder="Doe..">
+                        <input type="text" id="clickable-NomeUrna" name="clickable-NomeUrna" class="form-control" placeholder="Nome Político (que aparecerá na urna)">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-md-4 control-label" for="example-clickable-country">Country</label>
-                    <div class="col-md-5">
-                        <input type="text" id="example-clickable-country" name="example-clickable-country" class="form-control" placeholder="Where do you live?">
+                    <label class="col-md-4 control-label" for="cargo-disputa">Cargo de Disputa <span class="text-danger">*</span></label>
+                    
+                    
+                    <div class="col-md-2">
+                        <select id="pleito_disputa" name="pleito_disputa" class="form-control">
+                            <option value="">Pleito</option>
+                            <option value="2016">2016-2020</option>
+                            <option value="2018" disabled="true">2018-2022</option>
+                            <option value="2020" disabled="true">2020-2024</option> 
+                        </select>
                     </div>
+                    
+                    <div class="col-md-3">
+                        <select id="cargo_disputa" name="cargo_disputa" class="form-control">
+                            <option value=""> Cargo de Campanha </option>
+                            <option value="vereador">Vereador</option>
+                            <option value="prefeito">Prefeito</option>
+                            <option value="DepEstadual" disabled="true">Dep.Estadual</option>
+                            <option value="DepFederal" disabled="true">Dep.Federal</option>
+                            <option value="Senador" disabled="true">Senador</option>
+                            <option value="Governador" disabled="true">Governador</option>
+                           <option value="Presidente" disabled="true">Presidente</option>
+                        </select>
+
+                    </div>
+                           
+                    
                 </div>
                 <div class="form-group">
-                    <label class="col-md-4 control-label" for="example-clickable-city">City</label>
-                    <div class="col-md-5">
-                        <input type="text" id="example-clickable-city" name="example-clickable-city" class="form-control" placeholder="Which one?">
+                    <label class="col-md-4 control-label" for="clickable-localCampanha">Local Candidato</label>
+                    
+                    <div class="col-md-2">
+                        
+                      <select id="local_disputa_uf" name="local_disputa_uf" class="form-control">
+                          <option selected="selected"><?php echo $uf_selecionada; ?></option>
+                      </select>
+                        
                     </div>
+                    
+                    <div class="col-md-3">
+                        <select id="local_disputa_cidade" name="local_disputa_cidade" class="select-chosen" data-placeholder="Local de Campanha">
+                            <option></option><!-- Required for data-placeholder attribute to work with Chosen plugin -->  
+                                <?php foreach($cidade as $cidade):?>
+                                    <option value="<?php echo $cidade->idcidade?>"><?php echo $cidade->nome ?></option>
+                                <?php endforeach;?>            
+                        </select>
+                        <!-- recuperar nomes de cidades -->
+                    </div>  
                 </div>
+                
+                
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="clickable-Partido">Partido e Nº do Candidato</label>
+                    
+                    <div class="col-md-2">
+                        
+                      <select id="cadidato_partido" name="cadidato_partido" class="select-chosen" data-placeholder="Partido" onchange="getval(this);">
+                            <option></option><!-- Required for data-placeholder attribute to work with Chosen plugin -->                          
+                            <?php foreach($partidos as $partido):?>
+                                <option value="<?php echo $partido->id_partido?>"><?php echo $partido->SiglaPartido ?></option>
+                            <?php endforeach;?>    
+                      </select>
+                        
+                       <script type="text/javascript">
+                            function getval(idPD) {
+                              alert(idPD.value);
+                              //var uf_cidades = iduf.value;
+                              
+                              //
+                              //if (iduf.selectedIndex !=''){
+                              //    var uf_cidades = iduf.value;
+                              //    document.location=('./finalizaCadastro/' + uf_cidades); 
+                              //}    
+                            }
+                       </script>   
+                       
+                        
+                        
+                    </div>
+                    
+                    <div class="col-md-3">
+                            <input type="text" id="clickable-NumCandidato" name="clickable-NumCandidato" class="form-control" placeholder="Nº do Candidato">
+                    </div>  
+                </div>
+                
+                
+                
             </div>
             <!-- END Second Step -->
 

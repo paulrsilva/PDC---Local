@@ -518,5 +518,5 @@ $config['proxy_ips'] = '';
  * 
  */
 
-$config['roles']=  array('subscriber','admin');
-$config['status'] = array('pending','approved');
+$config['roles']=  array('assinante','admin','agencia','candidato','consultor','equipe','franqueado');
+$config['status'] = array('pendente','aprovado','avalia');

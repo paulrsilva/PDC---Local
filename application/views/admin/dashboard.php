@@ -95,8 +95,8 @@ if (isset($this->session->userdata['logged_in'])) {
                         <i class="gi gi-usd"></i>
                     </div>
                     <h3 class="widget-content text-right animation-pullDown">
-                         R$ <strong>0,00%</strong><br>
-                        <small>Doações de Campanha</small>
+                        <strong> R$ 0,00%</strong><br>
+                        <small>Gestão Financeira</small>
                     </h3>
                 </div>
             </a>
@@ -110,8 +110,8 @@ if (isset($this->session->userdata['logged_in'])) {
                         <i class="gi gi-envelope"></i>
                     </div>
                     <h3 class="widget-content text-right animation-pullDown">
-                        5 <strong>Messages</strong>
-                        <small>Comitê de Campanha</small>
+                        5 <strong>Mensagens</strong>
+                        <small>Comitês de Campanha</small>
                     </h3>
                 </div>
             </a>
@@ -122,11 +122,11 @@ if (isset($this->session->userdata['logged_in'])) {
             <a href="page_comp_gallery.php" class="widget widget-hover-effect1">
                 <div class="widget-simple">
                     <div class="widget-icon pull-left themed-background-amethyst animation-fadeIn">
-                        <i class="gi gi-picture"></i>
+                        <i class="gi gi-eye_open"></i>
                     </div>
                     <h3 class="widget-content text-right animation-pullDown">
-                        +30 <strong>Fotos</strong>
-                        <small>Redes Sociais</small>
+                        +2 <strong>Relatórios</strong>
+                        <small>Avaliação Geomarketing</small>
                     </h3>
                 </div>
             </a>
@@ -156,7 +156,7 @@ if (isset($this->session->userdata['logged_in'])) {
             <a href="page_widgets_stats.php" class="widget widget-hover-effect1">
                 <div class="widget-simple">
                     <div class="widget-icon pull-left themed-background animation-fadeIn">
-                        <i class="gi gi-crown"></i>
+                        <i class="gi gi-stats"></i>
                     </div>
                     <div class="pull-right">
                         <!-- Jquery Sparkline (initialized in js/pages/index.js), for more examples you can check out http://omnipotent.net/jquery.sparkline/#s-about -->
@@ -186,7 +186,7 @@ if (isset($this->session->userdata['logged_in'])) {
                         </div>
                     </div>
                     <h3 class="widget-content-light">
-                        Ultimas <strong>Notícias</strong>
+                        Últimas <strong>Notícias</strong>
                         <small><a href="page_ready_timeline.php"><strong>Ver tudo</strong></a></small>
                     </h3>
                 </div>
@@ -285,33 +285,33 @@ if (isset($this->session->userdata['logged_in'])) {
                         </div>
                     </div>
                     <h3 class="widget-content-light">
-                        Seu <strong>Plano de Mensagens</strong>
-                        <small><a href="page_ready_pricing_tables.php"><strong>Atualizar</strong></a></small>
+                        Sistema de <strong>Gestão</strong>
+                        <small><a href="page_ready_pricing_tables.php"><strong>Acessar</strong></a></small>
                     </h3>
                 </div>
                 <div class="widget-extra-full">
                     <div class="row text-center">
                         <div class="col-xs-6 col-lg-3">
                             <h3>
-                                <strong>2</strong> <small>/7</small><br>
+                                <strong>0</strong> <small>/50</small><br>
                                 <small><i class="fa fa-folder-open-o"></i> Projetos</small>
                             </h3>
                         </div>
                         <div class="col-xs-6 col-lg-3">
                             <h3>
                                 <strong>25</strong> <small>/100GB</small><br>
-                                <small><i class="fa fa-hdd-o"></i> Armazenameto</small>
+                                <small><i class="fa fa-hdd-o"></i> Dados</small>
                             </h3>
                         </div>
                         <div class="col-xs-6 col-lg-3">
                             <h3>
-                                <strong>65</strong> <small>/1k</small><br>
-                                <small><i class="fa fa-building-o"></i> Clients</small>
+                                <strong>2</strong> <small>/10k</small><br>
+                                <small><i class="fa fa-users"></i> Mob.</small>
                             </h3>
                         </div>
                         <div class="col-xs-6 col-lg-3">
                             <h3>
-                                <strong>10</strong> <small>k</small><br>
+                                <strong>2</strong> <small>k</small><br>
                                 <small><i class="fa fa-envelope-o"></i> Emails</small>
                             </h3>
                         </div>
@@ -338,13 +338,13 @@ if (isset($this->session->userdata['logged_in'])) {
                     <div class="widget-main">
                         <div class="row text-center">
                             <div class="col-xs-4">
-                                <h3 class="animation-hatch"><strong>4.200</strong><br><small>Seguidores</small></h3>
+                                <h3 class="animation-hatch"><strong>4.800</strong><br><small>Votos Potenciais</small></h3>
                             </div>
                             <div class="col-xs-4">
-                                <h3 class="animation-hatch"><strong>6.970</strong><br><small>Votos Potenciais</small></h3>
+                                <h3 class="animation-hatch"><strong>5.500</strong><br><small>Votos Necessários</small></h3>
                             </div>
                             <div class="col-xs-4">
-                                <h3 class="animation-hatch">$<strong>0,0</strong><br><small>Just. Campanha</small></h3>
+                                <h3 class="animation-hatch">R$ <strong>42.850</strong><br><small>Valor de Churnning</small></h3>
                             </div>
                         </div>
                     </div>

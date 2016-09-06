@@ -433,6 +433,10 @@ $this->load->helper('url');
                     <span class="sidebar-header-title">Atividade</span>
                 </div>
                 <div class="sidebar-section">
+                    <div class="alert alert-warning alert-alt">
+                        <small>Necessário</small><br>
+                        <i class="fa fa-pencil-square-o"></i> <a href="http://localhost/PDC/ci/dashboard/finalizaCadastro"><strong>Finalize Seu Cadastro!</strong></a>
+                    </div>
                     <div class="alert alert-success alert-alt">
                         <small>5 min ago</small><br>
                         <i class="fa fa-facebook-square"></i> Novas Curtidas (7)
