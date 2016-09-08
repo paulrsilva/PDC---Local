@@ -18,3 +18,13 @@
 <script src="<?php echo base_url(); ?>js/vendor/bootstrap.min.js"></script>
 <script src="<?php echo base_url(); ?>js/plugins.js"></script>
 <script src="<?php echo base_url(); ?>js/app.js"></script>
+
+<!-- Validador de CPF by Paul 
+<script>  function formatar(mascara, documento){   var i = documento.value.length;   var saida = mascara.substring(0,1);
+    var texto = mascara.substring(i)     if (texto.substring(0,1) != saida){    documento.value += texto.substring(0,1);   }    }
+</script>
+-->
+
+
+
+

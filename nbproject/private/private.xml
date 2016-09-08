@@ -3,7 +3,7 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/Users/paulinorochaesilva/Sites/PDC/ci/inc/page_head.php</file>
+            <file>file:/Users/paulinorochaesilva/Sites/PDC/ci/js/pages/formsValidation.js</file>
             <file>file:/Users/paulinorochaesilva/Sites/PDC/ci/application/controllers/dashboard.php</file>
             <file>file:/Users/paulinorochaesilva/Sites/PDC/ci/application/views/add_candidato.php</file>
             <file>file:/Users/paulinorochaesilva/Sites/PDC/ci/application/views/login.php</file>
@@ -11,6 +11,8 @@
             <file>file:/Users/paulinorochaesilva/Sites/PDC/ci/application/views/admin/dashboard.php</file>
             <file>file:/Users/paulinorochaesilva/Sites/PDC/ci/application/config/config.php</file>
             <file>file:/Users/paulinorochaesilva/Sites/PDC/ci/application/controllers/Pages.php</file>
+            <file>file:/Users/paulinorochaesilva/Sites/PDC/ci/inc/template_scripts.php</file>
+            <file>file:/Users/paulinorochaesilva/Sites/PDC/ci/js/pages/login.js</file>
         </group>
     </open-files>
 </project-private>

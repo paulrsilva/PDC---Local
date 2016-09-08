@@ -49,20 +49,63 @@
                 </div>
                 <!-- END Step Info -->
                 <div class="form-group">
-                    <label class="col-md-4 control-label" for="example-clickable-username">Usuário</label>
-                    <div class="col-md-5">
-                        <input type="text" id="example-clickable-username" name="example-clickable-username" class="form-control" placeholder="Escolha um nome de usuário">
+                    <label class="col-md-4 control-label" for="nome_usuario">Usuário</label>
+                    <div class="col-md-3">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                                <input type="text" id="nome_usuario" name="nome_usuario" class="form-control" placeholder="Nome de Usuário">
+                            </div>
                     </div>
+                    
+                    <div class="col-md-3">
+                            <label class="radio-inline" for="example-inline-radio1">
+                                <input type="radio" id="example-inline-radio1" name="example-inline-radios" value="Umasculino"> <i class="fa fa-child"> Masc.</i>
+                            </label>
+                        
+                            <label class="radio-inline" for="example-inline-radio2">
+                                <input type="radio" id="example-inline-radio2" name="example-inline-radios" value="UFeminino"> <i class="fa fa-female"> Fem.</i>
+                            </label>                          
+                    </div>
+                    
+                    
+                </div>
+                
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="masked_cpf">CPF</label> <!-- O controle está no formValidation.js -->
+                    <div class="col-md-3">
+                             <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-credit-card"></i></span>
+                                <input type="text" id="masked_cpf" name="masked_cpf" class="form-control" maxlength="14"  />
+                            </div>    
+                    </div>
+                    <div class="col-md-3">
+                        <input type="text" id="masked_date" name="masked_date" class="form-control" placeholder="Data de Nasc.">
+                    </div>
+                    
+                </div>
+                
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="masked_cel">Celular/Fixo</label>
+                    <div class="col-md-3">
+                        <div class="input-group">
+                             <span class="input-group-addon"><i class="fa fa-mobile"></i></span>
+                            <input type="text" id="masked_cel" name="masked_cel_user" class="form-control" 
+                                   data-toggle="popover" data-placement="top" title="Nº de Celular "
+                                   data-content="Se seu celular não tem um digito '9' adicional, coloque '0' na frente ">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-phone"></i></span>
+                            <input type="text" id="masked_phone" name="masked_phone_user" class="form-control" >
+                        </div>
+                    </div> 
+                    
                 </div>
                 <div class="form-group">
-                    <label class="col-md-4 control-label" for="masked_phone">Celular</label>
-                    <div class="col-md-5">
-                        <input type="text" id="masked_phone" name="masked_phone" class="form-control" placeholder="(99)9999-9999">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-md-4 control-label" for="example-clickable-Estado">Estado</label>
-                    <div class="col-md-5">
+                    <label class="col-md-4 control-label" for="example-clickable-Estado">UF/Cidade</label>
+                    
+                    <div class="col-md-3">
                         
                          <select id="user-UF" name="user-UF" class="select-chosen" data-placeholder="Selecione seu Estado" 
                                  style="width: 250px;" onchange="getval(this);" >
@@ -87,11 +130,8 @@
                             }
                         </script>                     
                     </div>
-
-                </div>
-                <div class="form-group">
-                    <label class="col-md-4 control-label" for="clickable-Cidade">Cidade</label>
-                    <div class="col-md-5">                 
+                    
+                    <div class="col-md-3">                 
                          <select id="user-cidade" name="user-cidade" class="select-chosen" data-placeholder="Selecione sua Cidade" style="width: 250px;">
                               <option></option><!-- Required for data-placeholder attribute to work with Chosen plugin -->  
  
@@ -101,10 +141,21 @@
 
                          </select>
                     </div>
+
+                </div> 
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="masked_CEP">Endereço</label>
+                    <div class="col-md-2">
+                        <input type="text" id="masked_CEP" name="masked_CEP_user" placeholder="CEP" class="form-control" >
+                    </div> 
+                    <div class="col-md-4">
+                        <input type="text" id="user_end" name="user_end_user" placeholder="Endereço" class="form-control" >
+                    </div>   
                 </div>
+                
                 <div class="form-group">
                     <label class="col-md-4 control-label" for="example-clickable-Role">Eu Sou</label>
-                    <div class="col-md-5">                 
+                    <div class="col-md-3">                 
                          <select id="user-role" name="user-role" class="select-chosen" data-placeholder="Forma de Atuação" style="width: 250px;">
                                
                                 <option value="0">Tipo de Acesso</option>
@@ -112,20 +163,18 @@
                                 <option value="4">Candidato</option>
                                 <option value="5">Consultor</option>
                                 <option value="6">Equipe</option>
-                                <option value="7">Partido/Franqueado</option>                              
+                                <option value="7">Gestor Público</option>
+                                <option value="8">Partido/Franqueado</option>                              
 
                          </select>
                         <?php echo $role; ?>
                     </div>
-                </div>
-                
-                <div class="form-group">
-                    <label class="col-md-4 control-label" for="USER-CPF">CPF</label>
-                    <div class="col-md-5">                 
-                        <input type="text" id="masked_ssn" name="masked_ssn" class="form-control" placeholder="999-99-9999">  
-
+                    
+                    <div class="col-md-3"> 
+                        <label class="switch switch-info" title="Eu sou o Candidato!"><input type="checkbox"><span></span></label> 
                     </div>
                 </div>
+                
                 
                 
             </div>
@@ -146,22 +195,65 @@
                 </div>
                 <!-- END Step Info -->
                 <div class="form-group">
-                    <label class="col-md-4 control-label" for="clickable-NomeCandidato">Nome Candidato</label>
-                    <div class="col-md-5">
+                    <label class="col-md-4 control-label" for="clickable-NomeCandidato">Nome Candidato <span class="text-danger">*</span></label>
+                    <div class="col-md-6">
                         <input type="text" id="clickable-NomeCandidato" name="clickable-NomeCandidato" class="form-control" placeholder="Nome Completo Candidato">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-md-4 control-label" for="clickable-NomeUrna">Nome Urna</label>
-                    <div class="col-md-5">
+                    <label class="col-md-4 control-label" for="clickable-NomeUrna">Nome Urna <span class="text-danger">*</span></label>
+                    <div class="col-md-3">
                         <input type="text" id="clickable-NomeUrna" name="clickable-NomeUrna" class="form-control" placeholder="Nome Político (que aparecerá na urna)">
                     </div>
+                    <div class="col-md-3">
+                            <label class="radio-inline" for="example-inline-radio1">
+                                <input type="radio" id="example-inline-radio1" name="example-inline-radios" value="Cmasculino"> <i class="fa fa-child"> Masc.</i>
+                            </label>
+                        
+                            <label class="radio-inline" for="example-inline-radio2">
+                                <input type="radio" id="example-inline-radio2" name="example-inline-radios" value="CFeminino"> <i class="fa fa-female"> Fem.</i>
+                            </label>                          
+                    </div>        
                 </div>
+                
+                                <div class="form-group">
+                    <label class="col-md-4 control-label" for="masked_cpf">CPF</label> <!-- O controle está no formValidation.js -->
+                    <div class="col-md-3">
+                             <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-credit-card"></i></span>
+                                <input type="text" id="masked_cpf" name="masked_cpf_candidato" class="form-control" maxlength="14"  />
+                            </div>    
+                    </div>
+                    <div class="col-md-3">
+                        <input type="text" id="masked_date" name="masked_nasc_candidato" class="form-control" placeholder="Data de Nasc.">
+                    </div>
+                    
+                </div>
+                
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="masked_cel">Celular/Fixo</label>
+                    <div class="col-md-3">
+                        <div class="input-group">
+                             <span class="input-group-addon"><i class="fa fa-mobile"></i></span>
+                            <input type="text" id="masked_cel" name="masked_cel_candidato" class="form-control" 
+                                   data-toggle="popover" data-placement="top" title="Nº de Celular "
+                                   data-content="Se seu celular não tem um digito '9' adicional, coloque '0' na frente ">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-phone"></i></span>
+                            <input type="text" id="masked_phone" name="masked_phone_candidato" class="form-control" >
+                        </div>
+                    </div> 
+                    
+                </div>
+                
                 <div class="form-group">
                     <label class="col-md-4 control-label" for="cargo-disputa">Cargo de Disputa <span class="text-danger">*</span></label>
                     
                     
-                    <div class="col-md-2">
+                    <div class="col-md-3">
                         <select id="pleito_disputa" name="pleito_disputa" class="form-control">
                             <option value="">Pleito</option>
                             <option value="2016">2016-2020</option>
@@ -187,9 +279,9 @@
                     
                 </div>
                 <div class="form-group">
-                    <label class="col-md-4 control-label" for="clickable-localCampanha">Local Candidato</label>
+                    <label class="col-md-4 control-label" for="clickable-localCampanha" title="Local de Campanha">Local Candidato <span class="text-danger">*</span></label>
                     
-                    <div class="col-md-2">
+                    <div class="col-md-3">
                         
                       <select id="local_disputa_uf" name="local_disputa_uf" class="form-control">
                           <option selected="selected"><?php echo $uf_selecionada; ?></option>
@@ -212,7 +304,7 @@
                 <div class="form-group">
                     <label class="col-md-4 control-label" for="clickable-Partido">Partido e Nº do Candidato</label>
                     
-                    <div class="col-md-2">
+                    <div class="col-md-3">
                         
                       <select id="cadidato_partido" name="cadidato_partido" class="select-chosen" data-placeholder="Partido" onchange="getval(this);">
                             <option></option><!-- Required for data-placeholder attribute to work with Chosen plugin -->                          
@@ -220,7 +312,9 @@
                                 <option value="<?php echo $partido->id_partido?>"><?php echo $partido->SiglaPartido ?></option>
                             <?php endforeach;?>    
                       </select>
+                       
                         
+                        <!--
                        <script type="text/javascript">
                             function getval(idPD) {
                               alert(idPD.value);
@@ -233,6 +327,8 @@
                               //}    
                             }
                        </script>   
+                        -->
+                       
                        
                         
                         
@@ -243,6 +339,22 @@
                     </div>  
                 </div>
                 
+             <div class="form-group">  
+                <label class="col-md-4 control-label" for="clickable-Reeleicao">Reeleição / Coligações</label> 
+                <div class="col-md-2">
+                   <label class="switch switch-info" title="Eu sou o Candidato!"><input type="checkbox"><span></span></label> 
+                    <input type="checkbox" id="switch switch-info" name="cand_reeleicao" value="1">
+                     <span data-toggle="tooltip" title="I agree to the terms!"></span>
+                     
+                     <label class="switch switch-info" for="cand_reeleicao" title="Disputando Reeleição">
+                            <input type="checkbox" id="Cand_Reeleicao" name="example-clickable-terms" value="1">
+                            <span data-toggle="tooltip" title="I agree to the terms!"></span>
+                    </label>
+                     
+                     
+                </div>
+                
+             </div>
                 
                 
             </div>
@@ -383,6 +495,9 @@
 
 <!-- Load and execute javascript code used only in this page -->
 <script src="<?php echo base_url(); ?>js/pages/formsWizard.js"></script>
-<script>$(function(){ FormsWizard.init(); });</script>
+<script>$(function(){ FormsWizard.init(); });</script>-->
+
+<script src="<?php echo base_url(); ?>js/pages/formsValidation.js"></script>
+<script>$(function() { FormsValidation.init(); });</script>
 
 <?php include 'inc/template_end.php'; ?>

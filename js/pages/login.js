@@ -85,10 +85,10 @@ var Login = function() {
                     }
                 },
                 messages: {
-                    'login-email': 'Please enter your account\'s email',
+                    'login-email': 'Por favor insira seu email',
                     'login-password': {
-                        required: 'Please provide your password',
-                        minlength: 'Your password must be at least 5 characters long'
+                        required: 'Por favor insira sua senha',
+                        minlength: 'Sua senha precisa de no mínimo 5 caracteres'
                     }
                 }
             });

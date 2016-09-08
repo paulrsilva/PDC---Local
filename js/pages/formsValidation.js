@@ -78,18 +78,18 @@ var FormsValidation = function() {
                 },
                 messages: {
                     val_username: {
-                        required: 'Please enter a username',
-                        minlength: 'Your username must consist of at least 3 characters'
+                        required: 'Por favor coloque o nome de usuário',
+                        minlength: 'O nome de usuário tem pelo menos 3 caracteres'
                     },
-                    val_email: 'Please enter a valid email address',
+                    val_email: 'Coloque um email válido',
                     val_password: {
-                        required: 'Please provide a password',
-                        minlength: 'Your password must be at least 5 characters long'
+                        required: 'Por favor insira uma senha',
+                        minlength: 'A senha necessita pelo menos 5 caracteres'
                     },
                     val_confirm_password: {
-                        required: 'Please provide a password',
-                        minlength: 'Your password must be at least 5 characters long',
-                        equalTo: 'Please enter the same password as above'
+                        required: 'Por favor insira uma senha',
+                        minlength: 'A senha necessita pelo menos 5 caracteres',
+                        equalTo: 'As senhas precisam ser iguais'
                     },
                     val_bio: 'Don\'t be shy, share something with us :-)',
                     val_skill: 'Please select a skill!',
@@ -108,11 +108,14 @@ var FormsValidation = function() {
             // * - Represents an alphanumeric character (A-Z,a-z,0-9)
             $('#masked_date').mask('99/99/9999');
             $('#masked_date2').mask('99-99-9999');
-            $('#masked_phone').mask('(999) 999-9999');
+            $('#masked_phone').mask('(99) 9999-9999');
             $('#masked_phone_ext').mask('(999) 999-9999? x99999');
             $('#masked_taxid').mask('99-9999999');
             $('#masked_ssn').mask('999-99-9999');
             $('#masked_pkey').mask('a*-999-a999');
+            $('#masked_cpf').mask('999.999.999/99');
+            $('#masked_cel').mask('(99) 99999-9999');
+            $('#masked_CEP').mask('99.999-999')
         }
     };
 }();
