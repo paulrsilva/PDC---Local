@@ -83,6 +83,7 @@
                     </div>
                     
                 </div>
+               
                 
                 <div class="form-group">
                     <label class="col-md-4 control-label" for="masked_cel">Celular/Fixo</label>
@@ -154,8 +155,8 @@
                 </div>
                 
                 <div class="form-group">
-                    <label class="col-md-4 control-label" for="example-clickable-Role">Eu Sou</label>
-                    <div class="col-md-3">                 
+                    <label class="col-md-4 control-label" for="user-role">Eu Sou</label>
+                    <div class="col-md-6">                 
                          <select id="user-role" name="user-role" class="select-chosen" data-placeholder="Forma de Atuação" style="width: 250px;">
                                
                                 <option value="0">Tipo de Acesso</option>
@@ -168,10 +169,6 @@
 
                          </select>
                         <?php echo $role; ?>
-                    </div>
-                    
-                    <div class="col-md-3"> 
-                        <label class="switch switch-info" title="Eu sou o Candidato!"><input type="checkbox"><span></span></label> 
                     </div>
                 </div>
                 
@@ -194,11 +191,21 @@
                     </div>
                 </div>
                 <!-- END Step Info -->
+                
+               <!-- <legend><i class="fa fa-angle-right"></i> Dados do Candidato</legend> -->
                 <div class="form-group">
                     <label class="col-md-4 control-label" for="clickable-NomeCandidato">Nome Candidato <span class="text-danger">*</span></label>
-                    <div class="col-md-6">
+                    <div class="col-md-3">
                         <input type="text" id="clickable-NomeCandidato" name="clickable-NomeCandidato" class="form-control" placeholder="Nome Completo Candidato">
                     </div>
+                    
+                    <div class="col-md-3">
+                        
+                        <input type="file" id="fotoCandidato-file-input" name="fotoCandidato-file-input" title="Foto do Candidato">
+                         <span class="help-block">Adicione a foto do Candidato</span>
+                    </div>
+                    
+                    
                 </div>
                 <div class="form-group">
                     <label class="col-md-4 control-label" for="clickable-NomeUrna">Nome Urna <span class="text-danger">*</span></label>
@@ -216,7 +223,7 @@
                     </div>        
                 </div>
                 
-                                <div class="form-group">
+                <div class="form-group">
                     <label class="col-md-4 control-label" for="masked_cpf">CPF</label> <!-- O controle está no formValidation.js -->
                     <div class="col-md-3">
                              <div class="input-group">
@@ -228,6 +235,23 @@
                         <input type="text" id="masked_date" name="masked_nasc_candidato" class="form-control" placeholder="Data de Nasc.">
                     </div>
                     
+                </div>
+                
+                <div class="form-group"> 
+                    <label class="col-md-4 control-label" for="val_email">End. Eletrônicos<span class="text-danger">*</span></label>   
+                    <div class="col-md-3">
+                       <div class="input-group">
+                           <span class="input-group-addon"><i class="gi gi-envelope"></i></span>
+                           <input type="text" id="val_email" name="val_email" class="form-control" placeholder="candidato@pagina.com.br">
+                       </div>
+                    </div>
+                    
+                    <div class="col-md-3">
+                        <div class="input-group">
+                           <span class="input-group-addon"><i class="gi gi-globe"></i></span>
+                           <input type="text" id="val_website" name="val_website" class="form-control" value="http://">    
+                       </div>
+                    </div>
                 </div>
                 
                 <div class="form-group">
@@ -275,8 +299,7 @@
                         </select>
 
                     </div>
-                           
-                    
+            
                 </div>
                 <div class="form-group">
                     <label class="col-md-4 control-label" for="clickable-localCampanha" title="Local de Campanha">Local Candidato <span class="text-danger">*</span></label>
@@ -327,11 +350,7 @@
                               //}    
                             }
                        </script>   
-                        -->
-                       
-                       
-                        
-                        
+                        -->                       
                     </div>
                     
                     <div class="col-md-3">
@@ -339,24 +358,34 @@
                     </div>  
                 </div>
                 
-             <div class="form-group">  
-                <label class="col-md-4 control-label" for="clickable-Reeleicao">Reeleição / Coligações</label> 
-                <div class="col-md-2">
-                   <label class="switch switch-info" title="Eu sou o Candidato!"><input type="checkbox"><span></span></label> 
-                    <input type="checkbox" id="switch switch-info" name="cand_reeleicao" value="1">
-                     <span data-toggle="tooltip" title="I agree to the terms!"></span>
-                     
-                     <label class="switch switch-info" for="cand_reeleicao" title="Disputando Reeleição">
-                            <input type="checkbox" id="Cand_Reeleicao" name="example-clickable-terms" value="1">
-                            <span data-toggle="tooltip" title="I agree to the terms!"></span>
-                    </label>
-                     
-                     
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="Col_Candidato">Coligações</label>
+                                   <!-- Jquery Tags Input (class is initialized in js/app.js -> uiInit()), for extra usage examples you can check out https://github.com/xoxco/jQuery-Tags-Input -->
+                    <fieldset>
+                            <div class="col-md-6">
+                                <input type="text" id="coligacoes-tags" name="coligacoes-tags" class="input-tags" value="PSDB, PT, DEM">
+                            </div>
+
+                    </fieldset>     
+
                 </div>
                 
-             </div>
-                
-                
+                <div class="form-group">  
+                   <label class="col-md-4 control-label" for="example-inline-checkbox1">Histórico</label> 
+                   <div class="col-md-6">
+                                <label class="checkbox-inline" for="example-inline-checkbox1">
+                                   <input type="checkbox" id="example-inline-checkbox1" name="example-inline-checkbox1" value="option1"> Exerce Cargo Eletivo
+                               </label>
+                               <label class="checkbox-inline" for="example-inline-checkbox2">
+                                   <input type="checkbox" id="example-inline-checkbox2" name="example-inline-checkbox2" value="option2"> Disputando Reeleição
+                               </label>
+                               <label class="checkbox-inline" for="example-inline-checkbox3">
+                                   <input type="checkbox" id="example-inline-checkbox3" name="example-inline-checkbox3" value="option3"> Já Concorreu 
+                               </label>
+                   </div>
+
+
+               </div>
             </div>
             <!-- END Second Step -->
 
@@ -375,30 +404,31 @@
                 </div>
                 <!-- END Step Info -->
                 <div class="form-group">
-                    <label class="col-md-4 control-label" for="example-advanced-bio">Bio</label>
-                    <div class="col-md-8">
-                        <textarea id="example-clickable-bio" name="example-clickable-bio" rows="6" class="form-control" placeholder="Tell us your story.."></textarea>
+                    <label class="col-md-4 control-label" for="example-advanced-bio">Resumo Candidato</label>
+                    <div class="col-md-6">
+                        <textarea id="example-clickable-bio" name="example-clickable-bio" 
+                                  rows="6" class="form-control" placeholder="Faça um Pequeno resumo do candidato.."></textarea>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-md-4 control-label" for="example-clickable-newsletter">Newsletter</label>
-                    <div class="col-md-8">
-                        <div class="checkbox">
-                            <label for="example-clickable-newsletter">
-                                <input type="checkbox" id="example-clickable-newsletter" name="example-clickable-newsletter">  Sign up
-                            </label>
-                        </div>
-                    </div>
+                    <label class="col-md-4 control-label" for="example-clickable-newsletter">Palavras Chave</label>
+                        
+                        <fieldset>
+                                <div class="col-md-6">
+                                    <label for="palavras_chave-tag">Palavras Chave da Campanha
+                                        <input type="text" id="palavras_chave-tags" name="palavras_chave-tags"
+                                               title="Adicione as 10 palavras que identificam melhor as propostas" 
+                                               class="input-tags" value="Saúde, Educação, Segurança">
+                                        <span class="help-block">Que mais identifiquem as propostas do candidato</span>
+                                    </label>
+                                </div>
+                        </fieldset>                    
+
                 </div>
-                <div class="form-group">
-                    <label class="col-md-4 control-label"><a href="#modal-terms" data-toggle="modal">Terms</a></label>
-                    <div class="col-md-8">
-                        <label class="switch switch-primary" for="example-clickable-terms">
-                            <input type="checkbox" id="example-clickable-terms" name="example-clickable-terms" value="1">
-                            <span data-toggle="tooltip" title="I agree to the terms!"></span>
-                        </label>
-                    </div>
-                </div>
+                
+            <div class="form-group">                  
+            </div>  
+                
             </div>
             <!-- END Third Step -->
             
@@ -417,11 +447,58 @@
                 </div>
                 <!-- END Step Info -->
                 <div class="form-group">
-                    <label class="col-md-4 control-label" for="example-advanced-bio">Bio</label>
-                    <div class="col-md-8">
-                        <textarea id="example-clickable-bio" name="example-clickable-bio" rows="6" class="form-control" placeholder="Tell us your story.."></textarea>
-                    </div>
+                    <fieldset>
+                        <legend><i class="fa fa-angle-right"></i> Adicionar Membros Equipe</legend>
+                        <br>
+                        <label class="col-md-2 control-label" for="nome_membro_eq">Dados</label>
+                        <div class="col-md-4">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                                <input type="text" id="nome_usuario" name="nome_membro_eq" class="form-control" placeholder="Nome Membro">
+                            </div>                            
+                        </div>   
+                        
+                         
+                        <div class="col-md-4">
+                           <div class="input-group">
+                               <span class="input-group-addon"><i class="gi gi-envelope"></i></span>
+                               <input type="text" id="val_email" name="email_membro_eq" class="form-control" placeholder="Email Membro">
+                           </div>                       
+                    </fieldset>                   
                 </div>
+                        
+                <div class="form-group">
+                    <fieldset>
+                    <label class="col-md-2 control-label" for="masked_cel">Celular<span class="text-danger"> *</span></label>
+                    <div class="col-md-4">
+                        <div class="input-group">
+                             <span class="input-group-addon"><i class="fa fa-mobile"></i></span>
+                            <input type="text" id="masked_cel" name="masked_cel_membro" class="form-control" 
+                                   data-toggle="popover" data-placement="top" title="ex. +55(NN)CELULAR">
+                        </div>
+                    </div>
+ 
+                    <div class="col-md-4">                 
+                         <select id="user-role" name="user-role" class="select-chosen" data-placeholder="Tipo de Acesso">                      
+                                <option value="0">Admin. Campanha</option>
+                                <option value="1">Agência</option>
+                                <option value="2">Equipe</option>
+                                <option value="4">Func. Interno</option>
+                                <option value="5">Consultor Ext.</option>
+                                <option value="6">Comitê</option>                              
+                                <option value="7">Mobilizador</option>  
+                                <option value="7">Outro</option> 
+                         </select>
+                        <span class="help-block">Função do Membro na Campanha</span>
+                        
+                    </div>                   
+                    </fieldset>                   
+                </div>                        
+                
+                <div class="form-group">   
+                    
+                </div>
+                
                 <div class="form-group">
                     <label class="col-md-4 control-label" for="example-clickable-newsletter">Newsletter</label>
                     <div class="col-md-8">
@@ -432,7 +509,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="form-group">
+                        <div class="form-group">
                     <label class="col-md-4 control-label"><a href="#modal-terms" data-toggle="modal">Terms</a></label>
                     <div class="col-md-8">
                         <label class="switch switch-primary" for="example-clickable-terms">
@@ -499,5 +576,8 @@
 
 <script src="<?php echo base_url(); ?>js/pages/formsValidation.js"></script>
 <script>$(function() { FormsValidation.init(); });</script>
+
+<script src="<?php echo base_url(); ?>js/pages/formsGeneral.js"></script>
+<script>$(function(){ FormsGeneral.init(); });</script>
 
 <?php include 'inc/template_end.php'; ?>

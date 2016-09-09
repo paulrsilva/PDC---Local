@@ -8,6 +8,8 @@
         <spellchecker-wordlist xmlns="http://www.netbeans.org/ns/spellchecker-wordlist/1">
             <word>Candidato</word>
             <word>CPF</word>
+            <word>Eletivo</word>
+            <word>Equipe</word>
             <word>Partido</word>
         </spellchecker-wordlist>
     </configuration>
