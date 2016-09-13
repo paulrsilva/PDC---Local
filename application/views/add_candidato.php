@@ -54,22 +54,25 @@
                     <label class="col-md-4 control-label" for="nome_usuario">Usuário</label>
                     <div class="col-md-3">
                             <div class="input-group">
+                                
                                 <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                                <input type="text" id="nome_usuario" name="nome_usuario" class="form-control" placeholder="Nome de Usuário">
+                                <input type="text" id="nome_usuario" name="nome_usuario" value="<?php echo $usuario->username; ?>" class="form-control">
                             </div>
-                            
                     </div>
                     
                     <div class="col-md-3">
                             <label class="radio-inline" for="sexo-inline-radio1">
-                                <input type="radio" id="sexo-inline-radio1" name="sexo_user" value="M"> <i class="fa fa-child"> Masc.</i>
+                                <input type="radio" id="sexo-inline-radio1" name="sexo_user"
+                                       value="M" 
+                                       <?php if($usuario->sexo=="M") { echo "checked='TRUE'"; }?>> <i class="fa fa-child"> Masc.</i>
                             </label>
                         
                             <label class="radio-inline" for="example-inline-radio2">
-                                <input type="radio" id="sexo-inline-radio2" name="sexo_user" value="F"> <i class="fa fa-female"> Fem.</i>
+                                <input type="radio" id="sexo-inline-radio2" name="sexo_user" value="F"
+                                       <?php if($usuario->sexo=="F") { echo "checked='TRUE'"; }?>> <i class="fa fa-female"> Fem.</i>
                             </label>                          
                     </div>
-                    
+ 
                     
                 </div>
                 
@@ -78,7 +81,7 @@
                     <div class="col-md-3">
                              <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-credit-card"></i></span>
-                                <input type="text" id="masked_cpf" name="masked_cpf_user" class="form-control" maxlength="14"  />
+                                <input type="text" id="masked_cpf" name="masked_cpf_user" value="<?php echo $usuario->CPF; ?>" class="form-control" maxlength="14"  />
                             </div>    
                     </div>
                     <div class="col-md-3">
@@ -95,13 +98,15 @@
                              <span class="input-group-addon"><i class="fa fa-mobile"></i></span>
                             <input type="text" id="masked_cel" name="masked_cel_user" class="form-control" 
                                    data-toggle="popover" data-placement="top" title="Nº de Celular "
-                                   data-content="Se seu celular não tem um digito '9' adicional, coloque '0' na frente ">
+                                   data-content="Se seu celular não tem um digito '9' adicional, coloque '0' na frente "
+                                   value="<?php echo $usuario->NumCelular; ?>">
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-phone"></i></span>
-                            <input type="text" id="masked_phone" name="masked_phone_user" class="form-control" >
+                            <input type="text" id="masked_phone" name="masked_phone_user" class="form-control" 
+                                   value="<?php echo $usuario->NumFixo; ?>">
                         </div>
                     </div> 
                     
@@ -118,6 +123,7 @@
                                 <?php foreach($estado as $uf):?>
                                     <option value="<?php echo $uf->idestado?>"><?php echo $uf->nome ?></option>
                                 <?php endforeach;?>  
+                                 
                                     
                                     <option selected="selected"><?php echo $uf_selecionada; ?></option>   
                          </select>                
