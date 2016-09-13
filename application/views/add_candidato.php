@@ -33,8 +33,10 @@
         <!-- END Clickable Wizard Title -->
 
         <!-- Clickable Wizard Content -->
-        <form id="clickable-wizard" action="<?=$_SERVER['PHP_SELF']?>" method="post" class="form-horizontal form-bordered">
-            <!-- First Step -->
+        <form id="clickable-wizard" action="<?php echo site_url('index.php/dashboard/atualiza_usuario'); ?>" method="post" class="form-horizontal form-bordered">
+            
+            
+            <!-- First Step  -->
             <div id="clickable-first" class="step">
                 <!-- Step Info -->
                 <div class="form-group">
@@ -55,15 +57,16 @@
                                 <span class="input-group-addon"><i class="fa fa-user"></i></span>
                                 <input type="text" id="nome_usuario" name="nome_usuario" class="form-control" placeholder="Nome de Usuário">
                             </div>
+                            
                     </div>
                     
                     <div class="col-md-3">
-                            <label class="radio-inline" for="example-inline-radio1">
-                                <input type="radio" id="example-inline-radio1" name="example-inline-radios" value="Umasculino"> <i class="fa fa-child"> Masc.</i>
+                            <label class="radio-inline" for="sexo-inline-radio1">
+                                <input type="radio" id="sexo-inline-radio1" name="sexo_user" value="M"> <i class="fa fa-child"> Masc.</i>
                             </label>
                         
                             <label class="radio-inline" for="example-inline-radio2">
-                                <input type="radio" id="example-inline-radio2" name="example-inline-radios" value="UFeminino"> <i class="fa fa-female"> Fem.</i>
+                                <input type="radio" id="sexo-inline-radio2" name="sexo_user" value="F"> <i class="fa fa-female"> Fem.</i>
                             </label>                          
                     </div>
                     
@@ -75,11 +78,11 @@
                     <div class="col-md-3">
                              <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-credit-card"></i></span>
-                                <input type="text" id="masked_cpf" name="masked_cpf" class="form-control" maxlength="14"  />
+                                <input type="text" id="masked_cpf" name="masked_cpf_user" class="form-control" maxlength="14"  />
                             </div>    
                     </div>
                     <div class="col-md-3">
-                        <input type="text" id="masked_date" name="masked_date" class="form-control" placeholder="Data de Nasc.">
+                        <input type="text" id="masked_date" name="masked_nasc_user" class="form-control" placeholder="Data de Nasc.">
                     </div>
                     
                 </div>
@@ -104,7 +107,7 @@
                     
                 </div>
                 <div class="form-group">
-                    <label class="col-md-4 control-label" for="example-clickable-Estado">UF/Cidade</label>
+                    <label class="col-md-4 control-label" for="user-UF">UF/Cidade</label>
                     
                     <div class="col-md-3">
                         
@@ -117,7 +120,7 @@
                                 <?php endforeach;?>  
                                     
                                     <option selected="selected"><?php echo $uf_selecionada; ?></option>   
-                         </select>
+                         </select>                
                         
                         <script type="text/javascript">
                             function getval(iduf) {
@@ -137,7 +140,7 @@
                               <option></option><!-- Required for data-placeholder attribute to work with Chosen plugin -->  
  
                                 <?php foreach($cidade as $cidade):?>
-                                    <option value="<?php echo $cidade->idcidade?>"><?php echo $cidade->nome ?></option>
+                                    <option value="<?php echo $cidade->nome ?>"><?php echo $cidade->nome ?></option>
                                 <?php endforeach;?>  
 
                          </select>
@@ -150,29 +153,25 @@
                         <input type="text" id="masked_CEP" name="masked_CEP_user" placeholder="CEP" class="form-control" >
                     </div> 
                     <div class="col-md-4">
-                        <input type="text" id="user_end" name="user_end_user" placeholder="Endereço" class="form-control" >
+                        <input type="text" id="user_end" name="user_end" placeholder="Endereço" class="form-control" >
                     </div>   
                 </div>
                 
                 <div class="form-group">
-                    <label class="col-md-4 control-label" for="user-role">Eu Sou</label>
+                    <label class="col-md-4 control-label" for="user_role">Eu Sou</label>
                     <div class="col-md-6">                 
-                         <select id="user-role" name="user-role" class="select-chosen" data-placeholder="Forma de Atuação" style="width: 250px;">
-                               
-                                <option value="0">Tipo de Acesso</option>
-                                <option value="3">Agência</option>
-                                <option value="4">Candidato</option>
-                                <option value="5">Consultor</option>
-                                <option value="6">Equipe</option>
-                                <option value="7">Gestor Público</option>
-                                <option value="8">Partido/Franqueado</option>                              
-
+                         <select id="user_role" name="user_role" class="form-control" >
+                                <option value="">Tipo de Acesso</option>
+                                <option value="Agência">Agência</option>
+                                <option value="Candidato">Candidato</option>
+                                <option value="Consultor">Consultor</option>
+                                <option value="Equipe">Equipe</option>
+                                <option value="Gestor">Gestor Público</option>
+                                <option value="Partido">Partido/Franqueado</option>                              
                          </select>
-                        <?php echo $role; ?>
                     </div>
                 </div>
-                
-                
+                               
                 
             </div>
             <!-- END First Step -->
@@ -426,8 +425,42 @@
 
                 </div>
                 
-            <div class="form-group">                  
-            </div>  
+                <div class="form-group">
+                        <fieldset>
+                            <legend><i class="fa fa-angle-right"></i> Adicionar Redes Sociais</legend>
+                            <br>
+                            <label class="col-md-1 control-label"> </label>
+                            <div class="col-md-5">
+                                <div class="input-group">
+                                  <span class="input-group-addon"><i class="si si-facebook"></i></span>
+                                  <input type="text" id="val_website" name="val_website" class="form-control" value="">    
+                                </div>
+                            </div>
+                            <div class="col-md-5">
+                                <div class="input-group">
+                                  <span class="input-group-addon"><i class="si si-twitter"></i></span>
+                                  <input type="text" id="val_website" name="val_website" class="form-control" value="">    
+                                </div>
+                            </div>
+                        </fieldset>
+                    
+                        <fieldset> 
+                            <label class="col-md-1 control-label"> </label>
+                            <div class="col-md-5">
+                                <div class="input-group">
+                                  <span class="input-group-addon"><i class="si si-google_plus"></i></span>
+                                  <input type="text" id="val_website" name="val_website" class="form-control" value="">    
+                                </div>
+                            </div>
+                            <div class="col-md-5">
+                                <div class="input-group">
+                                  <span class="input-group-addon"><i class="si si-instagram"></i></span>
+                                  <input type="text" id="val_website" name="val_website" class="form-control" value="">    
+                                </div>
+                            </div>
+                        </fieldset>
+   
+                </div>  
                 
             </div>
             <!-- END Third Step -->
@@ -497,24 +530,45 @@
                 
                 <div class="form-group">   
                     
+                       <label class="col-md-2 control-label" for="regras_campanha">Nível de Acesso</label> 
+                         <div class="col-md-8">
+                       
+                               <label class="checkbox-inline" for="example-inline-checkbox1">
+                                   <input type="checkbox" id="example-inline-checkbox1" name="example-inline-checkbox1" value="option1"> Ver Informações
+                               </label>
+                               <label class="checkbox-inline" for="example-inline-checkbox2">
+                                   <input type="checkbox" id="example-inline-checkbox2" name="example-inline-checkbox2" value="option2"> Atualizar Dados
+                               </label>
+                               <label class="checkbox-inline" for="example-inline-checkbox3">
+                                   <input type="checkbox" id="example-inline-checkbox3" name="example-inline-checkbox3" value="option3"> Excluir Dados
+                               </label>
+                         </div>     
+ 
                 </div>
+                        
+                <div class="form-group">      
+                       <label class="col-md-2 control-label" for="regras_campanha">Gestão Campanha</label> 
+                         <div class="col-md-8">
+                               <label class="checkbox-inline" for="example-inline-checkbox3">
+                                   <input type="checkbox" id="example-inline-checkbox3" name="example-inline-checkbox3" value="option4"> Criar Campanhas
+                               </label>
+                               <label class="checkbox-inline" for="example-inline-checkbox3">
+                                   <input type="checkbox" id="example-inline-checkbox3" name="example-inline-checkbox3" value="option5"> Gestão Financeira
+                               </label>
+                               <label class="checkbox-inline" for="example-inline-checkbox3">
+                                   <input type="checkbox" id="example-inline-checkbox3" name="example-inline-checkbox3" value="option6"> Enviar Mensagens
+                               </label>
+                         </div>     
+                </div>                        
+                        
                 
+
                 <div class="form-group">
-                    <label class="col-md-4 control-label" for="example-clickable-newsletter">Newsletter</label>
-                    <div class="col-md-8">
-                        <div class="checkbox">
-                            <label for="example-clickable-newsletter">
-                                <input type="checkbox" id="example-clickable-newsletter" name="example-clickable-newsletter">  Sign up
-                            </label>
-                        </div>
-                    </div>
-                </div>
-                        <div class="form-group">
-                    <label class="col-md-4 control-label"><a href="#modal-terms" data-toggle="modal">Terms</a></label>
-                    <div class="col-md-8">
+                    <label class="col-md-8 control-label"><a href="#modal-terms" data-toggle="modal">Termos de Uso</a></label>
+                    <div class="col-md-2">
                         <label class="switch switch-primary" for="example-clickable-terms">
                             <input type="checkbox" id="example-clickable-terms" name="example-clickable-terms" value="1">
-                            <span data-toggle="tooltip" title="I agree to the terms!"></span>
+                            <span data-toggle="tooltip" title="Estou de Acordo com os Termos de Uso!"></span>
                         </label>
                     </div>
                 </div>

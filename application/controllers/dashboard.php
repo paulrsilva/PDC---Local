@@ -284,6 +284,54 @@ class dashboard extends CI_Controller {
                     } 
         }
         
+        public function atualiza_usuario() {
+
+            $this->load->helper(array('form', 'url'));
+
+            $this->load->library('form_validation');
+            
+            //var_dump($_POST);
+            
+           $idUsuario = $this->PDCModel->PegaIdUser($this->session->userdata['email']);
+           
+           //$post = $this->input->post();
+           
+            $dataUsuario = array(
+                'username'=>  $this->input->post('nome_usuario'),
+                'sexo'=> $this->input->post('sexo_user'),
+                'CPF'=> $this->input->post('masked_cpf_user'),
+                'Data_Nascimento'=> $this->input->post('masked_nasc_user'),
+                'NumCelular'=> $this->input->post('masked_cel_user'),
+                'NumFixo'=> $this->input->post('masked_phone_user'),
+                'UF'=> $this->input->post('user-UF'),
+                'Cidade'=>  $this->input->post('user-cidade'),
+                'CEP'=>  $this->input->post('masked_CEP_user'),
+                'End'=> $this->input->post('user_end'),
+                'role'=> $this->input->post('user_role')
+            );
+           
+           if ($this->PDCModel->atualizaCadastroUser($idUsuario, $dataUsuario)){
+               echo 'atualizado com sucesso';
+           } else {
+               echo 'problema de atualização';
+           }
+            
+           /**
+           echo $idUsuario;
+           echo "<br>";
+           echo $data['username'];
+           echo $data['CPF'];
+
+           echo validation_errors();
+            * 
+            */
+           
+           
+           //atualizaCadastro
+                     
+        }
+        
+        
         public function complete()
         {                                   
             $token = base64_decode($this->uri->segment(4));       
@@ -455,19 +503,38 @@ class dashboard extends CI_Controller {
         }
         
         public function finalizaCadastro($idestado, $page='add_candidato'){
-          if ( ! file_exists(APPPATH.'views/'.$page.'.php'))
-            {
-                // Whoops, we don't have a page for that!
-                show_404(); 
+            
+           $sessao_ativa = $this->verifica_sessao();            
+            if ($sessao_ativa==TRUE){
+                if ( ! file_exists(APPPATH.'views/'.$page.'.php'))
+                 {
+                     // Whoops, we don't have a page for that!
+                     show_404(); 
+                 }
+                 $this->load->helper('url');
+                 $data['estado']=$this->PDCModel->lista_estados();
+                 $data['uf_selecionada']=  $this->PDCModel->estado_selecionado($idestado);
+                 $data['cidade']=$this->PDCModel->lista_cidades($idestado);
+                 $data['partidos']=$this->PDCModel->lista_partidos();
+                 //$data['usuario'] =  $this->PDCModel->carregaDadosCadastro();
+                 $this->load->view('/'.$page, $data); 
+                 
+            } else {
+                $this->login(); 
             }
-            $this->load->helper('url');
-            $data['estado']=$this->PDCModel->lista_estados();
-            $data['uf_selecionada']=  $this->PDCModel->estado_selecionado($idestado);
-            $data['cidade']=$this->PDCModel->lista_cidades($idestado);
-            $data['partidos']=$this->PDCModel->lista_partidos();
-            $this->load->view('/'.$page, $data);
         }
         
+        
+        public function gerenciarEquipe($page='add_equipe'){
+            if ( ! file_exists(APPPATH.'views/admin/'.$page.'.php')) {
+                     // Whoops, we don't have a page for that!
+                     show_404(); 
+            }
+            $this->load->helper('url');
+            $this->load->view('/admin/'.$page, $data); 
+        }   
+
+
         public function mostra_ufs(){
             //$query = $this->db->query('SELECT * FROM estado');
             

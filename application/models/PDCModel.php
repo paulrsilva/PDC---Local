@@ -29,12 +29,12 @@ Class PDCModel extends CI_Model {
 
     // Query to insert data in database
     $this->db->insert('user_login', $data);
-    if ($this->db->affected_rows() > 0) {
-    return true;
-    }
-    } else {
-    return false;
-    }
+        if ($this->db->affected_rows() > 0) {
+            return true;
+            }
+            } else {
+            return false;
+        }
     }
 
     
@@ -128,7 +128,59 @@ Class PDCModel extends CI_Model {
         return $user_info; 
     }
     
-      public function getUserInfo($id)
+    public function carregaDadosCadastro(){
+                
+        $query = $this->db->query("SELECT * from users WHERE id='32'");
+        if ($query->num_rows() == 1) {
+            return $query->result();
+        } else {
+            return false;
+        }
+        
+    }
+
+
+    public function atualizaCadastro($id, $data){
+        
+         $string = array(
+                'username'=>$data['user_username'],
+                'sexo'=>$data['register-lastname'],
+                'CPF'=>$data['masked_CPF'],
+                'Data_Nascimento'=>$data['masked_date'],
+                'NumCelular'=>$data['masked_cel_user'], 
+                'NumFixo'=>$data['masked_phone_user'], 
+                'UF'=>$data['user-UF'], 
+                'Cidade'=>$data['user-cidade'],
+                'CEP'=>$data['masked_cep_user'],
+                'End'=>$data['user_end'],             
+                'role'=>$data['user-role']
+                //'status'=>$this->status[0]
+            );
+            $q = $this->db->insert_string('users',$string);             
+            $this->db->query($q);
+        
+        $this->db->where('id', $id);
+        $this->db->update('users',$data);
+        
+    }
+    
+    public function atualizaCadastroUser($id, $data){
+        $this->db->where('id', $id);
+        $this->db->update('users',$data);
+        
+        $success = $this->db->affected_rows(); 
+              
+        if(!$success){
+            echo 'impossivel atualizar user';
+            error_log('Impossível atualizar o usuário ('.$id.')');
+            return false;
+        }
+        
+        return TRUE;
+        
+    }
+
+    public function getUserInfo($id)
     {
         $q = $this->db->get_where('users', array('id' => $id), 1);  
         if($this->db->affected_rows() > 0){
@@ -159,7 +211,7 @@ Class PDCModel extends CI_Model {
                    'email' => $rows->email,
                    'logged_in' => TRUE,
                    'nome' => $rows->first_name,
-                    'sobrenome' =>$rows->last_name,
+                   'sobrenome' =>$rows->last_name,
                     );     
                 
                 $idUsuario = $rows->id;
@@ -206,6 +258,7 @@ Class PDCModel extends CI_Model {
         }
     }   
     
+    
     public function updatePassword($post)
     {   
         $this->db->where('id', $post['user_id']);
@@ -249,9 +302,9 @@ Class PDCModel extends CI_Model {
         } else {
             $idUf=$idestado;
         }
-        $query = $this->db->query("SELECT nome from estado WHERE idestado=$idUf");
+        $query = $this->db->query("SELECT * from estado WHERE idestado=$idUf");
         $row = $query->row();
-        return $row->nome;
+        return $row->uf; //Mudar para que seja apresentado a UF Completa
     }
 
 
@@ -284,6 +337,27 @@ Class PDCModel extends CI_Model {
     * 
     */
     
+    public function PegaIdUser($idusuario){
+        
+        // Ampliar para pegar a id de usuário pelo email ou celular
+        
+        $query = $this->db->query("select * from users where email='$idusuario'");
+
+        $row = $query->row();
+
+        if (isset($row))
+        {
+                // echo $row->id;
+                // echo $row->first_name;
+                // echo $row->last_name;
+                return $row->id;
+        } else {
+            return '000';
+        }
+          
+ 
+        
+    }
 
 
 }
