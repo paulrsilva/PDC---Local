@@ -84,9 +84,16 @@
                                 <input type="text" id="masked_cpf" name="masked_cpf_user" value="<?php echo $usuario->CPF; ?>" class="form-control" maxlength="14"  />
                             </div>    
                     </div>
+                    
+                    <?php 
+                        $date = new DateTime($usuario->Data_Nascimento);
+                        $dataNascimentoUser = $date->format('d/m/Y');
+                    ?>
                     <div class="col-md-3">
-                        <input type="text" id="masked_date" name="masked_nasc_user" class="form-control" placeholder="Data de Nasc.">
+                        <input type="text" id="masked_date" name="masked_nasc_user" class="form-control" placeholder="Data Nascimento" value="<?php echo $dataNascimentoUser;?>">
                     </div>
+                    
+                    
                     
                 </div>
                
@@ -124,9 +131,12 @@
                                     <option value="<?php echo $uf->idestado?>"><?php echo $uf->nome ?></option>
                                 <?php endforeach;?>  
                                  
-                                    
-                                    <option selected="selected"><?php echo $uf_selecionada; ?></option>   
-                         </select>                
+                                
+                            <option selected='selected'><?php echo $uf_selecionada; ?></option>
+          
+                         </select> 
+
+                        
                         
                         <script type="text/javascript">
                             function getval(iduf) {
@@ -136,9 +146,11 @@
                               if (iduf.selectedIndex !=''){
                                   var uf_cidades = iduf.value;
                                   document.location=('./finalizaCadastro/' + uf_cidades); 
-                              }    
+                              }  
                             }
-                        </script>                     
+                        </script>              
+                        
+                       
                     </div>
                     
                     <div class="col-md-3">                 
@@ -148,7 +160,14 @@
                                 <?php foreach($cidade as $cidade):?>
                                     <option value="<?php echo $cidade->nome ?>"><?php echo $cidade->nome ?></option>
                                 <?php endforeach;?>  
-
+                                    
+                                <?php 
+                                        if (isset($usuario->Cidade)){
+                                            echo "<option selected='selected'> $usuario->Cidade </option>";
+                                        }                  
+                                ?>
+                                    
+                            
                          </select>
                     </div>
 
@@ -156,10 +175,10 @@
                 <div class="form-group">
                     <label class="col-md-4 control-label" for="masked_CEP">Endereço</label>
                     <div class="col-md-2">
-                        <input type="text" id="masked_CEP" name="masked_CEP_user" placeholder="CEP" class="form-control" >
+                        <input type="text" id="masked_CEP" name="masked_CEP_user" placeholder="CEP" value="<?php echo $usuario->CEP; ?>"class="form-control" >
                     </div> 
                     <div class="col-md-4">
-                        <input type="text" id="user_end" name="user_end" placeholder="Endereço" class="form-control" >
+                        <input type="text" id="user_end" name="user_end" placeholder="Endereço" value="<?php echo $usuario->End; ?>" class="form-control" >
                     </div>   
                 </div>
                 
@@ -173,10 +192,23 @@
                                 <option value="Consultor">Consultor</option>
                                 <option value="Equipe">Equipe</option>
                                 <option value="Gestor">Gestor Público</option>
-                                <option value="Partido">Partido/Franqueado</option>                              
+                                <option value="Partido">Partido/Franqueado</option>
+                                                          
+                                        
+                                <option selected='selected'><?php echo $usuario->role; ?></option>
                          </select>
+                        
+                                
                     </div>
                 </div>
+                
+                <div class="form-group">
+     
+                    <label class="col-md-4 control-label"><a href="#modal-foto_user" data-toggle="modal">Enviar Foto</a></label>
+                    <div class="col-md-3">
+                        <input type="file" id="example-file-input" name="user_foto" >
+                    </div>
+                </div> 
                                
                 
             </div>
@@ -622,6 +654,31 @@
         </div>
     </div>
     <!-- END Terms Modal -->
+    
+    <!-- Enviar Foto Modal -->
+    <div id="modal-foto_user" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h3 class="modal-title"><i class="gi gi-user_add"></i> Enviar Foto do Usuário</h3>
+                </div>
+                <div class="modal-body">
+                    <?php echo $error;?> <!-- Error Message will show up here -->
+                    <?php echo form_open_multipart('dashboard/do_upload');?>
+                    <?php echo "<input type='file' name='userfile' size='20' />"; ?>
+                    <?php echo "<input type='submit' name='submit' value='upload' /> ";?>
+                    <?php echo "</form>"?>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-sm btn-primary" data-dismiss="modal">Finalizado</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Fim Enviar Foto Modal -->
+    
+    
 
 <!-- END Page Content -->
 

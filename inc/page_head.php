@@ -91,7 +91,7 @@ $this->load->helper('url');
                     <li>
                         <a href="javascript:void(0)" class="chat-user-online">
                             <span></span>
-                            <img src="<?php echo base_url(); ?>images/placeholders/avatars/avatar12.jpg" alt="avatar" class="img-circle">
+                            <img src="<?php echo base_url(); ?>images/placeholders/usuarios/Paul2.jpg" alt="avatar" class="img-circle">
                         </a>
                     </li>
                     <li>
@@ -167,8 +167,8 @@ $this->load->helper('url');
                 <div class="chat-talk display-none">
                     <!-- Chat Info -->
                     <div class="chat-talk-info sidebar-section">
-                        <img src="<?php echo base_url(); ?>images/placeholders/avatars/AvatarFGz.jpg" alt="avatar" class="img-circle pull-left">
-                        <strong>Francisco Garcez</strong> 45145
+                        <img src="<?php echo base_url(); ?>images/placeholders/usuarios/Paul2.jpg" alt="avatar" class="img-circle pull-left">
+                        <strong><?php echo $nome ?> </strong> online
                         <button id="chat-talk-close-btn" class="btn btn-xs btn-default pull-right">
                             <i class="fa fa-times"></i>
                         </button>
@@ -644,7 +644,7 @@ $this->load->helper('url');
                 <!-- User Dropdown -->
                 <li class="dropdown">
                     <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">
-                        <img src="<?php echo base_url(); ?>images/placeholders/avatars/AvatarFGz.jpg" alt="avatar"> <i class="fa fa-angle-down"></i>
+                        <img src="<?php echo base_url(); ?>images/placeholders/usuarios/Paul2.jpg" alt="avatar"> <i class="fa fa-angle-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-custom dropdown-menu-right">
                         <li class="dropdown-header text-center">Conta</li>

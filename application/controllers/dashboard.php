@@ -286,21 +286,26 @@ class dashboard extends CI_Controller {
         
         public function atualiza_usuario() {
 
-            $this->load->helper(array('form', 'url'));
-
+            $this->load->helper(array('form', 'url', 'date'));
+            
             $this->load->library('form_validation');
             
-            //var_dump($_POST);
+            var_dump($_POST);
             
-           $idUsuario = $this->PDCModel->PegaIdUser($this->session->userdata['email']);
-           
+            $InfoUsuario = $this->PDCModel->PegaDadosUser($this->session->userdata['email']);
+
+            $idUsuario = $InfoUsuario->id;
+            
+            $nascimento_user = mdate( "%Y-%d-%m",strtotime($this->input->post('masked_nasc_user'))); //convertendo p/ Data p/o MySQL
+            
+            
            //$post = $this->input->post();
            
             $dataUsuario = array(
                 'username'=>  $this->input->post('nome_usuario'),
                 'sexo'=> $this->input->post('sexo_user'),
                 'CPF'=> $this->input->post('masked_cpf_user'),
-                'Data_Nascimento'=> $this->input->post('masked_nasc_user'),
+                'Data_Nascimento'=>$nascimento_user,
                 'NumCelular'=> $this->input->post('masked_cel_user'),
                 'NumFixo'=> $this->input->post('masked_phone_user'),
                 'UF'=> $this->input->post('user-UF'),
@@ -310,21 +315,39 @@ class dashboard extends CI_Controller {
                 'role'=> $this->input->post('user_role')
             );
            
+
            if ($this->PDCModel->atualizaCadastroUser($idUsuario, $dataUsuario)){
                echo 'atualizado com sucesso';
            } else {
                echo 'problema de atualização';
            }
-            
-           /**
-           echo $idUsuario;
-           echo "<br>";
-           echo $data['username'];
-           echo $data['CPF'];
+  
 
-           echo validation_errors();
-            * 
-            */
+            
+           // echo $nascimento_user;
+            
+            //$nascimento = date('Y-m-d', strtotime($dataUsuario['Data_Nascimento']));
+           
+            /**
+            echo $InfoUsuario->username;
+            echo "<br>";
+            echo $InfoUsuario->id;
+            echo "<br>";
+
+            echo $dataUsuario['username'];
+            echo "<br>";
+            echo $dataUsuario['Data_Nascimento'];
+             echo mdate( "%Y-%m-%d",strtotime($dataUsuario['Data_Nascimento']));
+            echo "<br>";
+            echo $nascimento_user;
+            //echo date(DATE_ISO8601,$dataUsuario['Data_Nascimento']);
+            //echo $data['username'];
+            //echo $data['CPF'];
+
+            echo validation_errors();
+             * 
+             */
+        
            
            
            //atualizaCadastro
@@ -504,19 +527,29 @@ class dashboard extends CI_Controller {
         
         public function finalizaCadastro($idestado, $page='add_candidato'){
             
-           $sessao_ativa = $this->verifica_sessao();            
+           $sessao_ativa = $this->verifica_sessao(); 
+           
             if ($sessao_ativa==TRUE){
                 if ( ! file_exists(APPPATH.'views/'.$page.'.php'))
                  {
                      // Whoops, we don't have a page for that!
                      show_404(); 
                  }
-                 $this->load->helper('url');
+                 //$idUsuario = $this->PDCModel->PegaIdUser($this->session->userdata['email']);
+                 
+                 $this->load->helper(array('form', 'url', 'date'));
+                 $this->load->library('upload');
+                 
+                 $data['usuario'] =  $this->PDCModel->PegaDadosUser($this->session->userdata['email']);
                  $data['estado']=$this->PDCModel->lista_estados();
-                 $data['uf_selecionada']=  $this->PDCModel->estado_selecionado($idestado);
+                 
+                 $EstadoDB = $this->PDCModel->PegaUFSelecionada($data['usuario']->UF);
+                 
+                 $data['uf_selecionada']=  $this->PDCModel->estado_selecionado($idestado, $EstadoDB); //manda o estado selecionado JS e o que esta no BD
                  $data['cidade']=$this->PDCModel->lista_cidades($idestado);
                  $data['partidos']=$this->PDCModel->lista_partidos();
-                 //$data['usuario'] =  $this->PDCModel->carregaDadosCadastro();
+
+                 
                  $this->load->view('/'.$page, $data); 
                  
             } else {
@@ -689,6 +722,198 @@ class dashboard extends CI_Controller {
             $this->load->view('/'.$page);
         }
     
+       public function teste2($page='upload_sucess'){
+           
+         
+         $this->load->helper(array('form', 'url', 'date'));
+         
+            //Pegando informações do usuário
+         $InfoUsuario = $this->PDCModel->PegaDadosUser($this->session->userdata['email']);
+         $idUsuario = $InfoUsuario->id;
+    
+         echo $idUsuario.'_'.date('dmY-h');
+         echo "<br>";
+         //echo standard_date([$fmt = 'DATE_RFC822'[, $time = NULL]]);
+         
+
         
+       }
+       
+       public function file_view(){
+        $page='file_view';
+        $this->load->helper('url');
+        $this->load->view('/'.$page, array('error' => ' ' ));
+
+       }      
+       
+       public function do_upload(){
+        
+        $this->load->helper('array','date');
+        $this->load->library('table');
+   
+        $InfoUsuario = $this->PDCModel->PegaDadosUser($this->session->userdata['email']);
+        $idUsuario = $InfoUsuario->id;
+        
+        $config = array(
+        'upload_path' => "./images/placeholders/usuarios",
+        'allowed_types' => "gif|jpg|png|jpeg|pdf",
+        'overwrite' => TRUE,
+        'max_size' => "2048000", // Can be set to particular file size , here it is 2 MB(2048 Kb)
+        'max_height' => "768",
+        'max_width' => "1024"
+        );
+        
+        
+        //Mudando o nome da foto enviada
+        // Formato: = idUser_data.formatoArquivo
+
+        $new_name = $idUsuario.'_'.date('dmY-h').$_FILES["userfiles"]['name'];
+        
+        $config['file_name'] = $new_name;
+        
+        
+        //Fim mudando nome do arquivo de foto
+        
+        $this->load->library('upload', $config);
+        
+        if($this->upload->do_upload())
+        {
+            $data = array('upload_data' => $this->upload->data());
+            
+            $extencaoNome = element('file_ext' , $data['upload_data']); //pegando extencao nome
+            
+            $novaFotoUser = $new_name.$extencaoNome;
+
+            $page='upload_sucess';
+            
+            $this->AtualizaFotoUserDB($idUsuario, $novaFotoUser);
+            //$this->load->helper('url');
+            //$this->load->view('/'.$page, $data);
+
+         /**   
+            var_dump($data);
+            echo "<br>";
+            echo element('file_name', $data['upload_data']); //*Works
+            
+            echo "<br>";
+            echo $new_name;
+            //$data['upload_data']='xxx.jpg';
+                        
+            echo "<br>";
+            
+            echo element('file_name', $data['upload_data']);
+            
+            echo "<br>";
+            
+            echo element('file_ext' , $data['upload_data']);
+            echo "<br>";
+            echo $novaFotoUser;
+            
+            //$result = $data->result();       
+            //print_r($data);
+  
+           // echo "<br>";
+            
+           // $replacement = array('file_name' => 'xxx.jpe');
+            
+           // $data2 = array_replace($data['upload_data'],$replacement);
+            
+           // echo "<br>";
+          //  var_dump($data2);
+          * 
+          */
+            
+            
+        }
+        else
+        {
+            $error = array('error' => $this->upload->display_errors());
+            $page='upload_sucess';
+            $this->load->helper('url');
+            $this->load->view('/'.$page, $error);
+        }
+       }
+      
+       
+       public function AtualizaFotoUserDB($idUser, $nomeArquivo){
+        
+        //tualizando o nome no array para o mysql
+            $dataUsuario = array(
+                //'foto_user'=>  $this->input->post('nome_usuario')
+                'foto_user'=>  $nomeArquivo
+            );
+            
+            if ($this->PDCModel->AtualizaFotoUser($idUser, $dataUsuario)){
+                    echo 'atualizado com sucesso';
+                } else {
+                    echo 'problema de atualização';
+            }  
+           
+           
+       }
+
+
+       public function AtualizaFotoUser()
+       {
+            $this->load->helper(array('form', 'url', 'array'));
+            $this->load->library('form_validation');
+            
+            //Pegando informações do usuário
+            $InfoUsuario = $this->PDCModel->PegaDadosUser($this->session->userdata['email']);
+            $idUsuario = $InfoUsuario->id;
+            
+            
+            
+            //Configurando atributos de envio de foto
+            $config = array(
+                'upload_path' => "./images/placeholders/usuarios",
+                'allowed_types' => "gif|jpg|png|jpeg|pdf",
+                'overwrite' => TRUE,
+                'max_size' => "2048000", // Can be set to particular file size , here it is 2 MB(2048 Kb)
+                'max_height' => "768",
+                'max_width' => "1024"
+            );
+
+
+               // Mudando o nome da foto enviada
+                //Formato: = idUser_data.formatoArquivo
+ 
+            //$new_name = time().$_FILES["userfiles"]['name'];
+
+            $new_name = $idUsuario.'_'.date('dmY-h').$_FILES["userfiles"]['name'];
+            $config['file_name'] = $new_name;
+            //Fim mudando nome do arquivo de foto
+            
+            //tualizando o nome no array para o mysql
+            $dataUsuario = array(
+                //'foto_user'=>  $this->input->post('nome_usuario')
+                'foto_user'=>  $new_name
+            );
+            
+            //Carregando biblioteca de envio com as conf. definidas
+            $this->load->library('upload', $config);
+    
+            //Dados de Sucesso ou Erro
+           if($this->upload->AtualizaFotoUser()){
+                $data = array('upload_data' => $this->upload->data());
+                echo "Atualizado com Sucesso";
+                var_dump($data);
+           } else
+            {
+                $error = array('error' => $this->upload->display_errors());
+                $page='upload_sucess';
+                $this->load->helper('url');
+                $this->load->view('/'.$page, $error);
+            }
+           
+            //atualizando o nome no BD
+           if ($this->PDCModel->AtualizaFotoUser($idUsuario, $dataUsuario)){
+               echo 'atualizado com sucesso';
+           } else {
+               echo 'problema de atualização';
+           }
+            
+            
+       }
         
 }

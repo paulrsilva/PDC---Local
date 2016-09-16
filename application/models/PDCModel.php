@@ -128,14 +128,14 @@ Class PDCModel extends CI_Model {
         return $user_info; 
     }
     
-    public function carregaDadosCadastro(){
+    public function carregaDadosCadastro($userID){
                 
-        $query = $this->db->query("SELECT * from users WHERE id='32'");
-        if ($query->num_rows() == 1) {
-            return $query->result();
-        } else {
-            return false;
-        }
+        $this->db->select('*');
+        $this->db->from('users');
+        $this->db->where('id', $userID);
+        $query = $this->db->get();
+        $result = $query->result();
+        return $result;
         
     }
 
@@ -295,13 +295,35 @@ Class PDCModel extends CI_Model {
         return $query_result;
     }
     
+    public function PegaUFSelecionada ($UF_db){
+
+         //$query = $this->db-query("select idestado from estado where uf='PR'");
+         //$row = $query->row();
+         $query = $this->db->query("SELECT idestado from estado WHERE uf='$UF_db'");
+         $row = $query->row();
+         return $row->idestado; 
+    }
+    
     //Retorna apenas uma linha com o estado selecionado
-    public function estado_selecionado($idestado){ 
+    public function estado_selecionado($idestado, $UF_db){ 
+        
+        /**
         if (!isset($idestado)){
             $idUf=18; //Se ão estiver definido na chamada, puxa as cidades do PR
         } else {
             $idUf=$idestado;
         }
+         * 
+         */
+        
+        if (isset($idestado)){
+            $idUf=$idestado;
+        } else if (isset($UF_db)) {
+            $idUf=$UF_db;
+        } else {
+            $idUf=18; //Se ão estiver definido na chamada, puxa as cidades do PR
+        }
+        
         $query = $this->db->query("SELECT * from estado WHERE idestado=$idUf");
         $row = $query->row();
         return $row->uf; //Mudar para que seja apresentado a UF Completa
@@ -337,7 +359,7 @@ Class PDCModel extends CI_Model {
     * 
     */
     
-    public function PegaIdUser($idusuario){
+    public function PegaDadosUser($idusuario){
         
         // Ampliar para pegar a id de usuário pelo email ou celular
         
@@ -350,13 +372,26 @@ Class PDCModel extends CI_Model {
                 // echo $row->id;
                 // echo $row->first_name;
                 // echo $row->last_name;
-                return $row->id;
+                return $row;
+                
         } else {
-            return '000';
+            return false;
         }
-          
- 
+    }
+    
+    public function AtualizaFotoUser ($id,$data) {
+        $this->db->where('id', $id);
+        $this->db->update('users',$data);
         
+        $success = $this->db->affected_rows(); 
+              
+        if(!$success){
+            echo 'impossivel atualizar foto usuario';
+            error_log('Impossível atualizar o usuário ('.$id.')');
+            return false;
+        }
+        
+        return TRUE;
     }
 
 

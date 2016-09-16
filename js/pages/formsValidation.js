@@ -114,7 +114,7 @@ var FormsValidation = function() {
             $('#masked_ssn').mask('999-99-9999');
             $('#masked_pkey').mask('a*-999-a999');
             $('#masked_cpf').mask('999.999.999/99');
-            $('#masked_cel').mask('(99) 99999-9999');
+            $('#masked_cel').mask('(99) 9999-9999');
             $('#masked_CEP').mask('99.999-999')
         }
     };
