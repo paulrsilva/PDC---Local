@@ -174,11 +174,38 @@ Class PDCModel extends CI_Model {
             echo 'impossivel atualizar user';
             error_log('Impossível atualizar o usuário ('.$id.')');
             return false;
-        }
+        }  
+        return TRUE;      
+    }
+
+    public function insereCandidato ($data)
+    {
+        /**
+        $q = $this->db->insert_string('Candidato',$data);             
+        $this->db->query($q);
+        return $this->db->insert_id();
+         * 
+         * @param type $id
+         * @return boolean
+         */
         
-        return TRUE;
+        /**
+        $string = array(
+                'Reference_id' => 32,
+                'NomeCandidato'=>$data['NomeCandidato'],
+                'Numero_Candidato' => '7777'
+
+                //'status'=>$this->status[0]
+            );
+         * 
+         */
+        
+        var_dump($data);
+        
+        $this->db->insert('Candidato',$data );
         
     }
+
 
     public function getUserInfo($id)
     {
@@ -386,12 +413,21 @@ Class PDCModel extends CI_Model {
         $success = $this->db->affected_rows(); 
               
         if(!$success){
-            echo 'impossivel atualizar foto usuario';
-            error_log('Impossível atualizar o usuário ('.$id.')');
-            return false;
+            //error_log('Impossível atualizar o usuário ('.$id.')');
+            return FALSE;
         }
         
         return TRUE;
+    }
+    
+    public function RetornaFotoUser ($idusuario){
+        $query = $this->db->query("select * from users where email='$idusuario'");
+        $row = $query->row();
+        if (isset($row)){
+            return $row;
+        }   else {
+            return FALSE;
+        }
     }
 
 

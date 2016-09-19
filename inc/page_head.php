@@ -644,10 +644,10 @@ $this->load->helper('url');
                 <!-- User Dropdown -->
                 <li class="dropdown">
                     <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">
-                        <img src="<?php echo base_url(); ?>images/placeholders/usuarios/Paul2.jpg" alt="avatar"> <i class="fa fa-angle-down"></i>
+                        <img src="<?php echo base_url().$Usuario[foto]; ?>" alt="avatar"> <i class="fa fa-angle-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-custom dropdown-menu-right">
-                        <li class="dropdown-header text-center">Conta</li>
+                        <li class="dropdown-header text-center"><?php echo $Usuario[nome] ?></li>
                         <li>
                             <a href="page_ready_timeline.php">
                                 <i class="fa fa-clock-o fa-fw pull-right"></i>

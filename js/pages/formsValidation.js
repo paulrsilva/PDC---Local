@@ -108,13 +108,17 @@ var FormsValidation = function() {
             // * - Represents an alphanumeric character (A-Z,a-z,0-9)
             $('#masked_date').mask('99/99/9999');
             $('#masked_date2').mask('99-99-9999');
+            $('#masked_nasc_cand').mask('99/99/9999');
             $('#masked_phone').mask('(99) 9999-9999');
+            $('#masked_phone_candidato').mask('(99) 9999-9999');
             $('#masked_phone_ext').mask('(999) 999-9999? x99999');
             $('#masked_taxid').mask('99-9999999');
             $('#masked_ssn').mask('999-99-9999');
             $('#masked_pkey').mask('a*-999-a999');
             $('#masked_cpf').mask('999.999.999/99');
+            $('#masked_cpf_candidato').mask('999.999.999/99');
             $('#masked_cel').mask('(99) 9999-9999');
+            $('#masked_cel_candidato').mask('(99) 9999-9999');
             $('#masked_CEP').mask('99.999-999')
         }
     };

@@ -10,12 +10,13 @@ class dashboard extends CI_Controller {
 
     public function __construct() {
             parent::__construct();
+            $this->load->helper('url','array','date','security');
             $this->load->model('PDCModel');
-            $this->load->helper('url');
+            //$this->load->helper('url');
             $this->load->library('form_validation');
             $this->load->library('xmlrpc');
             $this->load->library('xmlrpcs');
-            $this->load->helper('security');
+            //$this->load->helper('security');
             $this->form_validation->set_error_delimiters('<div class="error">', '</div>');
             $this->status = $this->config->item('status');
             $this->roles = $this->config->item('roles');
@@ -175,11 +176,18 @@ class dashboard extends CI_Controller {
 
         public function dash ($page='dashboard')
         {
+           $this->load->helper('array','date');
            if ( ! file_exists(APPPATH.'views/admin/'.$page.'.php'))
             {
                 // Whoops, we don't have a page for that!
                 show_404(); 
             }
+            
+            $DadosUsuario = array(
+                    'nome' => $this->session->nome,
+                    'foto' => $this->FotoUsuario()
+            );
+            
             $data['title'] = ucfirst($page); // Colocar o nome do candidato aqui
             $data['PeriodoDoDia'] = $this->PeriodoDia();
             $data['orcamento']= $this->orcamento();
@@ -187,6 +195,8 @@ class dashboard extends CI_Controller {
             $data['avisos']= $this->avisos();
             $data['localizacao']= $this->localizacao();
             $data['PrevisaoTempo']= $this->PrevisaoTempo();
+            //$data['fotoUsuario']= $this->FotoUsuario();
+            $data['Usuario']=$DadosUsuario;
             //$data['listaEstados']=  $this->listaEstados();
             $this->load->view('admin/'.$page, $data);
         }
@@ -317,10 +327,53 @@ class dashboard extends CI_Controller {
            
 
            if ($this->PDCModel->atualizaCadastroUser($idUsuario, $dataUsuario)){
-               echo 'atualizado com sucesso';
+               echo 'Usuário atualizado com sucesso'/n;
            } else {
                echo 'problema de atualização';
            }
+           
+           $nascimento_candidato = mdate( "%Y-%d-%m",strtotime($this->input->post('masked_nasc_candidato'))); //convertendo p/ Data p/o MySQL
+           
+           $dataCandidato = array (
+                   'Reference_id'=> $idUsuario, //verificar se alguem já referenciou o candidato
+                   'NomeCandidato'=> $this->input->post('nome_candidato'),
+                   'CPF_Candidato'=> $this->input->post('masked_cpf_candidato'),
+                   'foto'=> $this->input->post('fotoCandidato-file-input'),
+                   'ApelidoPolitico'=> $this->input->post('NomeUrna_candidato'),
+                   'Sexo'=> $this->input->post('sexo_candidato'),
+                   'data_nascimento'=> $nascimento_candidato,
+                   'Email_candidato'=> $this->input->post('email_candidato'),
+                   'site'=> $this->input->post('website_canditato'),
+                   'Celular'=> $this->input->post('masked_cel_candidato'),
+                   'Telefone'=> $this->input->post('masked_phone_candidato'),
+                   'Pleito'=> $this->input->post('pleito_disputa'),
+                   'CargoDisputa'=> $this->input->post('cargo_disputa'),
+                    'UFDisputa'=> $this->input->post('local_disputa_uf'),
+                   'CidadeDisputa'=> $this->input->post('local_disputa_cidade'),
+                   'id_Partido'=> $this->input->post('partido_candidato'),
+                   'Coligacao'=> $this->input->post('coligacoes-tags'),
+                   'Numero_Candidato'=> $this->input->post('NumCandidato'),
+                   'ExerceCargo'=> $this->input->post('cb_exerceCargo'),
+                   'Reeleicao'=>  $this->input->post('cb_reeleicao'),
+                   'JaConcorreu'=>$this->input->post('cb_jaconcorreu'),
+                   //'UF_Candidato'=> $this->input->post('nome_usuario'),
+                   //'Cidade_Candidato'=> $this->input->post('nome_usuario'),
+                   //'SituacaoCandidato'=> $this->input->post('nome_usuario'),
+                   //'Endereço_Candidato'=> $this->input->post('nome_usuario')
+                   //'Obs'=> $this->input->post('nome_usuario')
+            );
+           
+           var_dump($dataCandidato);
+           
+           
+           if ($this->PDCModel->insereCandidato($dataCandidato)){
+                echo 'Candidato inserido com sucesso';
+           } else {
+               echo 'problema na insercao de candidato';
+           }
+
+
+           //$this->PDCModel->insereCandidato($dataCandidato);
   
 
             
@@ -347,11 +400,31 @@ class dashboard extends CI_Controller {
             echo validation_errors();
              * 
              */
-        
-           
-           
+    
            //atualizaCadastro
                      
+        }
+        
+        public function insereCandidato($DataCandidato){
+    
+            $InfoUsuario = $this->PDCModel->PegaDadosUser($this->session->userdata['email']);
+
+            $idUsuario = $InfoUsuario->id; 
+            
+            
+             $dataCandidato = array (
+                   'Reference_id'=> $idUsuario, //verificar se alguem já referenciou o candidato
+                   'NomeCandidato'=> 'Zé das Couves 3',
+                   'Numero_Candidato' => '24024'
+                 );
+
+            //echo 'inserindo candidato';
+             
+            var_dump($dataCandidato);
+            
+            $this->PDCModel->insereCandidato($dataCandidato);
+            
+
         }
         
         
@@ -537,6 +610,12 @@ class dashboard extends CI_Controller {
                  }
                  //$idUsuario = $this->PDCModel->PegaIdUser($this->session->userdata['email']);
                  
+                $DadosUsuario = array(
+                    'nome' => $this->session->nome,
+                    'foto' => $this->FotoUsuario()
+                );
+                 
+                 
                  $this->load->helper(array('form', 'url', 'date'));
                  $this->load->library('upload');
                  
@@ -547,7 +626,9 @@ class dashboard extends CI_Controller {
                  
                  $data['uf_selecionada']=  $this->PDCModel->estado_selecionado($idestado, $EstadoDB); //manda o estado selecionado JS e o que esta no BD
                  $data['cidade']=$this->PDCModel->lista_cidades($idestado);
+                 $data['cidadeCandidato']=$this->PDCModel->lista_cidades($idestado); //Atualizar para o estado do candidato
                  $data['partidos']=$this->PDCModel->lista_partidos();
+                 $data['Usuario']=$DadosUsuario;
 
                  
                  $this->load->view('/'.$page, $data); 
@@ -603,6 +684,7 @@ class dashboard extends CI_Controller {
             $data['estado']=$this->PDCModel->lista_estados();
             $data['uf_selecionada']=  $this->PDCModel->estado_selecionado($idestado);
             $data['cidade']=$this->PDCModel->lista_cidades($idestado);
+            $data['cidadeCandidato']=$this->PDCModel->lista_cidades(18);
             //$data['partidos']=$this->PDCModel->lista_partidos();
   
             $this->load->view('/'.$page, $data);
@@ -711,6 +793,15 @@ class dashboard extends CI_Controller {
             return '14';
         }
 
+        public function FotoUsuario(){
+         $InfoUsuario = $this->PDCModel->PegaDadosUser($this->session->userdata['email']);
+         $fotoUsuario = $InfoUsuario->foto_user;
+         $caminho = 'images/placeholders/usuarios/';
+         
+         return $caminho.$fotoUsuario;  
+
+        }
+
 
         public function dash2 ($page='admin_page')
         {
@@ -723,21 +814,24 @@ class dashboard extends CI_Controller {
         }
     
        public function teste2($page='upload_sucess'){
-           
-         
+
          $this->load->helper(array('form', 'url', 'date'));
          
             //Pegando informações do usuário
          $InfoUsuario = $this->PDCModel->PegaDadosUser($this->session->userdata['email']);
-         $idUsuario = $InfoUsuario->id;
-    
-         echo $idUsuario.'_'.date('dmY-h');
-         echo "<br>";
-         //echo standard_date([$fmt = 'DATE_RFC822'[, $time = NULL]]);
+         $fotoUsuario = $InfoUsuario->foto_user;
          
-
-        
+         echo $idUsuario;
+         
+         echo $fotoUsuario;
+    
+         //echo $idUsuario.'_'.date('dmY-h');
+         //echo "<br>";
+         //echo standard_date([$fmt = 'DATE_RFC822'[, $time = NULL]]);
+  
        }
+       
+       
        
        public function file_view(){
         $page='file_view';
@@ -746,6 +840,16 @@ class dashboard extends CI_Controller {
 
        }      
        
+       
+       public function enviaFoto($caminho, $arquivo, $usuario){
+            $this->load->helper('array','date');
+            $this->load->library('table'); 
+            
+            
+            
+       }
+
+
        public function do_upload(){
         
         $this->load->helper('array','date');
@@ -786,9 +890,15 @@ class dashboard extends CI_Controller {
 
             $page='upload_sucess';
             
-            $this->AtualizaFotoUserDB($idUsuario, $novaFotoUser);
+            if ($this->AtualizaFotoUserDB($idUsuario, $novaFotoUser)){
+                echo "<script type='text/javascript'> alert('DB atualizado com sucesso'); </script> ";
+            } else {
+                echo "<script type='text/javascript'> alert('DB  nao atualizado'); </script> ";
+            }
             //$this->load->helper('url');
             //$this->load->view('/'.$page, $data);
+            $this->finalizaCadastro();
+            
 
          /**   
             var_dump($data);
@@ -822,8 +932,7 @@ class dashboard extends CI_Controller {
           //  var_dump($data2);
           * 
           */
-            
-            
+   
         }
         else
         {
@@ -843,11 +952,14 @@ class dashboard extends CI_Controller {
                 'foto_user'=>  $nomeArquivo
             );
             
-            if ($this->PDCModel->AtualizaFotoUser($idUser, $dataUsuario)){
-                    echo 'atualizado com sucesso';
+            if ($this->PDCModel->AtualizaFotoUser($idUser, $dataUsuario)){      
+                    //echo "<script type='text/javascript'> alert('atualizado com sucesso'); </script> ";  
+                    return TRUE;
                 } else {
-                    echo 'problema de atualização';
+                    //echo "<script type='text/javascript'> alert('Erro de Atualização'); </script> ";
+                    return FALSE;
             }  
+            
            
            
        }

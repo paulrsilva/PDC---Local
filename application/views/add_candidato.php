@@ -231,9 +231,9 @@
                 
                <!-- <legend><i class="fa fa-angle-right"></i> Dados do Candidato</legend> -->
                 <div class="form-group">
-                    <label class="col-md-4 control-label" for="clickable-NomeCandidato">Nome Candidato <span class="text-danger">*</span></label>
+                    <label class="col-md-4 control-label" for="nome_candidato">Nome Candidato <span class="text-danger">*</span></label>
                     <div class="col-md-3">
-                        <input type="text" id="clickable-NomeCandidato" name="clickable-NomeCandidato" class="form-control" placeholder="Nome Completo Candidato">
+                        <input type="text" id="clickable-NomeCandidato" name="nome_candidato" class="form-control" placeholder="Nome Completo Candidato">
                     </div>
                     
                     <div class="col-md-3">
@@ -245,48 +245,48 @@
                     
                 </div>
                 <div class="form-group">
-                    <label class="col-md-4 control-label" for="clickable-NomeUrna">Nome Urna <span class="text-danger">*</span></label>
+                    <label class="col-md-4 control-label" for="NomeUrna_candidato">Nome Urna <span class="text-danger">*</span></label>
                     <div class="col-md-3">
-                        <input type="text" id="clickable-NomeUrna" name="clickable-NomeUrna" class="form-control" placeholder="Nome Político (que aparecerá na urna)">
+                        <input type="text" id="clickable-NomeUrna" name="NomeUrna_candidato" class="form-control" placeholder="Nome Político (que aparecerá na urna)">
                     </div>
                     <div class="col-md-3">
                             <label class="radio-inline" for="example-inline-radio1">
-                                <input type="radio" id="example-inline-radio1" name="example-inline-radios" value="Cmasculino"> <i class="fa fa-child"> Masc.</i>
+                                <input type="radio" id="sexoCandidato-inline-radio1" name="sexo_candidato" value="M"> <i class="fa fa-child"> Masc.</i>
                             </label>
                         
                             <label class="radio-inline" for="example-inline-radio2">
-                                <input type="radio" id="example-inline-radio2" name="example-inline-radios" value="CFeminino"> <i class="fa fa-female"> Fem.</i>
+                                <input type="radio" id="sexoCandidato-inline-radio2" name="sexo_candidato" value="F"> <i class="fa fa-female"> Fem.</i>
                             </label>                          
                     </div>        
                 </div>
                 
                 <div class="form-group">
-                    <label class="col-md-4 control-label" for="masked_cpf">CPF</label> <!-- O controle está no formValidation.js -->
+                    <label class="col-md-4 control-label" for="masked_cpf_candidato">CPF</label> <!-- O controle está no formValidation.js -->
                     <div class="col-md-3">
                              <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-credit-card"></i></span>
-                                <input type="text" id="masked_cpf" name="masked_cpf_candidato" class="form-control" maxlength="14"  />
+                                <input type="text" id="masked_cpf_candidato" name="masked_cpf_candidato" class="form-control" maxlength="14"  />
                             </div>    
                     </div>
                     <div class="col-md-3">
-                        <input type="text" id="masked_date" name="masked_nasc_candidato" class="form-control" placeholder="Data de Nasc.">
+                        <input type="text" id="masked_nasc_cand" name="masked_nasc_cand" class="form-control" placeholder="Data de Nasc.">
                     </div>
                     
                 </div>
                 
                 <div class="form-group"> 
-                    <label class="col-md-4 control-label" for="val_email">End. Eletrônicos<span class="text-danger">*</span></label>   
+                    <label class="col-md-4 control-label" for="email_candidato">End. Eletrônicos<span class="text-danger">*</span></label>   
                     <div class="col-md-3">
                        <div class="input-group">
                            <span class="input-group-addon"><i class="gi gi-envelope"></i></span>
-                           <input type="text" id="val_email" name="val_email" class="form-control" placeholder="candidato@pagina.com.br">
+                           <input type="text" id="val_email" name="email_candidato" class="form-control" placeholder="candidato@pagina.com.br">
                        </div>
                     </div>
                     
                     <div class="col-md-3">
                         <div class="input-group">
                            <span class="input-group-addon"><i class="gi gi-globe"></i></span>
-                           <input type="text" id="val_website" name="val_website" class="form-control" value="http://">    
+                           <input type="text" id="val_website" name="website_canditato" class="form-control" value="http://">    
                        </div>
                     </div>
                 </div>
@@ -296,15 +296,13 @@
                     <div class="col-md-3">
                         <div class="input-group">
                              <span class="input-group-addon"><i class="fa fa-mobile"></i></span>
-                            <input type="text" id="masked_cel" name="masked_cel_candidato" class="form-control" 
-                                   data-toggle="popover" data-placement="top" title="Nº de Celular "
-                                   data-content="Se seu celular não tem um digito '9' adicional, coloque '0' na frente ">
+                            <input type="text" id="masked_cel_candidato" name="masked_cel_candidato" class="form-control" >
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-phone"></i></span>
-                            <input type="text" id="masked_phone" name="masked_phone_candidato" class="form-control" >
+                            <input type="text" id="masked_phone_candidato" name="masked_phone_candidato" class="form-control" >
                         </div>
                     </div> 
                     
@@ -344,7 +342,13 @@
                     <div class="col-md-3">
                         
                       <select id="local_disputa_uf" name="local_disputa_uf" class="form-control">
-                          <option selected="selected"><?php echo $uf_selecionada; ?></option>
+                          
+                           <?php foreach($estado as $uf):?>
+                               <option value="<?php echo $uf->idestado?>"><?php echo $uf->nome ?></option>
+                           <?php endforeach;?>  
+
+                                
+                            <option selected='selected'><?php echo $uf_selecionada; ?></option>                         
                       </select>
                         
                     </div>
@@ -352,8 +356,8 @@
                     <div class="col-md-3">
                         <select id="local_disputa_cidade" name="local_disputa_cidade" class="select-chosen" data-placeholder="Local de Campanha">
                             <option></option><!-- Required for data-placeholder attribute to work with Chosen plugin -->  
-                                <?php foreach($cidade as $cidade):?>
-                                    <option value="<?php echo $cidade->idcidade?>"><?php echo $cidade->nome ?></option>
+                                <?php foreach($cidadeCandidato as $cidadeCandidato):?>
+                                    <option value="<?php echo $cidadeCandidato->nome?>"><?php echo $cidadeCandidato->nome ?></option>
                                 <?php endforeach;?>            
                         </select>
                         <!-- recuperar nomes de cidades -->
@@ -362,17 +366,18 @@
                 
                 
                 <div class="form-group">
-                    <label class="col-md-4 control-label" for="clickable-Partido">Partido e Nº do Candidato</label>
+                    <label class="col-md-4 control-label" for="partido_candidato">Partido e Nº do Candidato</label>
                     
                     <div class="col-md-3">
                         
-                      <select id="cadidato_partido" name="cadidato_partido" class="select-chosen" data-placeholder="Partido" onchange="getval(this);">
+                      <select id="partido_candidato" name="partido_candidato" class="select-chosen" data-placeholder="Partido" >
                             <option></option><!-- Required for data-placeholder attribute to work with Chosen plugin -->                          
                             <?php foreach($partidos as $partido):?>
-                                <option value="<?php echo $partido->id_partido?>"><?php echo $partido->SiglaPartido ?></option>
+                                <option value="<?php echo $partido->id_Partido?>"><?php echo $partido->SiglaPartido ?></option>
                             <?php endforeach;?>    
                       </select>
                        
+                      <!-- colocar o numero inicial do candidato automaticamente -->
                         
                         <!--
                        <script type="text/javascript">
@@ -391,7 +396,7 @@
                     </div>
                     
                     <div class="col-md-3">
-                            <input type="text" id="clickable-NumCandidato" name="clickable-NumCandidato" class="form-control" placeholder="Nº do Candidato">
+                            <input type="text" id="clickable-NumCandidato" name="NumCandidato" class="form-control" placeholder="Nº do Candidato">
                     </div>  
                 </div>
                 
@@ -411,13 +416,13 @@
                    <label class="col-md-4 control-label" for="example-inline-checkbox1">Histórico</label> 
                    <div class="col-md-6">
                                 <label class="checkbox-inline" for="example-inline-checkbox1">
-                                   <input type="checkbox" id="example-inline-checkbox1" name="example-inline-checkbox1" value="option1"> Exerce Cargo Eletivo
+                                   <input type="checkbox" id="example-inline-checkbox1" name="cb_exerceCargo" value="1"> Exerce Cargo Eletivo
                                </label>
                                <label class="checkbox-inline" for="example-inline-checkbox2">
-                                   <input type="checkbox" id="example-inline-checkbox2" name="example-inline-checkbox2" value="option2"> Disputando Reeleição
+                                   <input type="checkbox" id="example-inline-checkbox2" name="cb_reeleicao" value="1"> Disputando Reeleição
                                </label>
                                <label class="checkbox-inline" for="example-inline-checkbox3">
-                                   <input type="checkbox" id="example-inline-checkbox3" name="example-inline-checkbox3" value="option3"> Já Concorreu 
+                                   <input type="checkbox" id="example-inline-checkbox3" name="cb_jaconcorreu" value="1"> Já Concorreu 
                                </label>
                    </div>
 
