@@ -274,7 +274,7 @@ $this->load->helper('url');
                             <img src="<?php echo base_url(); ?>images/placeholders/avatars/AvatarFGz.jpg" alt="avatar">
                         </a>
                     </div>
-                    <div class="sidebar-user-name"><?php echo 'F.Garcez 45145' ?></div>
+                    <div class="sidebar-user-name"><?php echo $Candidato[nome]; ?> <?php echo $Candidato[numero]; ?></div> <!-- F.Garcez -->
                     <div class="sidebar-user-links">
                         <a href="user_profile" data-toggle="tooltip" data-placement="bottom" title="Profile"><i class="gi gi-user"></i></a>
                         <a href="inbox" data-toggle="tooltip" data-placement="bottom" title="Messages"><i class="gi gi-envelope"></i></a>
@@ -287,6 +287,7 @@ $this->load->helper('url');
 
                 <!-- Theme Colors -->
                 <!-- Change Color Theme functionality can be found in js/app.js - templateOptions() -->
+                
                 <ul class="sidebar-section sidebar-themes clearfix">
                     <li class="active">
                         <a href="javascript:void(0)" class="themed-background-dark-default themed-border-default" data-theme="default" data-toggle="tooltip" title="Default Blue"></a>
@@ -316,7 +317,14 @@ $this->load->helper('url');
                         <a href="javascript:void(0)" class="themed-background-dark-fire themed-border-fire" data-theme="<?php echo base_url(); ?>css/themes/fire.css" data-toggle="tooltip" title="Fire"></a>
                     </li>
                 </ul>
+                
                 <!-- END Theme Colors -->
+                
+                <!-- Lista de candidatos -->
+                
+            
+                
+                <!-- Fim da lista de candidatos -->
 
                 <?php if ($primary_nav) { ?>
                 <!-- Sidebar Navigation -->

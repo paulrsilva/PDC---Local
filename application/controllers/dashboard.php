@@ -2,10 +2,17 @@
 
 //session_start();
 
+
 class dashboard extends CI_Controller {
     
     public $status;
     public $roles;
+
+    public $VarFotoCand;
+    
+    public $VarTeste='TESTE';
+
+
 
 
     public function __construct() {
@@ -93,10 +100,7 @@ class dashboard extends CI_Controller {
                 print($feed);
                 
                 echo 'teste function';
-                
-                
-                
-                
+            
                 
                 /**
                 
@@ -183,9 +187,16 @@ class dashboard extends CI_Controller {
                 show_404(); 
             }
             
+            //$this->VarDash = 'kkkk';  //testando variavel entre funcoes
+            
             $DadosUsuario = array(
                     'nome' => $this->session->nome,
                     'foto' => $this->FotoUsuario()
+            );
+            
+            $DadosCandidato = array(
+                'nome' => 'F.Garcezz',
+                'numero' => '45000'   
             );
             
             $data['title'] = ucfirst($page); // Colocar o nome do candidato aqui
@@ -197,6 +208,7 @@ class dashboard extends CI_Controller {
             $data['PrevisaoTempo']= $this->PrevisaoTempo();
             //$data['fotoUsuario']= $this->FotoUsuario();
             $data['Usuario']=$DadosUsuario;
+            $data['Candidato']=$DadosCandidato;
             //$data['listaEstados']=  $this->listaEstados();
             $this->load->view('admin/'.$page, $data);
         }
@@ -298,8 +310,12 @@ class dashboard extends CI_Controller {
 
             $this->load->helper(array('form', 'url', 'date'));
             
+            $this->load->library('upload');
+            
             $this->load->library('form_validation');
             
+           // echo $this->VarFotoCand;
+           // echo $this->VarTeste;
             var_dump($_POST);
             
             $InfoUsuario = $this->PDCModel->PegaDadosUser($this->session->userdata['email']);
@@ -309,8 +325,12 @@ class dashboard extends CI_Controller {
             $nascimento_user = mdate( "%Y-%d-%m",strtotime($this->input->post('masked_nasc_user'))); //convertendo p/ Data p/o MySQL
             
             
+            //echo $this->VarFotoCand;
+                        
            //$post = $this->input->post();
            
+            //Atualizando Usuário
+            
             $dataUsuario = array(
                 'username'=>  $this->input->post('nome_usuario'),
                 'sexo'=> $this->input->post('sexo_user'),
@@ -332,13 +352,47 @@ class dashboard extends CI_Controller {
                echo 'problema de atualização';
            }
            
+           //inserindo candidato
+           
+           /**
+           //inserindo foto do candidato
+           
+            $config2 = array(
+               'upload_path' => "./images/placeholders/candidatos",
+               'allowed_types' => "gif|jpg|png|jpeg|pdf",
+               'overwrite' => TRUE,
+               'max_size' => "2048000", // Can be set to particular file size , here it is 2 MB(2048 Kb)
+               'max_height' => "768",
+               'max_width' => "1024"
+           );    
+            
+           $this->load->library('upload',$config2);
+           
+           if (!$this->upload->do_upload('fotoCandidato-file-input')) { //picture_upload is upload field name set in HTML eg. name="upload_field"
+                $error = array('error' => $this->upload->display_errors());
+                echo $error;
+            }else{
+                //print_r($this->upload->data()); // this is array of uploaded file consist of filename, filepath etc. print it out
+                $this->upload->data()['file_name']; // this is how you get for example "file name" of file
+                echo 'foto enviada';
+            }
+
+            //fim inserindo a foto do candidato
+            * 
+            */
+           
+           //echo $this->VarFotoCand; //Variavel global definida na classe
+           
+           
+           //$this->enviaFotoCandidato($this->input->post('candidato_foto')); - Testar mais tarde
+           
            $nascimento_candidato = mdate( "%Y-%d-%m",strtotime($this->input->post('masked_nasc_candidato'))); //convertendo p/ Data p/o MySQL
            
            $dataCandidato = array (
                    'Reference_id'=> $idUsuario, //verificar se alguem já referenciou o candidato
                    'NomeCandidato'=> $this->input->post('nome_candidato'),
                    'CPF_Candidato'=> $this->input->post('masked_cpf_candidato'),
-                   'foto'=> $this->input->post('fotoCandidato-file-input'),
+                   'foto'=> $this->input->post('FotoEnvCand'),
                    'ApelidoPolitico'=> $this->input->post('NomeUrna_candidato'),
                    'Sexo'=> $this->input->post('sexo_candidato'),
                    'data_nascimento'=> $nascimento_candidato,
@@ -356,6 +410,7 @@ class dashboard extends CI_Controller {
                    'ExerceCargo'=> $this->input->post('cb_exerceCargo'),
                    'Reeleicao'=>  $this->input->post('cb_reeleicao'),
                    'JaConcorreu'=>$this->input->post('cb_jaconcorreu'),
+                   'Resumo' => $this->input->post('example-clickable-bio')
                    //'UF_Candidato'=> $this->input->post('nome_usuario'),
                    //'Cidade_Candidato'=> $this->input->post('nome_usuario'),
                    //'SituacaoCandidato'=> $this->input->post('nome_usuario'),
@@ -372,6 +427,8 @@ class dashboard extends CI_Controller {
                echo 'problema na insercao de candidato';
            }
 
+           
+           
 
            //$this->PDCModel->insereCandidato($dataCandidato);
   
@@ -405,7 +462,7 @@ class dashboard extends CI_Controller {
                      
         }
         
-        public function insereCandidato($DataCandidato){
+        public function insereCandidato($DataCandidato){ //só teste
     
             $InfoUsuario = $this->PDCModel->PegaDadosUser($this->session->userdata['email']);
 
@@ -600,8 +657,8 @@ class dashboard extends CI_Controller {
         
         public function finalizaCadastro($idestado, $page='add_candidato'){
             
-           $sessao_ativa = $this->verifica_sessao(); 
-           
+          $sessao_ativa = $this->verifica_sessao(); 
+          //echo $this->VarFotoCand;
             if ($sessao_ativa==TRUE){
                 if ( ! file_exists(APPPATH.'views/'.$page.'.php'))
                  {
@@ -612,7 +669,12 @@ class dashboard extends CI_Controller {
                  
                 $DadosUsuario = array(
                     'nome' => $this->session->nome,
-                    'foto' => $this->FotoUsuario()
+                    'foto' => $this->FotoUsuario(),
+                );
+                
+                $DadosCandidato = array (
+                    //'fotoEnviada' => $this->FotoEnviadaCandidato()
+                    //fotoEnviada' => 'ALGO.jpg'
                 );
                  
                  
@@ -628,7 +690,9 @@ class dashboard extends CI_Controller {
                  $data['cidade']=$this->PDCModel->lista_cidades($idestado);
                  $data['cidadeCandidato']=$this->PDCModel->lista_cidades($idestado); //Atualizar para o estado do candidato
                  $data['partidos']=$this->PDCModel->lista_partidos();
-                 $data['Usuario']=$DadosUsuario;
+                 //$data['Usuario']=$DadosUsuario;
+                 
+                 $data['fotoEnviadaCandidato']=$this->FotoEnviadaCandidato();
 
                  
                  $this->load->view('/'.$page, $data); 
@@ -799,11 +863,19 @@ class dashboard extends CI_Controller {
          $caminho = 'images/placeholders/usuarios/';
          
          return $caminho.$fotoUsuario;  
-
+        }
+        
+        
+        
+        public function FotoEnviadaCandidato()
+        {
+            $FotoEnviadaCandidato =  $this->VarFotoCand;
+            $caminho = 'images/placeholders/candidatos/';
+            
+            return $caminho.$FotoEnviadaCandidato; 
         }
 
-
-        public function dash2 ($page='admin_page')
+                public function dash2 ($page='admin_page')
         {
          if ( ! file_exists(APPPATH.'views/'.$page.'.php'))
             {
@@ -813,21 +885,38 @@ class dashboard extends CI_Controller {
             $this->load->view('/'.$page);
         }
     
-       public function teste2($page='upload_sucess'){
+       public function teste2(){
 
-         $this->load->helper(array('form', 'url', 'date'));
+         $this->load->helper(array('form', 'url', 'date', 'array'));
          
             //Pegando informações do usuário
-         $InfoUsuario = $this->PDCModel->PegaDadosUser($this->session->userdata['email']);
-         $fotoUsuario = $InfoUsuario->foto_user;
+         //$InfoUsuario = $this->PDCModel->PegaDadosUser($this->session->userdata['email']);
+         //$fotoUsuario = $InfoUsuario->foto_user;
          
-         echo $idUsuario;
+         //echo $idUsuario;
          
-         echo $fotoUsuario;
+         //echo $fotoUsuario;
     
          //echo $idUsuario.'_'.date('dmY-h');
          //echo "<br>";
          //echo standard_date([$fmt = 'DATE_RFC822'[, $time = NULL]]);
+         
+         
+         
+         echo "teste 2";
+         echo "<br>";
+         //var_dump($this->session->userdata());
+         
+         echo $this->session->userdata->email;
+         echo "<br>";
+         echo $this->session->userdata('idUsuario');
+         /**
+         echo "<br>";
+         $this->VarFotoCand='YYYY';
+         echo $this->VarFotoCand;
+         echo "<br>";
+          * 
+          */
   
        }
        
@@ -841,11 +930,49 @@ class dashboard extends CI_Controller {
        }      
        
        
-       public function enviaFoto($caminho, $arquivo, $usuario){
-            $this->load->helper('array','date');
-            $this->load->library('table'); 
+       public function enviaFotoCandidato($data){
+        $this->load->helper('array','date');
+        $this->load->library('table'); 
+         
+        //var_dump($data);
+        
+        $config = array(
+            'upload_path' => "./images/placeholders/candidatos",
+            'allowed_types' => "gif|jpg|png|jpeg|pdf",
+            'overwrite' => TRUE,
+            'max_size' => "2048000", // Can be set to particular file size , here it is 2 MB(2048 Kb)
+            'max_height' => "768",
+            'max_width' => "1024",
+            'encrypt_name' => true
+        );    
             
-            
+        $this->load->library('upload', $config);  
+     
+            $data = array('upload_data' => $this->upload->data());
+            $extencaoNome = element('file_ext' , $data['upload_data']); //pegando extencao nome
+               
+        if(!$this->upload->do_upload('userfile')){
+             $data = array('upload_data' => $this->upload->data());
+             $extencaoNome = element('file_ext' , $data['upload_data']); //pegando extencao nome
+             echo "<script type='text/javascript'> alert('Foto Candidato enviada'); </script> ";
+             $uploadedDetails    = $this->upload->display_errors();
+           }else{
+               $data = array('upload_data' => $this->upload->data());
+               $extencaoNome = element('file_ext' , $data['upload_data']); //pegando extencao nome
+               echo "<script type='text/javascript'> alert('Falha no envio da Foto'); </script> ";
+               $uploadedDetails    = $this->upload->data();    
+           }
+           //print_r($uploadedDetails);die;      
+
+        //echo element('file_name', $data['upload_data']); // WORKS **
+
+        $this->VarFotoCand=element('file_name', $data['upload_data']);
+        
+        //return element('file_name', $data['upload_data']);
+        
+        //$this->finalizaCadastro()
+           
+        $this->finalizaCadastro();
             
        }
 
@@ -859,12 +986,12 @@ class dashboard extends CI_Controller {
         $idUsuario = $InfoUsuario->id;
         
         $config = array(
-        'upload_path' => "./images/placeholders/usuarios",
-        'allowed_types' => "gif|jpg|png|jpeg|pdf",
-        'overwrite' => TRUE,
-        'max_size' => "2048000", // Can be set to particular file size , here it is 2 MB(2048 Kb)
-        'max_height' => "768",
-        'max_width' => "1024"
+            'upload_path' => "./images/placeholders/usuarios",
+            'allowed_types' => "gif|jpg|png|jpeg|pdf",
+            'overwrite' => TRUE,
+            'max_size' => "2048000", // Can be set to particular file size , here it is 2 MB(2048 Kb)
+            'max_height' => "768",
+            'max_width' => "1024"
         );
         
         

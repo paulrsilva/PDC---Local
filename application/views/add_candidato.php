@@ -34,8 +34,6 @@
 
         <!-- Clickable Wizard Content -->
         <form id="clickable-wizard" action="<?php echo site_url('index.php/dashboard/atualiza_usuario'); ?>" method="post" class="form-horizontal form-bordered">
-            
-            
             <!-- First Step  -->
             <div id="clickable-first" class="step">
                 <!-- Step Info -->
@@ -236,11 +234,16 @@
                         <input type="text" id="clickable-NomeCandidato" name="nome_candidato" class="form-control" placeholder="Nome Completo Candidato">
                     </div>
                     
-                    <div class="col-md-3">
+                 
                         
-                        <input type="file" id="fotoCandidato-file-input" name="fotoCandidato-file-input" title="Foto do Candidato">
-                         <span class="help-block">Adicione a foto do Candidato</span>
+                    <label class="col-md-2 control-label"><a href="#modal-foto_candidato" data-toggle="modal">Foto do Candidato</a></label>
+                    <div class="col-md-2">
+                        <input type="file" id="candidato_foto" type="file" class="file" name="candidato_foto" >
+                        <?php echo $fotoEnviadaCandidato; ?>
+                        <!-- <?php //echo $usuario->username; ?> -->
+                        <input type="hidden" value="<?php echo $fotoEnviadaCandidato; ?>" name="FotoEnvCand" />
                     </div>
+
                     
                     
                 </div>
@@ -683,6 +686,28 @@
     </div>
     <!-- Fim Enviar Foto Modal -->
     
+        <!-- Enviar Foto Candidato Modal -->
+    <div id="modal-foto_candidato" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h3 class="modal-title"><i class="gi gi-user_add"></i> Enviar Foto do Candidato</h3>
+                </div>
+                <div class="modal-body">
+                    <?php echo $error;?> <!-- Error Message will show up here -->
+                    <?php echo form_open_multipart('dashboard/enviaFotoCandidato');?>
+                    <?php echo "<input type='file' name='userfile' size='20' />"; ?>
+                    <?php echo "<input type='submit' name='submit' value='upload' /> ";?>
+                    <?php echo "</form>"?>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-sm btn-primary" data-dismiss="modal">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Fim Enviar Foto Modal -->
     
 
 <!-- END Page Content -->

@@ -200,7 +200,7 @@ Class PDCModel extends CI_Model {
          * 
          */
         
-        var_dump($data);
+        //var_dump($data);
         
         $this->db->insert('Candidato',$data );
         
@@ -235,6 +235,7 @@ Class PDCModel extends CI_Model {
             {
                //Adiciona todos os dados na sessão
                 $newdata = array(
+                   'idUsuario' =>$rows->id,
                    'email' => $rows->email,
                    'logged_in' => TRUE,
                    'nome' => $rows->first_name,
@@ -391,16 +392,24 @@ Class PDCModel extends CI_Model {
         // Ampliar para pegar a id de usuário pelo email ou celular
         
         $query = $this->db->query("select * from users where email='$idusuario'");
-
         $row = $query->row();
-
         if (isset($row))
         {
                 // echo $row->id;
                 // echo $row->first_name;
                 // echo $row->last_name;
-                return $row;
-                
+                return $row;           
+        } else {
+            return false;
+        }
+    }
+    
+    public function PegaDadosCandidato($idusuario){
+        $query = $this->db->query("select * from Candidato Where Reference_id = '$idusuario'");
+        $row = $query->row();
+        if (isset($row))
+        {
+            return $row;
         } else {
             return false;
         }
