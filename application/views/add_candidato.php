@@ -65,7 +65,7 @@
                                        <?php if($usuario->sexo=="M") { echo "checked='TRUE'"; }?>> <i class="fa fa-child"> Masc.</i>
                             </label>
                         
-                            <label class="radio-inline" for="example-inline-radio2">
+                            <label class="radio-inline" for="sexo-inline-radio2">
                                 <input type="radio" id="sexo-inline-radio2" name="sexo_user" value="F"
                                        <?php if($usuario->sexo=="F") { echo "checked='TRUE'"; }?>> <i class="fa fa-female"> Fem.</i>
                             </label>                          
@@ -191,8 +191,7 @@
                                 <option value="Equipe">Equipe</option>
                                 <option value="Gestor">Gestor Público</option>
                                 <option value="Partido">Partido/Franqueado</option>
-                                                          
-                                        
+         
                                 <option selected='selected'><?php echo $usuario->role; ?></option>
                          </select>
                         
@@ -231,7 +230,9 @@
                 <div class="form-group">
                     <label class="col-md-4 control-label" for="nome_candidato">Nome Candidato <span class="text-danger">*</span></label>
                     <div class="col-md-3">
-                        <input type="text" id="clickable-NomeCandidato" name="nome_candidato" class="form-control" placeholder="Nome Completo Candidato">
+                        <input type="text" id="clickable-NomeCandidato" name="nome_candidato" 
+                               value="<?php if(isset($candidato->NomeCandidato)) {echo $candidato->NomeCandidato;} ?>" class="form-control"
+                               placeholder="Nome Completo do Candidato">
                     </div>
                     
                  
@@ -250,15 +251,17 @@
                 <div class="form-group">
                     <label class="col-md-4 control-label" for="NomeUrna_candidato">Nome Urna <span class="text-danger">*</span></label>
                     <div class="col-md-3">
-                        <input type="text" id="clickable-NomeUrna" name="NomeUrna_candidato" class="form-control" placeholder="Nome Político (que aparecerá na urna)">
+                        <input type="text" id="clickable-NomeUrna" name="NomeUrna_candidato" class="form-control" value="<?php echo $candidato->ApelidoPolitico; ?>" placeholder="Nome Político (que aparecerá na urna)">
                     </div>
                     <div class="col-md-3">
                             <label class="radio-inline" for="example-inline-radio1">
-                                <input type="radio" id="sexoCandidato-inline-radio1" name="sexo_candidato" value="M"> <i class="fa fa-child"> Masc.</i>
+                                <input type="radio" id="sexoCandidato-inline-radio1" name="sexo_candidato" 
+                                       value="M" <?php if($candidato->Sexo=="M") { echo "checked='TRUE'"; }?>> <i class="fa fa-child"> Masc.</i>
                             </label>
                         
                             <label class="radio-inline" for="example-inline-radio2">
-                                <input type="radio" id="sexoCandidato-inline-radio2" name="sexo_candidato" value="F"> <i class="fa fa-female"> Fem.</i>
+                                <input type="radio" id="sexoCandidato-inline-radio2" name="sexo_candidato" 
+                                       value="F" <?php if($candidato->Sexo=="F") { echo "checked='TRUE'"; }?>> <i class="fa fa-female"> Fem.</i>
                             </label>                          
                     </div>        
                 </div>
@@ -268,11 +271,21 @@
                     <div class="col-md-3">
                              <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-credit-card"></i></span>
-                                <input type="text" id="masked_cpf_candidato" name="masked_cpf_candidato" class="form-control" maxlength="14"  />
+                                <input type="text" id="masked_cpf_candidato"
+                                       name="masked_cpf_candidato" value="<?php echo $candidato->CPF_Candidato; ?>" class="form-control" maxlength="14"  />
                             </div>    
                     </div>
                     <div class="col-md-3">
-                        <input type="text" id="masked_nasc_cand" name="masked_nasc_cand" class="form-control" placeholder="Data de Nasc.">
+                        <?php 
+                            if (isset($candidato->data_nascimento))
+                            {      
+                                $date2 = new DateTime($candidato->data_nascimento);
+                                $dataNascimentoCandidato = $date2->format('d/m/Y');
+                            }
+                        ?>
+                        <input type="text" id="masked_nasc_cand" name="masked_nasc_cand"
+                               value="<?php if(isset($dataNascimentoCandidato)){ echo $dataNascimentoCandidato; } ?>" 
+                               class="form-control" placeholder="Data de Nasc.">
                     </div>
                     
                 </div>
@@ -282,14 +295,16 @@
                     <div class="col-md-3">
                        <div class="input-group">
                            <span class="input-group-addon"><i class="gi gi-envelope"></i></span>
-                           <input type="text" id="val_email" name="email_candidato" class="form-control" placeholder="candidato@pagina.com.br">
+                           <input type="text" id="val_email" name="email_candidato"
+                                  value="<?php echo $candidato->Email_candidato; ?>" class="form-control" placeholder="candidato@pagina.com.br">
                        </div>
                     </div>
                     
                     <div class="col-md-3">
                         <div class="input-group">
                            <span class="input-group-addon"><i class="gi gi-globe"></i></span>
-                           <input type="text" id="val_website" name="website_canditato" class="form-control" value="http://">    
+                           <input type="text" id="val_website" 
+                                  name="website_canditato" class="form-control" value="<?php echo $candidato->site; ?>">    
                        </div>
                     </div>
                 </div>
@@ -299,13 +314,15 @@
                     <div class="col-md-3">
                         <div class="input-group">
                              <span class="input-group-addon"><i class="fa fa-mobile"></i></span>
-                            <input type="text" id="masked_cel_candidato" name="masked_cel_candidato" class="form-control" >
+                            <input type="text" id="masked_cel_candidato" 
+                                   name="masked_cel_candidato" value="<?php echo $candidato->Celular; ?>" class="form-control" >
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-phone"></i></span>
-                            <input type="text" id="masked_phone_candidato" name="masked_phone_candidato" class="form-control" >
+                            <input type="text" id="masked_phone_candidato" 
+                                   name="masked_phone_candidato" value="<?php echo $candidato->Telefone; ?>" class="form-control" >
                         </div>
                     </div> 
                     
@@ -320,7 +337,9 @@
                             <option value="">Pleito</option>
                             <option value="2016">2016-2020</option>
                             <option value="2018" disabled="true">2018-2022</option>
-                            <option value="2020" disabled="true">2020-2024</option> 
+                            <option value="2020" disabled="true">2020-2024</option>
+                            
+                            <option selected='selected'><?php echo $candidato->Pleito; ?></option>
                         </select>
                     </div>
                     
@@ -334,6 +353,8 @@
                             <option value="Senador" disabled="true">Senador</option>
                             <option value="Governador" disabled="true">Governador</option>
                            <option value="Presidente" disabled="true">Presidente</option>
+                           
+                            <option selected='selected'><?php echo $candidato->CargoDisputa; ?></option>
                         </select>
 
                     </div>
@@ -378,7 +399,20 @@
                             <?php foreach($partidos as $partido):?>
                                 <option value="<?php echo $partido->id_Partido?>"><?php echo $partido->SiglaPartido ?></option>
                             <?php endforeach;?>    
+                             
+                                
+                            <?php foreach($partidos as $partido):
+                                if ($partido->id_Partido===$candidato->id_Partido){
+                                    $PartidoArmazenado=$partido->SiglaPartido;
+                                }
+                                
+                            endforeach; 
+                            ?>    
+                                
+                             <option selected="<?php echo $candidato->id_Partido ?>"><?php echo $PartidoArmazenado; ?></option>
+                            
                       </select>
+                      
                        
                       <!-- colocar o numero inicial do candidato automaticamente -->
                         
@@ -399,7 +433,8 @@
                     </div>
                     
                     <div class="col-md-3">
-                            <input type="text" id="clickable-NumCandidato" name="NumCandidato" class="form-control" placeholder="Nº do Candidato">
+                            <input type="text" id="clickable-NumCandidato" 
+                                   name="NumCandidato" value="<?php echo $candidato->Numero_Candidato ?>" class="form-control" placeholder="Nº do Candidato">
                     </div>  
                 </div>
                 
@@ -407,8 +442,17 @@
                     <label class="col-md-4 control-label" for="Col_Candidato">Coligações</label>
                                    <!-- Jquery Tags Input (class is initialized in js/app.js -> uiInit()), for extra usage examples you can check out https://github.com/xoxco/jQuery-Tags-Input -->
                     <fieldset>
+                            <?php 
+                                if (isset($candidato->Coligacao)){
+                                    $coligacoes=$candidato->Coligacao;
+                                } else {
+                                    $coligacoes="PSDB, PT, DEM";
+                                }              
+                            ?>
+                        
                             <div class="col-md-6">
-                                <input type="text" id="coligacoes-tags" name="coligacoes-tags" class="input-tags" value="PSDB, PT, DEM">
+                                <input type="text" id="coligacoes-tags" 
+                                       name="coligacoes-tags" class="input-tags" value="<?php echo $coligacoes; ?>">
                             </div>
 
                     </fieldset>     
@@ -419,13 +463,16 @@
                    <label class="col-md-4 control-label" for="example-inline-checkbox1">Histórico</label> 
                    <div class="col-md-6">
                                 <label class="checkbox-inline" for="example-inline-checkbox1">
-                                   <input type="checkbox" id="example-inline-checkbox1" name="cb_exerceCargo" value="1"> Exerce Cargo Eletivo
+                                    <input type="checkbox" id="example-inline-checkbox1" 
+                                           name="cb_exerceCargo" value="1" <?php if($candidato->ExerceCargo==='1'){echo "checked=true";} ?> > Exerce Cargo Eletivo
                                </label>
                                <label class="checkbox-inline" for="example-inline-checkbox2">
-                                   <input type="checkbox" id="example-inline-checkbox2" name="cb_reeleicao" value="1"> Disputando Reeleição
+                                   <input type="checkbox" id="example-inline-checkbox2" 
+                                          name="cb_reeleicao" value="1" <?php if($candidato->Reeleicao==='1'){echo "checked=true";} ?> > Disputando Reeleição
                                </label>
                                <label class="checkbox-inline" for="example-inline-checkbox3">
-                                   <input type="checkbox" id="example-inline-checkbox3" name="cb_jaconcorreu" value="1"> Já Concorreu 
+                                   <input type="checkbox" id="example-inline-checkbox3"
+                                          name="cb_jaconcorreu" value="1" <?php if($candidato->JaConcorreu==='1'){echo "checked=true";} ?>> Já Concorreu 
                                </label>
                    </div>
 
@@ -452,7 +499,8 @@
                     <label class="col-md-4 control-label" for="example-advanced-bio">Resumo Candidato</label>
                     <div class="col-md-6">
                         <textarea id="example-clickable-bio" name="example-clickable-bio" 
-                                  rows="6" class="form-control" placeholder="Faça um Pequeno resumo do candidato.."></textarea>
+                                  rows="6" class="form-control" 
+                                  placeholder="Faça um Pequeno resumo do candidato.."> <?php echo $candidato->Resumo; ?></textarea>
                     </div>
                 </div>
                 <div class="form-group">

@@ -308,10 +308,9 @@ class dashboard extends CI_Controller {
         
         public function atualiza_usuario() {
 
-            $this->load->helper(array('form', 'url', 'date'));
-            
-            $this->load->library('upload');
-            
+            $this->load->helper(array('form', 'url', 'date'));    
+            $this->load->helper('array');
+            $this->load->library('upload');   
             $this->load->library('form_validation');
             
            // echo $this->VarFotoCand;
@@ -319,75 +318,25 @@ class dashboard extends CI_Controller {
             var_dump($_POST);
             
             $InfoUsuario = $this->PDCModel->PegaDadosUser($this->session->userdata['email']);
-
-            $idUsuario = $InfoUsuario->id;
+            $idUsuario = $InfoUsuario->id;     
             
-            $nascimento_user = mdate( "%Y-%d-%m",strtotime($this->input->post('masked_nasc_user'))); //convertendo p/ Data p/o MySQL
+            $dateU = strtr($this->input->post('masked_nasc_user'), '/', '-'); // substituindo o '/' pelo '-' para compatibilidade
+            $dateC = strtr($this->input->post('masked_nasc_cand'), '/', '-'); // substituindo o '/' pelo '-' para compatibilidade
             
+            //echo date('d-m-Y', strtotime($date1));
+                    
+            $nascimento_user = mdate( "%Y-%m-%d", strtotime($dateU)); //convertendo p/ Data p/o MySQL
             
-            //echo $this->VarFotoCand;
-                        
-           //$post = $this->input->post();
+            $nascimento_candidato = mdate( "%Y-%m-%d",strtotime($dateC)); //convertendo p/ Data p/o MySQL
            
-            //Atualizando Usuário
-            
-            $dataUsuario = array(
-                'username'=>  $this->input->post('nome_usuario'),
-                'sexo'=> $this->input->post('sexo_user'),
-                'CPF'=> $this->input->post('masked_cpf_user'),
-                'Data_Nascimento'=>$nascimento_user,
-                'NumCelular'=> $this->input->post('masked_cel_user'),
-                'NumFixo'=> $this->input->post('masked_phone_user'),
-                'UF'=> $this->input->post('user-UF'),
-                'Cidade'=>  $this->input->post('user-cidade'),
-                'CEP'=>  $this->input->post('masked_CEP_user'),
-                'End'=> $this->input->post('user_end'),
-                'role'=> $this->input->post('user_role')
-            );
-           
-
-           if ($this->PDCModel->atualizaCadastroUser($idUsuario, $dataUsuario)){
-               echo 'Usuário atualizado com sucesso'/n;
-           } else {
-               echo 'problema de atualização';
-           }
-           
-           //inserindo candidato
-           
-           /**
-           //inserindo foto do candidato
-           
-            $config2 = array(
-               'upload_path' => "./images/placeholders/candidatos",
-               'allowed_types' => "gif|jpg|png|jpeg|pdf",
-               'overwrite' => TRUE,
-               'max_size' => "2048000", // Can be set to particular file size , here it is 2 MB(2048 Kb)
-               'max_height' => "768",
-               'max_width' => "1024"
-           );    
-            
-           $this->load->library('upload',$config2);
-           
-           if (!$this->upload->do_upload('fotoCandidato-file-input')) { //picture_upload is upload field name set in HTML eg. name="upload_field"
-                $error = array('error' => $this->upload->display_errors());
-                echo $error;
-            }else{
-                //print_r($this->upload->data()); // this is array of uploaded file consist of filename, filepath etc. print it out
-                $this->upload->data()['file_name']; // this is how you get for example "file name" of file
-                echo 'foto enviada';
-            }
-
-            //fim inserindo a foto do candidato
-            * 
-            */
+            //
+            //echo $this->VarFotoCand;                  
+            //$post = $this->input->post();
            
            //echo $this->VarFotoCand; //Variavel global definida na classe
-           
-           
+
            //$this->enviaFotoCandidato($this->input->post('candidato_foto')); - Testar mais tarde
-           
-           $nascimento_candidato = mdate( "%Y-%d-%m",strtotime($this->input->post('masked_nasc_candidato'))); //convertendo p/ Data p/o MySQL
-           
+   
            $dataCandidato = array (
                    'Reference_id'=> $idUsuario, //verificar se alguem já referenciou o candidato
                    'NomeCandidato'=> $this->input->post('nome_candidato'),
@@ -419,47 +368,68 @@ class dashboard extends CI_Controller {
             );
            
            var_dump($dataCandidato);
+           echo "<BR>";
+           echo "--- / ---";
+   
            
+            if ($idExistenteCandidato=$this->pegaNumeroCandidato()){
+                 
+                /** Atualiza tabela de dados para o candidato existente
+                $DataCandidatoExistente = array (
+                    //'ExerceCargo'=> element('NomeCandidato', $dataCandidato),
+                    //'Reference_id'=>32,
+                    'NomeCandidato'=>'sdsdsdsdd',
+                    'ApelidoPolitico'=> element('ApelidoPolitico', $dataCandidato)
+                );
+                
+                //Fim atualização de tabela de candidato existente
+                 * 
+                 */
+                
+                echo "Atualiza Candidato - ";
+                echo $idExistenteCandidato;
+                echo "<BR>";
+                echo $nascimento_candidato;
+ 
+                 $this->PDCModel->atualizaCadastroCandidato($idExistenteCandidato,$dataCandidato);
+                 $idCandidatoInserido = $idExistenteCandidato;
+             } Else { 
+                 //echo "Insere Candidato";
+                 $idCandidatoInserido = $this->PDCModel->insereCandidato($dataCandidato); // Insere o candidato e pega a ID de inserção (id_Candidato);
+             }    
+
+             echo "<BR>";
+             Echo "--- / ---";
+
            
-           if ($this->PDCModel->insereCandidato($dataCandidato)){
-                echo 'Candidato inserido com sucesso';
+           //Fim inserindo candidato
+           
+            // ATUALIZANDO O USUARIO
+           
+            $dataUsuario = array(
+                'username'=>  $this->input->post('nome_usuario'),
+                'sexo'=> $this->input->post('sexo_user'),
+                'CPF'=> $this->input->post('masked_cpf_user'),
+                'Data_Nascimento'=>$nascimento_user,
+                'NumCelular'=> $this->input->post('masked_cel_user'),
+                'NumFixo'=> $this->input->post('masked_phone_user'),
+                'UF'=> $this->input->post('user-UF'),
+                'Cidade'=>  $this->input->post('user-cidade'),
+                'CEP'=>  $this->input->post('masked_CEP_user'),
+                'End'=> $this->input->post('user_end'),
+                'role'=> $this->input->post('user_role'),
+                'id_candidato'=> $idCandidatoInserido
+            );
+           
+
+           if ($this->PDCModel->atualizaCadastroUser($idUsuario, $dataUsuario)){
+               echo 'Usuário atualizado com sucesso';
            } else {
-               echo 'problema na insercao de candidato';
+               echo 'problema de atualização';
            }
-
            
-           
-
-           //$this->PDCModel->insereCandidato($dataCandidato);
-  
-
+           //Fim atualizando o usuário
             
-           // echo $nascimento_user;
-            
-            //$nascimento = date('Y-m-d', strtotime($dataUsuario['Data_Nascimento']));
-           
-            /**
-            echo $InfoUsuario->username;
-            echo "<br>";
-            echo $InfoUsuario->id;
-            echo "<br>";
-
-            echo $dataUsuario['username'];
-            echo "<br>";
-            echo $dataUsuario['Data_Nascimento'];
-             echo mdate( "%Y-%m-%d",strtotime($dataUsuario['Data_Nascimento']));
-            echo "<br>";
-            echo $nascimento_user;
-            //echo date(DATE_ISO8601,$dataUsuario['Data_Nascimento']);
-            //echo $data['username'];
-            //echo $data['CPF'];
-
-            echo validation_errors();
-             * 
-             */
-    
-           //atualizaCadastro
-                     
         }
         
         public function insereCandidato($DataCandidato){ //só teste
@@ -665,23 +635,22 @@ class dashboard extends CI_Controller {
                      // Whoops, we don't have a page for that!
                      show_404(); 
                  }
-                 //$idUsuario = $this->PDCModel->PegaIdUser($this->session->userdata['email']);
+                //$idUsuario = $this->PDCModel->PegaIdUser($this->session->userdata['email']);
                  
                 $DadosUsuario = array(
                     'nome' => $this->session->nome,
                     'foto' => $this->FotoUsuario(),
                 );
                 
-                $DadosCandidato = array (
-                    //'fotoEnviada' => $this->FotoEnviadaCandidato()
-                    //fotoEnviada' => 'ALGO.jpg'
-                );
                  
                  
                  $this->load->helper(array('form', 'url', 'date'));
                  $this->load->library('upload');
                  
                  $data['usuario'] =  $this->PDCModel->PegaDadosUser($this->session->userdata['email']);
+                 $data['candidato'] = $this->PDCModel->PegaDadosCandidato($this->pegaNumeroCandidato());
+                         
+                         
                  $data['estado']=$this->PDCModel->lista_estados();
                  
                  $EstadoDB = $this->PDCModel->PegaUFSelecionada($data['usuario']->UF);
@@ -889,7 +858,38 @@ class dashboard extends CI_Controller {
 
          $this->load->helper(array('form', 'url', 'date', 'array'));
          
-            //Pegando informações do usuário
+         echo 'testando conversão de datas';
+         
+         $dataNascimento = '15/11/1973';
+         echo "<BR>";
+         echo $dataNascimento;  
+         echo "<BR>";
+         
+         //$date = new DateTime($dataNascimento);
+         
+         //echo $date->format('d-m-Y');
+         echo "<BR>";
+         echo "---";
+         
+        $date = new DateTime('2000-01-16');
+        echo $date->format('d-m-Y');  
+         
+         echo "<BR>";
+         echo "---";      
+         
+         $date1 = strtr($dataNascimento, '/', '-'); //ERA SO SUBSTITUIR CACETE
+         echo date('d-m-Y', strtotime($date1));
+         
+         
+         
+         //novo - testes data
+            //$date = new DateTime(strtotime($this->input->post('masked_nasc_user')));
+           // echo $date.'date'."<BR>";
+            //$dataNascimentoUser = mdate("%Y-%d-%m", $date );
+            //echo $dataNascimentoUser.'dataNascimentoUser'."<BR>";
+        //fim novo - testes data
+            
+        //Pegando informações do usuário
          //$InfoUsuario = $this->PDCModel->PegaDadosUser($this->session->userdata['email']);
          //$fotoUsuario = $InfoUsuario->foto_user;
          
@@ -902,14 +902,41 @@ class dashboard extends CI_Controller {
          //echo standard_date([$fmt = 'DATE_RFC822'[, $time = NULL]]);
          
          
-         
+         /**
          echo "teste 2";
          echo "<br>";
          //var_dump($this->session->userdata());
          
-         echo $this->session->userdata->email;
+         echo $this->session->userdata('email');
          echo "<br>";
          echo $this->session->userdata('idUsuario');
+        
+         
+         //pegando dados do candidato com a id do usuario
+         
+         $varteste = $this->pegaNumeroCandidato();
+         echo $varteste;
+         
+         echo $this->PDCModel->PegaIdCandidato_User('32');
+         
+         if ($var_a=$this->pegaNumeroCandidato()){
+             echo "Atualiza Candidato";
+             echo $var_a;
+         } Else { 
+             echo "Insere Candidato";
+             echo $var_a;
+         }       
+          * 
+          */  
+         
+         
+         
+         
+         //$InfoCandidato = $this->PDCModel->PegaDadosCandidato($this->session->userdata['idUsuario']);
+         
+         //var_dump($InfoCandidato);
+         
+         
          /**
          echo "<br>";
          $this->VarFotoCand='YYYY';
@@ -917,18 +944,21 @@ class dashboard extends CI_Controller {
          echo "<br>";
           * 
           */
-  
+         
+         
+         //Testando conversões de data
        }
-       
-       
        
        public function file_view(){
         $page='file_view';
         $this->load->helper('url');
         $this->load->view('/'.$page, array('error' => ' ' ));
-
        }      
        
+       
+       public function pegaNumeroCandidato() {
+           return $this->PDCModel->PegaIdCandidato_User($this->session->userdata['idUsuario']);
+       }
        
        public function enviaFotoCandidato($data){
         $this->load->helper('array','date');

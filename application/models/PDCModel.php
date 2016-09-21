@@ -165,6 +165,7 @@ Class PDCModel extends CI_Model {
     }
     
     public function atualizaCadastroUser($id, $data){
+        
         $this->db->where('id', $id);
         $this->db->update('users',$data);
         
@@ -188,24 +189,47 @@ Class PDCModel extends CI_Model {
          * @param type $id
          * @return boolean
          */
-        
-        /**
-        $string = array(
-                'Reference_id' => 32,
-                'NomeCandidato'=>$data['NomeCandidato'],
-                'Numero_Candidato' => '7777'
-
-                //'status'=>$this->status[0]
-            );
-         * 
-         */
-        
-        //var_dump($data);
-        
-        $this->db->insert('Candidato',$data );
-        
+             
+        //var_dump($data);     
+        $this->db->insert('Candidato',$data ); 
+        $success=$this->db->affected_rows();
+        if(!$success){
+            error_log('Impossível inserir Candidato');
+            return FALSE;
+        }
+        return $this->db->insert_id(); //Pega a id_Candidato inserido
     }
 
+    public function atualizaCadastroCandidato($id, $data){
+     
+        var_dump($data);
+        
+        //$this->db-where('id_Candidato',$idCandidato); //Por alguma razão alienígena a clausula WHERE não está funcionando aqui
+        
+        $this->db->update('Candidato',$data, "id_Candidato=$id");
+        
+        //$this->db-where('id_Candidato',$id);
+        
+        //$this->db->update('Candidato',$data);
+        
+        echo '0000000000';
+        
+        /**
+        $success = $this->db->affected_rows();
+        if(!$success){
+            error_log('Impossível atualizar Candidato ('.$id.')');
+            ECHO "QUE ERRO DA PORRA?";
+            return FALSE;
+            
+        }  
+        echo 'FOI!!!';
+        return TRUE;  
+         * 
+         * @param type $id
+         * @return boolean
+         */
+        
+    }
 
     public function getUserInfo($id)
     {
@@ -404,8 +428,8 @@ Class PDCModel extends CI_Model {
         }
     }
     
-    public function PegaDadosCandidato($idusuario){
-        $query = $this->db->query("select * from Candidato Where Reference_id = '$idusuario'");
+    public function PegaDadosCandidato($idCandidato){
+        $query = $this->db->query("select * from Candidato Where id_Candidato = '$idCandidato'");
         $row = $query->row();
         if (isset($row))
         {
@@ -415,6 +439,25 @@ Class PDCModel extends CI_Model {
         }
     }
     
+    public function PegaIdCandidato_User($idUsuario){
+        //Colocar validação para multiplos candidatos 
+        $query = $this->db->query("select id_candidato from users where id='$idUsuario'");
+        $row = $query->row();
+        if (isset($row)){
+           return $row->id_candidato;  
+        } else {
+            return FALSE;
+        }
+          
+
+        //var_dump($row);
+    }
+
+
+
+
+
+
     public function AtualizaFotoUser ($id,$data) {
         $this->db->where('id', $id);
         $this->db->update('users',$data);
