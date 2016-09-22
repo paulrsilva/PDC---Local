@@ -229,7 +229,7 @@
                <!-- <legend><i class="fa fa-angle-right"></i> Dados do Candidato</legend> -->
                 <div class="form-group">
                     <label class="col-md-4 control-label" for="nome_candidato">Nome Candidato <span class="text-danger">*</span></label>
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <input type="text" id="clickable-NomeCandidato" name="nome_candidato" 
                                value="<?php if(isset($candidato->NomeCandidato)) {echo $candidato->NomeCandidato;} ?>" class="form-control"
                                placeholder="Nome Completo do Candidato">
@@ -237,12 +237,19 @@
                     
                  
                         
-                    <label class="col-md-2 control-label"><a href="#modal-foto_candidato" data-toggle="modal">Foto do Candidato</a></label>
-                    <div class="col-md-2">
-                        <input type="file" id="candidato_foto" type="file" class="file" name="candidato_foto" >
-                        <?php echo $fotoEnviadaCandidato; ?>
-                        <!-- <?php //echo $usuario->username; ?> -->
-                        <input type="hidden" value="<?php echo $fotoEnviadaCandidato; ?>" name="FotoEnvCand" />
+                    <!-- <label class="col-md-2 control-label"><a href="#modal-foto_candidato" data-toggle="modal">Foto do Candidato</a></label> -->
+                    <div class="col-md-2 gallery-image">
+                        
+                        <img src="<?php echo base_url().$fotoEnviadaCandidato; ?>" style="width:50px;height:50px" alt="Avatar">
+                        <div class="gallery-image-options text-center">
+                            <div class="btn-group btn-group-sm">
+                                <a href="<?php echo base_url().$fotoEnviadaCandidato; ?>" class="gallery-link btn btn-sm btn-alt btn-default" title="Image Info">Visualizar</a>
+                                <a href="#modal-foto_candidato" class="btn btn-sm btn-alt btn-default" data-toggle="modal" title="Alterar foto"><i class="fa fa-pencil"></i></a>
+                               
+                            </div>
+                        </div>
+                        
+                        
                     </div>
 
                     
@@ -511,7 +518,7 @@
                                     <label for="palavras_chave-tag">Palavras Chave da Campanha
                                         <input type="text" id="palavras_chave-tags" name="palavras_chave-tags"
                                                title="Adicione as 10 palavras que identificam melhor as propostas" 
-                                               class="input-tags" value="Saúde, Educação, Segurança">
+                                               class="input-tags" value="<?php echo $PalavrasChave; ?>">
                                         <span class="help-block">Que mais identifiquem as propostas do candidato</span>
                                     </label>
                                 </div>
@@ -527,13 +534,13 @@
                             <div class="col-md-5">
                                 <div class="input-group">
                                   <span class="input-group-addon"><i class="si si-facebook"></i></span>
-                                  <input type="text" id="val_website" name="val_website" class="form-control" value="">    
+                                  <input type="text" id="val_facebook" name="val_facebook" class="form-control" value="<?php echo $candidato->facebook; ?>">    
                                 </div>
                             </div>
                             <div class="col-md-5">
                                 <div class="input-group">
                                   <span class="input-group-addon"><i class="si si-twitter"></i></span>
-                                  <input type="text" id="val_website" name="val_website" class="form-control" value="">    
+                                  <input type="text" id="val_twitter" name="val_twitter" class="form-control" value="<?php echo $candidato->twitter; ?>">    
                                 </div>
                             </div>
                         </fieldset>
@@ -543,13 +550,13 @@
                             <div class="col-md-5">
                                 <div class="input-group">
                                   <span class="input-group-addon"><i class="si si-google_plus"></i></span>
-                                  <input type="text" id="val_website" name="val_website" class="form-control" value="">    
+                                  <input type="text" id="val_google" name="val_google" class="form-control" value="<?php echo $candidato->google ; ?>">    
                                 </div>
                             </div>
                             <div class="col-md-5">
                                 <div class="input-group">
                                   <span class="input-group-addon"><i class="si si-instagram"></i></span>
-                                  <input type="text" id="val_website" name="val_website" class="form-control" value="">    
+                                  <input type="text" id="val_instagram" name="val_instagram" class="form-control" value="<?php echo $candidato->instagram; ?>">    
                                 </div>
                             </div>
                         </fieldset>

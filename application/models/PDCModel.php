@@ -202,33 +202,42 @@ Class PDCModel extends CI_Model {
 
     public function atualizaCadastroCandidato($id, $data){
      
-        var_dump($data);
-        
-        //$this->db-where('id_Candidato',$idCandidato); //Por alguma razão alienígena a clausula WHERE não está funcionando aqui
-        
+        var_dump($data);   
+        //$this->db-where('id_Candidato',$idCandidato); //Por alguma razão alienígena a clausula WHERE não está funcionando aqui   
         $this->db->update('Candidato',$data, "id_Candidato=$id");
-        
-        //$this->db-where('id_Candidato',$id);
-        
-        //$this->db->update('Candidato',$data);
-        
-        echo '0000000000';
-        
-        /**
         $success = $this->db->affected_rows();
         if(!$success){
             error_log('Impossível atualizar Candidato ('.$id.')');
-            ECHO "QUE ERRO DA PORRA?";
+            //ECHO "QUE ERRO DA PORRA?";
             return FALSE;
             
         }  
-        echo 'FOI!!!';
-        return TRUE;  
-         * 
-         * @param type $id
-         * @return boolean
-         */
-        
+        return TRUE;    
+    }
+    
+    public function CarregaPalavrasChave($idCandidato){
+        //$idTeste=83;
+        $query = $this->db->query("SELECT * from PalavrasChave WHERE Candidato='$idCandidato'");
+        return $query;      
+    }
+    
+    public function ArmazenaPalavrasChave($idCandidato, $string){
+           $palavras = explode(",", $string); //Convertendo para array com a ',' como delimitador
+
+           //Limpando as Palavras Chave do Candidato
+           $this->db->where('Candidato', $idCandidato);
+           $this->db->delete('PalavrasChave');
+
+           //Adicionando o novo array de palavras chave
+           foreach ($palavras as $palavra){
+               $data=array(
+                 'Candidato'  => $idCandidato,
+                  'PalavraChave' => $palavra  
+               );
+               $this->db->insert('PalavrasChave',$data);
+           }
+           
+           return count($palavras); //retorna o nº de palavras incluídas
     }
 
     public function getUserInfo($id)
@@ -472,6 +481,19 @@ Class PDCModel extends CI_Model {
         return TRUE;
     }
     
+    public function atualizaFotoCandidatoDB ($id,$data){
+      //var_dump($data);
+      //$this->db->where('id', $id);  
+      $this->db->update('Candidato',$data,"id_Candidato=$id");
+      $success = $this->db->affected_rows();
+      if(!$success){
+            error_log('Impossível atualizar foto do candidato ('.$id.')');
+            return FALSE;
+      }
+      return TRUE;
+    }
+
+
     public function RetornaFotoUser ($idusuario){
         $query = $this->db->query("select * from users where email='$idusuario'");
         $row = $query->row();
@@ -480,6 +502,42 @@ Class PDCModel extends CI_Model {
         }   else {
             return FALSE;
         }
+
+    }
+    
+    public function RetornaFotoCandidato ($idCandidato){
+        $query = $this->db->query("select foto from Candidato where id_Candidato='$idCandidato'");
+        $row = $query->row(); 
+        if (isset($row)){
+            return $row->foto;
+        }   else {
+            return FALSE;
+        }
+    }
+    
+    public function RetornaNomeUrnaCandidato ($idCandidato){
+        $query = $this->db->query("select ApelidoPolitico from Candidato where id_Candidato='$idCandidato'");
+        $row = $query->row();
+        if (isset($row)){
+            return $row->ApelidoPolitico;
+        }   else {
+            return FALSE;
+        }
+    }
+            
+    
+    public function RetornaPartidoCandidato ($idCandidato){
+        
+       $query = $this->db->query("select id_partido FROM Candidato where id_Candidato='$idCandidato'"); 
+       $row = $query->row(); 
+       $query2 = $this->db->query("select SiglaPartido from Partidos where id_Partido=$row->id_partido");
+       $row2 = $query2->row();
+       if (isset($row2))   {
+           return $row2->SiglaPartido;
+       } else {
+           return FALSE;
+       }
+            
     }
 
 

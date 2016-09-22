@@ -133,12 +133,9 @@ class dashboard extends CI_Controller {
                  * @param type $salt
                  * @return type
                  */
-                
-                                
+                                           
             }
-            
-         
-                    
+                  
         function hashPassword($pass,$salt=FALSE)
             {
                 //coloca o Salt no inicio, meio e fim da senha
@@ -196,7 +193,10 @@ class dashboard extends CI_Controller {
             
             $DadosCandidato = array(
                 'nome' => 'F.Garcezz',
-                'numero' => '45000'   
+                //'numero' => $this->pegaNumeroCandidato()
+                'numero' => '45000',
+                'foto' => $this->RetornaImagemCandidato(),
+                //'dadosDB' => $this->PDCModel->PegaDadosCandidato($this->pegaNumeroCandidato()) Atribuir matriz multidimensional mais tarde
             );
             
             $data['title'] = ucfirst($page); // Colocar o nome do candidato aqui
@@ -209,6 +209,9 @@ class dashboard extends CI_Controller {
             //$data['fotoUsuario']= $this->FotoUsuario();
             $data['Usuario']=$DadosUsuario;
             $data['Candidato']=$DadosCandidato;
+            $data['CandidatoDB']=$this->PDCModel->PegaDadosCandidato($this->pegaNumeroCandidato());
+            $data['TituloCandidato']=  $this->RetornaNomeResumidoCandidato($this->pegaNumeroCandidato());
+            $data['cabecalho']=$this->DefineHeaderDash();
             //$data['listaEstados']=  $this->listaEstados();
             $this->load->view('admin/'.$page, $data);
         }
@@ -341,7 +344,7 @@ class dashboard extends CI_Controller {
                    'Reference_id'=> $idUsuario, //verificar se alguem já referenciou o candidato
                    'NomeCandidato'=> $this->input->post('nome_candidato'),
                    'CPF_Candidato'=> $this->input->post('masked_cpf_candidato'),
-                   'foto'=> $this->input->post('FotoEnvCand'),
+                   //'foto'=> $this->input->post('FotoEnvCand'),
                    'ApelidoPolitico'=> $this->input->post('NomeUrna_candidato'),
                    'Sexo'=> $this->input->post('sexo_candidato'),
                    'data_nascimento'=> $nascimento_candidato,
@@ -359,7 +362,11 @@ class dashboard extends CI_Controller {
                    'ExerceCargo'=> $this->input->post('cb_exerceCargo'),
                    'Reeleicao'=>  $this->input->post('cb_reeleicao'),
                    'JaConcorreu'=>$this->input->post('cb_jaconcorreu'),
-                   'Resumo' => $this->input->post('example-clickable-bio')
+                   'Resumo' => $this->input->post('example-clickable-bio'),
+                   'facebook' => $this->input->post('val_facebook'),
+                   'twitter' => $this->input->post('val_twitter' ),
+                   'google' => $this->input->post( 'val_google'),
+                   'instagram' => $this->input->post('val_instagram')
                    //'UF_Candidato'=> $this->input->post('nome_usuario'),
                    //'Cidade_Candidato'=> $this->input->post('nome_usuario'),
                    //'SituacaoCandidato'=> $this->input->post('nome_usuario'),
@@ -400,9 +407,13 @@ class dashboard extends CI_Controller {
 
              echo "<BR>";
              Echo "--- / ---";
-
-           
-           //Fim inserindo candidato
+             //Fim inserindo candidato
+             
+             //Adicionando a lista de palavras chave do candidato
+             
+             $numeroPalavrasIncluidas = $this->PDCModel->ArmazenaPalavrasChave($idCandidatoInserido,$this->input->post('palavras_chave-tags'));
+             
+             //fim adicionando lista de palavras chave do candidato
            
             // ATUALIZANDO O USUARIO
            
@@ -626,7 +637,7 @@ class dashboard extends CI_Controller {
         }
         
         public function finalizaCadastro($idestado, $page='add_candidato'){
-            
+   
           $sessao_ativa = $this->verifica_sessao(); 
           //echo $this->VarFotoCand;
             if ($sessao_ativa==TRUE){
@@ -642,28 +653,29 @@ class dashboard extends CI_Controller {
                     'foto' => $this->FotoUsuario(),
                 );
                 
-                 
-                 
+                
                  $this->load->helper(array('form', 'url', 'date'));
                  $this->load->library('upload');
                  
                  $data['usuario'] =  $this->PDCModel->PegaDadosUser($this->session->userdata['email']);
                  $data['candidato'] = $this->PDCModel->PegaDadosCandidato($this->pegaNumeroCandidato());
-                         
-                         
+                 
                  $data['estado']=$this->PDCModel->lista_estados();
                  
+                 
                  $EstadoDB = $this->PDCModel->PegaUFSelecionada($data['usuario']->UF);
+                 
                  
                  $data['uf_selecionada']=  $this->PDCModel->estado_selecionado($idestado, $EstadoDB); //manda o estado selecionado JS e o que esta no BD
                  $data['cidade']=$this->PDCModel->lista_cidades($idestado);
                  $data['cidadeCandidato']=$this->PDCModel->lista_cidades($idestado); //Atualizar para o estado do candidato
                  $data['partidos']=$this->PDCModel->lista_partidos();
-                 //$data['Usuario']=$DadosUsuario;
+                 $data['Usuario']=$DadosUsuario;
                  
-                 $data['fotoEnviadaCandidato']=$this->FotoEnviadaCandidato();
-
+                 $data['fotoEnviadaCandidato']=$this->RetornaImagemCandidato();
                  
+                 $data['PalavrasChave']=  $this->CarregaPalavrasChave($this->pegaNumeroCandidato());
+         
                  $this->load->view('/'.$page, $data); 
                  
             } else {
@@ -821,8 +833,7 @@ class dashboard extends CI_Controller {
                     }
              * 
              */
-            
-            
+    
             return '14';
         }
 
@@ -836,12 +847,18 @@ class dashboard extends CI_Controller {
         
         
         
-        public function FotoEnviadaCandidato()
+        public function RetornaImagemCandidato()
         {
-            $FotoEnviadaCandidato =  $this->VarFotoCand;
+            
+   
+            if ($FotoEnviadaCandidato = $this->PDCModel->RetornaFotoCandidato($this->pegaNumeroCandidato())){
+                $imagemCandidato=$FotoEnviadaCandidato;          
+            } else {
+                $imagemCandidato="imagemAvatar_homem.png";
+            }
             $caminho = 'images/placeholders/candidatos/';
             
-            return $caminho.$FotoEnviadaCandidato; 
+            return $caminho.$FotoEnviadaCandidato;    
         }
 
                 public function dash2 ($page='admin_page')
@@ -854,31 +871,173 @@ class dashboard extends CI_Controller {
             $this->load->view('/'.$page);
         }
     
-       public function teste2(){
+        
+        public function CarregaPalavrasChave($idCandidato){ //em uma string
+            
+            $PalavrasChave = $this->PDCModel->CarregaPalavrasChave($idCandidato);   
+        
+            
+            foreach ($PalavrasChave->result() as $PalavraChave) {
+                //echo $PalavraChave->PalavraChave."<br>";
+                $listaPalavrasChave= $PalavraChave->PalavraChave.' ,'.$listaPalavrasChave;
+            }
 
-         $this->load->helper(array('form', 'url', 'date', 'array'));
+            //echo "<BR>".'Numero de palavras: '.$PalavrasChave->num_rows();
+            return $listaPalavrasChave;
+        }
+        
+        public function ArmazenaPalavrasChave(){
+            $string="Cidadania, bem-estar, acessibilidade";
+            $palavras = explode(",", $string); //Convertendo para array com a ',' como delimitador
+            $idCandidato='82';
+            
+            //Limpando as Palavras Chave do Candidato
+            $this->db->where('Candidato', $idCandidato);
+            $this->db->delete('PalavrasChave');
+                    
+            //Adicionando o novo array de palavras chave
+
+            foreach ($palavras as $palavra){
+                $data=array(
+                  'Candidato'  => $idCandidato,
+                   'PalavraChave' => $palavra  
+                );
+                $this->db->insert('PalavrasChave',$data);
+            }
+            
+            echo count($palavras);
+        }
+
+
+        public function DefineHeaderDash(){
+            switch ($this->PDCModel->RetornaPartidoCandidato($this->pegaNumeroCandidato())){
+                case "PSDB":
+                    $imagemHeader='dashboard_header_psdb.jpg';
+                    break;
+                case "PSD":
+                    $imagemHeader='dashboard_header_PSD.jpg';
+                    break;
+                case "PMDB":
+                    $imagemHeader='dashboard_header_pmdb.jpg';
+                    break;
+                case "PDT":
+                    $imagemHeader='dashboard_header_pdt.jpg';
+                    break;
+                case "PEN":
+                    $imagemHeader='dashboard_header_pen.jpg';
+                    break;
+                case "REDE":
+                    $imagemHeader='dashboard_header_rede.jpg';
+                    break;
+                case "PV":
+                    $imagemHeader='dashboard_header_pv.jpg';
+                    break;
+                default:
+                     $imagemHeader='dashboard_header.jpg';   
+            }
+            
+            $caminho='images/placeholders/headers/';
+            
+            return $caminho.$imagemHeader;
+        }
+        
+        
+        public function RetornaNomeResumidoCandidato($idCandidato){
+            $NomeCompleto=  $this->PDCModel->RetornaNomeUrnaCandidato($idCandidato);
+            $Nomes = explode(' ', $NomeCompleto);
+            $PrimeiroNome = $Nomes[0];
+            $LetraPrimeiroNome = $PrimeiroNome[0];
+            $idUltimoNome = count($Nomes)-1;
+            return $LetraPrimeiroNome.'.'.$Nomes[$idUltimoNome];
+        }
+
+
+        public function teste2(){
+            
+        $this->load->helper('array');  
+        
+        $NomeCompleto = 'Francisco Garcez';
+        
+        $Nomes = explode(' ', $NomeCompleto);
+        
+        // echo count($Nomes);      
          
-         echo 'testando conversão de datas';
+         $PrimeiroNome = $Nomes[0];
+         $LetraPrimeiroNome = $PrimeiroNome[0];
          
-         $dataNascimento = '15/11/1973';
-         echo "<BR>";
-         echo $dataNascimento;  
-         echo "<BR>";
+         $idUltimoNome = count($Nomes)-1;
          
-         //$date = new DateTime($dataNascimento);
+         //echo $idUltimoNome;
          
-         //echo $date->format('d-m-Y');
-         echo "<BR>";
-         echo "---";
          
-        $date = new DateTime('2000-01-16');
-        echo $date->format('d-m-Y');  
+         echo $LetraPrimeiroNome.'.'.$Nomes[$idUltimoNome];
          
-         echo "<BR>";
-         echo "---";      
+         //echo $Nomes[1];
          
-         $date1 = strtr($dataNascimento, '/', '-'); //ERA SO SUBSTITUIR CACETE
-         echo date('d-m-Y', strtotime($date1));
+         var_dump($Nomes);
+            
+         //Adicionando o novo array de palavras chave
+
+
+     
+        
+        /** Recuperando partidos
+        echo $this->pegaNumeroCandidato();
+        
+        echo $this->PDCModel->RetornaPartidoCandidato($this->pegaNumeroCandidato());
+        
+       // echo $this->PDCModel->RetornaFotoCandidato($this->pegaNumeroCandidato());
+         * 
+         */
+        
+        
+        /**
+        $DadosCandidato = array(
+                'nome' => 'F.Garcezz',
+                'numero' => '45000',
+                'dadosDB' => $this->PDCModel->PegaDadosCandidato($this->pegaNumeroCandidato())
+         );
+        
+         var_dump($DadosCandidato);
+        echo "<br>";
+        echo "---";
+        echo element('NomeCandidato', $DadosCandidato['dadosDB']);
+        
+        echo $DadosCandidato->dadosDB->NomeCandidato;
+         * 
+         */
+        
+        
+                
+        //$extencaoNome = element('file_ext' , $data['upload_data']); //pegando extencao nome
+
+        
+        /**
+        $query = $this->db->query('SELECT PalavraChave from PalavrasChave WHERE Candidato=83');
+        
+        foreach ($query->result() as $row)
+        {
+                echo $row->id;
+                echo $row->PalavraChave;
+        }
+
+        echo 'Total Results: ' . $query->num_rows(); 
+         * 
+         */
+         
+        /** Palavras chave    
+        $PalavrasChave = $this->PDCModel->CarregaPalavrasChave();   
+        
+        foreach ($PalavrasChave->result() as $PalavraChave) {
+            echo $PalavraChave->PalavraChave."<br>";
+        }
+        
+        echo "<BR>".'Numero de palavras: '.$PalavrasChave->num_rows();
+         * 
+         */
+         
+         //$date1 = strtr($dataNascimento, '/', '-'); //ERA SO SUBSTITUIR CACETE
+         //echo date('d-m-Y', strtotime($date1));
          
          
          
@@ -956,15 +1115,13 @@ class dashboard extends CI_Controller {
        }      
        
        
-       public function pegaNumeroCandidato() {
+       public function pegaNumeroCandidato() { //Atualizar para quando o usuário gerenciar mais de um candidato
            return $this->PDCModel->PegaIdCandidato_User($this->session->userdata['idUsuario']);
        }
        
        public function enviaFotoCandidato($data){
         $this->load->helper('array','date');
         $this->load->library('table'); 
-         
-        //var_dump($data);
         
         $config = array(
             'upload_path' => "./images/placeholders/candidatos",
@@ -978,29 +1135,37 @@ class dashboard extends CI_Controller {
             
         $this->load->library('upload', $config);  
      
-            $data = array('upload_data' => $this->upload->data());
-            $extencaoNome = element('file_ext' , $data['upload_data']); //pegando extencao nome
+        $data = array('upload_data' => $this->upload->data());
+        $extencaoNome = element('file_ext' , $data['upload_data']); //pegando extencao nome
                
         if(!$this->upload->do_upload('userfile')){
              $data = array('upload_data' => $this->upload->data());
              $extencaoNome = element('file_ext' , $data['upload_data']); //pegando extencao nome
-             echo "<script type='text/javascript'> alert('Foto Candidato enviada'); </script> ";
+             echo "<script type='text/javascript'> alert('Falha no envio da Foto'); </script> ";
              $uploadedDetails    = $this->upload->display_errors();
            }else{
                $data = array('upload_data' => $this->upload->data());
                $extencaoNome = element('file_ext' , $data['upload_data']); //pegando extencao nome
-               echo "<script type='text/javascript'> alert('Falha no envio da Foto'); </script> ";
+               echo "<script type='text/javascript'> alert('Foto Enviada'); </script> ";
                $uploadedDetails    = $this->upload->data();    
            }
-           //print_r($uploadedDetails);die;      
+          // print_r($uploadedDetails);die;      
 
         //echo element('file_name', $data['upload_data']); // WORKS **
-
-        $this->VarFotoCand=element('file_name', $data['upload_data']);
+           
+        $this->VarFotoCand=element('file_name', $data['upload_data']); //Colocando o nome da foto do candidato numa variável global
         
+        //colocando o nome da foto enviada na tabela do candidato
+         $dataFoto = array (
+            'foto' => element('file_name', $data['upload_data'])    
+        );
+            
+        $this->PDCModel->atualizaFotoCandidatoDB($this->PegaNumeroCandidato(),$dataFoto);       
+        
+        //$this->PDCModel->atualizaFotoCandidato($this->pegaNumeroCandidato(),element('file_name', $data['upload_data']));
+        //$this->PDCModel->atualizaFotoCandidato('83','foto.jpg');
+                
         //return element('file_name', $data['upload_data']);
-        
-        //$this->finalizaCadastro()
            
         $this->finalizaCadastro();
             

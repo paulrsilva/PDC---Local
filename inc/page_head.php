@@ -271,10 +271,10 @@ $this->load->helper('url');
                 <div class="sidebar-section sidebar-user clearfix">
                     <div class="sidebar-user-avatar">
                         <a href="user_profile">
-                            <img src="<?php echo base_url(); ?>images/placeholders/avatars/AvatarFGz.jpg" alt="avatar">
+                            <img src="<?php echo base_url().$Candidato[foto]; ?>" alt="avatar">
                         </a>
                     </div>
-                    <div class="sidebar-user-name"><?php echo $Candidato[nome]; ?> <?php echo $Candidato[numero]; ?></div> <!-- F.Garcez -->
+                    <div class="sidebar-user-name"><?php echo $TituloCandidato; ?> <?php echo $CandidatoDB->Numero_Candidato; ?></div> <!-- F.Garcez -->
                     <div class="sidebar-user-links">
                         <a href="user_profile" data-toggle="tooltip" data-placement="bottom" title="Profile"><i class="gi gi-user"></i></a>
                         <a href="inbox" data-toggle="tooltip" data-placement="bottom" title="Messages"><i class="gi gi-envelope"></i></a>

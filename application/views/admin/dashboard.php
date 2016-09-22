@@ -66,7 +66,7 @@ if (isset($this->session->userdata['logged_in'])) {
             </div>
         </div>
         <!-- For best results use an image with a resolution of 2560x248 pixels (You can also use a blurred image with ratio 10:1 - eg: 1000x100 pixels - it will adjust and look great!) -->
-        <img src="<?php echo base_url(); ?>images/placeholders/headers/dashboard_header_psdb.jpg" alt="header image" class="animation-pulseSlow">
+        <img src="<?php echo base_url().$cabecalho; ?>" alt="header image" class="animation-pulseSlow">
     </div>
     <!-- END Dashboard Header -->
 
@@ -194,6 +194,29 @@ if (isset($this->session->userdata['logged_in'])) {
                     <!-- Timeline Content -->
                     <div class="timeline">
                         <ul class="timeline-list">
+                            <li class="active">
+                               <div class="timeline-icon"><i class="gi gi-airplane"></i></div>
+                               <div class="timeline-time"><small>sistema</small></div>
+                               <div class="timeline-content">
+                                   <p class="push-bit"><a href="index.php/dashboard/teste2"><strong>Testes de Sistema</strong></a></p>
+                                   
+
+                                    <?php echo $Candidato[nome]; ?>
+                                    <br>
+                                   
+                                    <img src="<?php echo base_url().$Usuario[foto]; ?>" alt="avatar"> <i class="fa fa-angle-down"></i>
+                                    <br>
+                                    <img src="<?php echo base_url().$Candidato[foto]; ?>" alt="avatar">
+                                    <?php //var_dump($Candidato["dadosDB"]); ?>
+                                    <br>
+                                    <?php var_dump($cabecalho); ?>
+                                    <br>
+                                    <?php echo $CandidatoDB->ApelidoPolitico; ?>
+                                    <br>
+                                    <?php var_dump($CandidatoDB); ?>
+ 
+                               </div>
+                            </li>
                             <li class="active">
                                 <div class="timeline-icon"><i class="gi gi-airplane"></i></div>
                                 <div class="timeline-time"><small>Agora</small></div>
