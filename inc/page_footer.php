@@ -38,14 +38,18 @@
 
             <!-- Modal Body -->
             <div class="modal-body">
-                <form action="index.php" method="post" enctype="multipart/form-data" class="form-horizontal form-bordered" onsubmit="return false;">
+                <form action="dashboard/conf_usuario" method="post" enctype="form_open_multipart" class="form-horizontal form-bordered" >
                     <fieldset>
                         <legend>Informações Gerais</legend>
                         <div class="form-group">
                             <label class="col-md-4 control-label">Nome</label>
-                            <div class="col-md-8">
+                            <div class="col-md-4">
                                 <p class="form-control-static"><?php echo $nome.' '.$sobrenome ?></p>
                             </div>
+                            <div class="col-md-4">
+                                <input type='file' id="userfoto" name='userfoto' size='20'">Enviar Foto </input>
+                            </div>
+                            
                         </div>
                         <div class="form-group">
                             <label class="col-md-4 control-label" for="user-settings-email">Email</label>
@@ -55,11 +59,14 @@
                         </div>
                         <div class="form-group">
                             <label class="col-md-4 control-label" for="user-settings-notifications">Notificações por Email</label>
-                            <div class="col-md-8">
+                            <div class="col-md-4">
                                 <label class="switch switch-primary">
                                     <input type="checkbox" id="user-settings-notifications" name="user-settings-notifications" value="1" checked>
                                     <span></span>
                                 </label>
+                            </div>
+                            <div class="col-md-4">
+                                ---
                             </div>
                         </div>
                     </fieldset>

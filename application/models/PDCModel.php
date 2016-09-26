@@ -202,7 +202,7 @@ Class PDCModel extends CI_Model {
 
     public function atualizaCadastroCandidato($id, $data){
      
-        var_dump($data);   
+        //var_dump($data);   
         //$this->db-where('id_Candidato',$idCandidato); //Por alguma razão alienígena a clausula WHERE não está funcionando aqui   
         $this->db->update('Candidato',$data, "id_Candidato=$id");
         $success = $this->db->affected_rows();
@@ -462,11 +462,6 @@ Class PDCModel extends CI_Model {
         //var_dump($row);
     }
 
-
-
-
-
-
     public function AtualizaFotoUser ($id,$data) {
         $this->db->where('id', $id);
         $this->db->update('users',$data);
@@ -515,6 +510,18 @@ Class PDCModel extends CI_Model {
         }
     }
     
+    public function RetornaSexoCandidato ($idCandidato){
+        $query = $this->db->query("SELECT sexo FROM Candidato WHERE id_Candidato='$idCandidato'");
+        $row = $query->row(); 
+        if (isset($row)){
+            return $row->sexo;
+        }   else {
+            return FALSE;
+        }       
+                
+    }
+
+
     public function RetornaNomeUrnaCandidato ($idCandidato){
         $query = $this->db->query("select ApelidoPolitico from Candidato where id_Candidato='$idCandidato'");
         $row = $query->row();

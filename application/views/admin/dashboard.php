@@ -201,12 +201,15 @@ if (isset($this->session->userdata['logged_in'])) {
                                    <p class="push-bit"><a href="index.php/dashboard/teste2"><strong>Testes de Sistema</strong></a></p>
                                    
 
-                                    <?php echo $Candidato[nome]; ?>
+                                    <?php var_dump($Candidato); ?>
+                                    <br>
+
                                     <br>
                                    
                                     <img src="<?php echo base_url().$Usuario[foto]; ?>" alt="avatar"> <i class="fa fa-angle-down"></i>
+                                    <?php// echo base_url().$Candidato[foto]; ?>
                                     <br>
-                                    <img src="<?php echo base_url().$Candidato[foto]; ?>" alt="avatar">
+                                    <img src="<?php echo base_url().$Candidato[foto]; ?>" style="width:100px;height:100px" alt="avatar">
                                     <?php //var_dump($Candidato["dadosDB"]); ?>
                                     <br>
                                     <?php var_dump($cabecalho); ?>

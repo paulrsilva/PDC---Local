@@ -91,13 +91,13 @@ $this->load->helper('url');
                     <li>
                         <a href="javascript:void(0)" class="chat-user-online">
                             <span></span>
-                            <img src="<?php echo base_url(); ?>images/placeholders/usuarios/Paul2.jpg" alt="avatar" class="img-circle">
+                            <img src="<?php echo base_url().$Usuario[foto]; ?>" alt="avatar" class="img-circle">
                         </a>
                     </li>
                     <li>
                         <a href="javascript:void(0)" class="chat-user-online">
                             <span></span>
-                            <img src="<?php echo base_url(); ?>images/placeholders/avatars/avatar15.jpg" alt="avatar" class="img-circle">
+                            <img src="<?php echo base_url().$Candidato[foto]; ?>" alt="avatar" class="img-circle">
                         </a>
                     </li>
                     <li>
@@ -167,7 +167,7 @@ $this->load->helper('url');
                 <div class="chat-talk display-none">
                     <!-- Chat Info -->
                     <div class="chat-talk-info sidebar-section">
-                        <img src="<?php echo base_url(); ?>images/placeholders/usuarios/Paul2.jpg" alt="avatar" class="img-circle pull-left">
+                        <img src="<?php echo base_url().$Usuario[foto]; ?>" alt="avatar" class="img-circle pull-left"> <!-- Foto usuário chat -->
                         <strong><?php echo $nome ?> </strong> online
                         <button id="chat-talk-close-btn" class="btn btn-xs btn-default pull-right">
                             <i class="fa fa-times"></i>
@@ -271,10 +271,10 @@ $this->load->helper('url');
                 <div class="sidebar-section sidebar-user clearfix">
                     <div class="sidebar-user-avatar">
                         <a href="user_profile">
-                            <img src="<?php echo base_url().$Candidato[foto]; ?>" alt="avatar">
+                            <img src="<?php echo base_url().$Candidato["foto"]; ?>" alt="avatar">
                         </a>
                     </div>
-                    <div class="sidebar-user-name"><?php echo $TituloCandidato; ?> <?php echo $CandidatoDB->Numero_Candidato; ?></div> <!-- F.Garcez -->
+                    <div class="sidebar-user-name"><?php echo $Candidato["TituloCandidato"]; ?> <?php echo $CandidatoDB->Numero_Candidato; ?></div> <!-- F.Garcez -->
                     <div class="sidebar-user-links">
                         <a href="user_profile" data-toggle="tooltip" data-placement="bottom" title="Profile"><i class="gi gi-user"></i></a>
                         <a href="inbox" data-toggle="tooltip" data-placement="bottom" title="Messages"><i class="gi gi-envelope"></i></a>
