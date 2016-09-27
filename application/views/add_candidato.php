@@ -222,10 +222,15 @@
                 </div>
                 
                 <div class="form-group">
-     
-                    <label class="col-md-4 control-label"><a href="#modal-foto_user" data-toggle="modal">Enviar Foto</a></label>
-                    <div class="col-md-3">
-                        <input type="file" id="example-file-input" name="user_foto" >
+                         
+ 
+                    <div class="col-md-4">
+                      <img src="<?php echo base_url().$Usuario[foto]; ?>" align='right' style="width:50px;height:50px" alt="Avatar">  
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <i class="fa fa-fw fa-upload"></i> <a href="#modal-foto_user" data-toggle="modal">Enviar Foto</a><br>
+                        <i class="fa fa-fw fa-picture-o"></i> <a href="javascript:void(0)">Escolher da biblioteca</a>
                     </div>
                 </div> 
                                

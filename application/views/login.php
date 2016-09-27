@@ -16,7 +16,8 @@
 <!-- Login Background -->
 <div id="login-background">
     <!-- For best results use an image with a resolution of 2560x400 pixels (prefer a blurred image for smaller file size) -->
-    <img src="<?php echo base_url(); ?>images/placeholders/headers/login_header.jpg" alt="Login Background" class="animation-pulseSlow">
+    <!-- Modificar de acordo com a localização de quem acessa) -->
+    <img src="<?php echo base_url(); ?>images/placeholders/headers/LoginHeaderEYE.jpg" alt="Login Background" class="animation-pulseSlow"> 
 </div>
 <!-- END Login Background -->
 

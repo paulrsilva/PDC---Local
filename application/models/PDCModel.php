@@ -138,6 +138,7 @@ Class PDCModel extends CI_Model {
         return $result;
         
     }
+      
 
 
     public function atualizaCadastro($id, $data){
@@ -178,6 +179,8 @@ Class PDCModel extends CI_Model {
         }  
         return TRUE;      
     }
+    
+    
 
     public function insereCandidato ($data)
     {
@@ -215,6 +218,48 @@ Class PDCModel extends CI_Model {
         return TRUE;    
     }
     
+    public function InsereEquipeCandidato ($Data) {
+        $this->db->insert('Equipe', $Data);
+        $success=$this->db->affected_rows();
+        if(!$success){
+            error_log('Impossível inserir membro equipe');
+            return FALSE;
+        }
+        //var_dump($Data);
+        return $this->db->insert_id(); //Pega a membro inserido      
+    }
+    
+    public function AtualizaEquipeCandidato ($idMembro, $data){
+      $this->db->update('Equipe',$data,"Id_MembroEquipe=$idMembro");
+      $success = $this->db->affected_rows();
+      if(!$success){
+            error_log('Impossível atualizar foto do candidato ('.$idMembro.')');
+            return FALSE;
+      }
+      return TRUE;
+        
+    }
+    
+    
+    public function DeletaMembroEquipe($idMembroEquipe){
+        $this->db->where('Id_MembroEquipe',$idMembroEquipe);
+        $this->db->delete('Equipe');
+    }
+    
+
+    public function listaMembrosEquipeCandidato($idCandidato){
+        $query=$this->db->query("SELECT * from Equipe WHERE Id_Candidato='$idCandidato'");
+        return $query; 
+    }
+    
+    public function CarregaDadosMembroEquipe ($idMembroEquipe){
+        $query = $this->db->query("SELECT * FROM Equipe WHERE Id_MembroEquipe='$idMembroEquipe'");
+        return $query->row();
+    }
+
+    
+
+
     public function CarregaPalavrasChave($idCandidato){
         //$idTeste=83;
         $query = $this->db->query("SELECT * from PalavrasChave WHERE Candidato='$idCandidato'");
@@ -319,7 +364,22 @@ Class PDCModel extends CI_Model {
         }
     }   
     
-    
+    public function verificaMembroCadastrado($email){
+         $query = $this->db->query("SELECT Id_MembroEquipe from Equipe WHERE email='$email'");
+         $row = $query->row();
+         return $row->Id_MembroEquipe; 
+         
+        if ($query->num_rows() == 1) {
+            return $row->Id_MembroEquipe; 
+        } else {
+            return false;
+        }
+                
+    }
+
+
+
+
     public function updatePassword($post)
     {   
         $this->db->where('id', $post['user_id']);

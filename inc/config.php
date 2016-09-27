@@ -125,7 +125,7 @@ $primary_nav = array(
             ),
             array(
                 'name'  => 'Equipe',
-                'url'   => '#'
+                'url'   => 'http://localhost/PDC/ci/dashboard/gerenciarEquipe'
             ),
             array(
                 'name'  => 'Plataforma',

@@ -42,7 +42,9 @@ class dashboard extends CI_Controller {
                 //Se no primeiro login, sem candidato definido,
                 // envia para página de finalização de cadastro
                 
-                $sessao_ativa = $this->verifica_sessao();
+                //$sessao_ativa = $this->verifica_sessao();
+                
+                $sessao_ativa = TRUE; //Mantem sessao ativa para testes
                 
                 if (!isset($this->session->userdata['logged_in'])){
                         //verifica se o usuário está logado
@@ -54,16 +56,8 @@ class dashboard extends CI_Controller {
                        $this->dash();
                 }
                 
-                /**
-                if ($sessao_ativa==TRUE){
-                    $this->dash(); 
-
-                } else {
-                    $this->login(); 
-                }
-                 * 
-                 */
                 
+               
                 //$this->dash2();      
        }    
         
@@ -207,9 +201,6 @@ class dashboard extends CI_Controller {
             );
             
             $DadosCandidato = array(
-                'nome' => 'F.Garcezz',
-                //'numero' => $this->pegaNumeroCandidato()
-                'numero' => '45000',
                 'foto' => $this->RetornaImagemCandidato(),
                 'TituloCandidato' => $this->RetornaNomeResumidoCandidato($this->pegaNumeroCandidato()),
                 'dadosDB' => $this->PDCModel->PegaDadosCandidato($this->pegaNumeroCandidato()) // Atribuir matriz multidimensional mais tarde
@@ -787,10 +778,10 @@ class dashboard extends CI_Controller {
                 
                 
                 
-                    $DadosCandidato = array (
-                        'TituloCandidato' => $this->RetornaNomeResumidoCandidato($this->pegaNumeroCandidato()),
-                        'foto' => $this->RetornaImagemCandidato()
-                    );
+                $DadosCandidato = array (
+                    'TituloCandidato' => $this->RetornaNomeResumidoCandidato($this->pegaNumeroCandidato()),
+                    'foto' => $this->RetornaImagemCandidato()
+                );
                     
                  $this->load->helper(array('form', 'url', 'date'));
                  $this->load->library('upload');
@@ -827,14 +818,142 @@ class dashboard extends CI_Controller {
         }
         
         
-        public function gerenciarEquipe($page='add_equipe'){
+        public function gerenciarEquipe($idMembro, $page='add_equipe'){
             if ( ! file_exists(APPPATH.'views/admin/'.$page.'.php')) {
                      // Whoops, we don't have a page for that!
                      show_404(); 
             }
+            
+            //carregando lista de membros da equipe
+            $idDoCandidato=$this->pegaNumeroCandidato(); 
+            $data['listaEquipe'] = $this->PDCModel->listaMembrosEquipeCandidato($idDoCandidato);            
+           
+            //Se o numero do membro for passado na chamada, atualiza membro
+            if (isset($idMembro)){
+                $DadosMembro=$this->PDCModel->CarregaDadosMembroEquipe($idMembro);  
+                $data['Membro'] = array (
+                        'Id_MembroEquipe' => $idMembro,
+                        'Nome' => $DadosMembro->Nome,
+                        'CPF' => $DadosMembro->CPF,
+                        'Email' => $DadosMembro->email,
+                        'Endereco' => $DadosMembro->Endereco,
+                        'Cidade' => $DadosMembro->Cidade,
+                        'UF' => $DadosMembro->UF,
+                        'Telefone' => $DadosMembro->Telefone,
+                        'Celular' => $DadosMembro->Celular
+                    );
+            }
+
+            //Carregando os dados que serão passados para o View
+            $DadosUsuario = array(
+                'nome' => $this->session->nome,
+                'foto' => $this->FotoUsuario()
+            );
+            
+            $DadosCandidato = array(
+                'foto' => $this->RetornaImagemCandidato(),
+                'TituloCandidato' => $this->RetornaNomeResumidoCandidato($this->pegaNumeroCandidato()),
+                //'dadosDB' => $this->PDCModel->PegaDadosCandidato($this->pegaNumeroCandidato()) // Atribuir matriz multidimensional mais tarde
+            );
+            $data['Usuario']=$DadosUsuario;
+            $data['Candidato']=$DadosCandidato;
+            $data['CandidatoDB']=$this->PDCModel->PegaDadosCandidato($this->pegaNumeroCandidato());
+            
+            //Fim dos dados que serão passados para o View
+
+            
             $this->load->helper('url');
             $this->load->view('/admin/'.$page, $data); 
         }   
+        
+       public function adicionarEquipe(){
+           //echo 'adicionando equipe';
+           //var_dump($_POST);
+           
+           
+           // adiciona os dados enviados no form numa array
+            $dataMembroEquipe = array (
+               'Id_Candidato' => $this->pegaNumeroCandidato(),
+               'CPF' => $this->input->post('add-membro-CPF'),
+               'sexo' => $this->input->post('sexo_membro'),
+               'DataNascimento' => $this->input->post('masked_nasc_membro'),
+               // 'foto'
+               'Nome' => $this->input->post('add-membro-nome'),
+               'email' =>  $this->input->post('add-membro-email'),
+               'CEP' => $this->input->post('edit-membro-CEP'),
+               'Endereco' => $this->input->post('edit-membro-address'),
+               'Cidade' => $this->input->post('edit-membro-Cidade'),
+               'UF'=> $this->input->post('edit-membro-UF'),
+               'Telefone'=> $this->input->post('add-membro-phone'),
+               'Celular'=> $this->input->post('add-membro-mobile')
+           );
+            
+           //Verifica se o membro está sendo atualizado
+           $IdMembroAdicionado = $this->input->post('membro_id');
+                      
+           //echo $this->PDCModel->verificaMembroCadastrado($this->input->post('add-membro-email'));
+           
+           if ($IdMembroAdicionado !=''){
+               //echo 'atualizar membro';
+               $this->PDCModel->AtualizaEquipeCandidato($IdMembroAdicionado,$dataMembroEquipe);
+               $this->gerenciarEquipe();
+           } else {          
+               //Se o membro não estiver sendo adicionado, simplesmente adiciona
+               //echo 'adicionar membro';
+               
+               //Verifica se já tem um email igual cadastrado
+               if ($IdMembroExistente = $this->PDCModel->verificaMembroCadastrado($this->input->post('add-membro-email'))){
+                   echo "<script type='text/javascript'> alert('Email já cadastrado'); </script> ";
+                   $this->gerenciarEquipe($IdMembroExistente); 
+                   //exit();
+               } else {
+                    $this->PDCModel->InsereEquipeCandidato($dataMembroEquipe);
+                    $this->gerenciarEquipe();
+               }
+               
+           } 
+                      
+
+
+             
+           //Verificando se o membro já existe no cadastro
+            
+           /**
+           $EmailMembro = $this->input->post('add-membro-email');
+           
+           if ($this->PDCModel->getUserInfoByEmail($EmailMembro)){
+               echo 'Existe no cadastro PDC';
+           } else {
+              echo 'NNAAOOO Existe no cadastro PDC';
+           }
+            * 
+            */
+           
+           
+           //echo $EmailMembro;
+           
+          /** 
+          $DadosMembro = array (
+              'EmailMembro' => $this->input->post('add-membro-email')  
+               );
+           * 
+           */
+           
+           // - $this->PDCModel->getUserInfoByEmail($EmailMembro);
+           
+           //Verifica se o membro já está definido na equipe
+           
+           //Caso o membro não exista, insere como membro e envia um email para cadastro de senha
+           
+           
+       }
+       
+        public function DeletaMembroEquipeCandidato($idMembro){
+            //echo 'deletando ';
+            //echo $idMembro; 
+            $this->PDCModel->DeletaMembroEquipe($idMembro);
+            $this->gerenciarEquipe();
+        }
 
 
         public function mostra_ufs(){
@@ -1137,8 +1256,47 @@ class dashboard extends CI_Controller {
 
 
         public function teste2(){
-        
-           
+            
+            echo 'listando equipe';
+            
+            $idDoCandidato=$this->pegaNumeroCandidato(); 
+            $listaEquipe = $this->PDCModel->listaMembrosEquipeCandidato($idDoCandidato);
+            
+            
+            //Criando um array com dados da equipe
+            /**
+            foreach ($listaEquipe->result() as $membroEquipe){
+                $data=array(
+                  'Candidato'  => $idCandidato,
+                   'PalavraChave' => $palavra  
+                );
+                //$this->db->insert('PalavrasChave',$data);
+            }
+            
+            echo count($palavras);
+             * 
+             */
+            
+            
+            
+            foreach ($listaEquipe->result() as $Equipe) {
+               
+                echo "<br>";
+                //echo '--';
+                echo $Equipe->Nome;
+                /**
+                echo $row->idestado.' '.$row->nome.'<br>';
+                echo $uf['nome'];
+                 * 
+                 */
+            }
+            
+            
+            
+            
+         
+            
+         /** carregando foto avatar 
          $InfoUsuario = $this->PDCModel->PegaDadosUser($this->session->userdata['email']);
          $fotoUsuario = $InfoUsuario->foto_user;
          if (!isset($fotoUsuario)){
@@ -1147,6 +1305,8 @@ class dashboard extends CI_Controller {
              echo 'foto usuario';
          }
          //var_dump($fotoUsuario);
+          * 
+          */
         
         /**
         if (!isset($this->session->userdata['logged_in'])){ //verifica finalização de cadastro

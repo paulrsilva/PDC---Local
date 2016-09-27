@@ -8,7 +8,7 @@
     <div class="content-header">
         <div class="header-section">
             <h1>
-                <i class="gi gi-group"></i>Equipe<br><small>Definir Equipe de Trabalho!</small>
+                <i class="gi gi-group"></i>Equipe<br><small>Definir Equipe de Trabalho!!</small>
             </h1>
         </div>
     </div>
@@ -18,29 +18,13 @@
         <li><a href="">Gestão de Equipe</a></li>
     </ul>
     <!-- END Blank Header -->
-
-    <!-- Example Block -->
-    <div class="block">
-        <!-- Example Title -->
-        <div class="block-title">
-            <h2>Block Title</h2>
-        </div>
-        <!-- END Example Title -->
-
-        <!-- Example Content -->
-        <p>Your content..</p>
-        <!-- END Example Content -->
-    </div>
-    <!-- END Example Block -->
+    <!-- Lista dinamica da equipe -->
     
     <div class="block">
-        <!-- Título Tabela Equipe -->
         <div class="block-title">
             <h2>Lista de Membros <strong> Equipe </strong></h2>
         </div>
-        <!-- END Example Title -->
-
-        <!-- Tabela responsiva de membros equipe  -->
+        
         <div class="table-responsive">
             <table class="table table-vcenter table-striped">
                 <thead>
@@ -53,111 +37,173 @@
                     </tr>
                 </thead>
                 <tbody>
+                    <?php foreach ($listaEquipe->result() as $Equipe) { ?>
                     <tr>
                         <td class="text-center"><img src="img/placeholders/avatars/avatar<?php echo rand(1, 16); ?>.jpg" alt="avatar" class="img-circle"></td>
-                        <td><a href="page_ready_user_profile.php">client1</a></td>
-                        <td>client1@example.com</td>
+                        <td><a href="page_ready_user_profile.php"><?php  echo $Equipe->Nome; ?></a></td>
+                        <td><?php  echo $Equipe->email; ?></td>
                         <td><a href="javascript:void(0)" class="label label-warning">Trial</a></td>
                         <td class="text-center">
                             <div class="btn-group btn-group-xs">
-                                <a href="javascript:void(0)" data-toggle="tooltip" title="Edit" class="btn btn-default"><i class="fa fa-pencil"></i></a>
-                                <a href="javascript:void(0)" data-toggle="tooltip" title="Delete" class="btn btn-danger"><i class="fa fa-times"></i></a>
+                                <a href="<?php echo base_url()."dashboard/gerenciarEquipe/$Equipe->Id_MembroEquipe" ; ?>" data-toggle="tooltip" title="Atualizar" class="btn btn-default"><i class="fa fa-pencil"></i></a>
+                                <a href="<?php echo base_url()."dashboard/DeletaMembroEquipeCandidato/$Equipe->Id_MembroEquipe" ; ?>" data-toggle="tooltip" title="Apagar" class="btn btn-danger"><i class="fa fa-times"></i></a>
                             </div>
                         </td>
-                    </tr>
-                    <tr>
-                        <td class="text-center"><img src="img/placeholders/avatars/avatar<?php echo rand(1, 16); ?>.jpg" alt="avatar" class="img-circle"></td>
-                        <td><a href="page_ready_user_profile.php">client2</a></td>
-                        <td>client2@example.com</td>
-                        <td><a href="javascript:void(0)" class="label label-success">VIP</a></td>
-                        <td class="text-center">
-                            <div class="btn-group btn-group-xs">
-                                <a href="javascript:void(0)" data-toggle="tooltip" title="Edit" class="btn btn-default"><i class="fa fa-pencil"></i></a>
-                                <a href="javascript:void(0)" data-toggle="tooltip" title="Delete" class="btn btn-danger"><i class="fa fa-times"></i></a>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="text-center"><img src="img/placeholders/avatars/avatar<?php echo rand(1, 16); ?>.jpg" alt="avatar" class="img-circle"></td>
-                        <td><a href="page_ready_user_profile.php">client3</a></td>
-                        <td>client3@example.com</td>
-                        <td><a href="javascript:void(0)" class="label label-info">Business</a></td>
-                        <td class="text-center">
-                            <div class="btn-group btn-group-xs">
-                                <a href="javascript:void(0)" data-toggle="tooltip" title="Edit" class="btn btn-default"><i class="fa fa-pencil"></i></a>
-                                <a href="javascript:void(0)" data-toggle="tooltip" title="Delete" class="btn btn-danger"><i class="fa fa-times"></i></a>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="text-center"><img src="img/placeholders/avatars/avatar<?php echo rand(1, 16); ?>.jpg" alt="avatar" class="img-circle"></td>
-                        <td><a href="page_ready_user_profile.php">client4</a></td>
-                        <td>client4@example.com</td>
-                        <td><a href="javascript:void(0)" class="label label-success">VIP</a></td>
-                        <td class="text-center">
-                            <div class="btn-group btn-group-xs">
-                                <a href="javascript:void(0)" data-toggle="tooltip" title="Edit" class="btn btn-default"><i class="fa fa-pencil"></i></a>
-                                <a href="javascript:void(0)" data-toggle="tooltip" title="Delete" class="btn btn-danger"><i class="fa fa-times"></i></a>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="text-center"><img src="img/placeholders/avatars/avatar<?php echo rand(1, 16); ?>.jpg" alt="avatar" class="img-circle"></td>
-                        <td><a href="page_ready_user_profile.php">client5</a></td>
-                        <td>client5@example.com</td>
-                        <td><a href="javascript:void(0)" class="label label-primary">Personal</a></td>
-                        <td class="text-center">
-                            <div class="btn-group btn-group-xs">
-                                <a href="javascript:void(0)" data-toggle="tooltip" title="Edit" class="btn btn-default"><i class="fa fa-pencil"></i></a>
-                                <a href="javascript:void(0)" data-toggle="tooltip" title="Delete" class="btn btn-danger"><i class="fa fa-times"></i></a>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="text-center"><img src="img/placeholders/avatars/avatar<?php echo rand(1, 16); ?>.jpg" alt="avatar" class="img-circle"></td>
-                        <td><a href="page_ready_user_profile.php">client6</a></td>
-                        <td>client6@example.com</td>
-                        <td><a href="javascript:void(0)" class="label label-info">Business</a></td>
-                        <td class="text-center">
-                            <div class="btn-group btn-group-xs">
-                                <a href="javascript:void(0)" data-toggle="tooltip" title="Edit" class="btn btn-default"><i class="fa fa-pencil"></i></a>
-                                <a href="javascript:void(0)" data-toggle="tooltip" title="Delete" class="btn btn-danger"><i class="fa fa-times"></i></a>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="text-center"><img src="img/placeholders/avatars/avatar<?php echo rand(1, 16); ?>.jpg" alt="avatar" class="img-circle"></td>
-                        <td><a href="page_ready_user_profile.php">client7</a></td>
-                        <td>client7@example.com</td>
-                        <td><a href="javascript:void(0)" class="label label-primary">Personal</a></td>
-                        <td class="text-center">
-                            <div class="btn-group btn-group-xs">
-                                <a href="javascript:void(0)" data-toggle="tooltip" title="Edit" class="btn btn-default"><i class="fa fa-pencil"></i></a>
-                                <a href="javascript:void(0)" data-toggle="tooltip" title="Delete" class="btn btn-danger"><i class="fa fa-times"></i></a>
-                            </div>
-                        </td>
-                    </tr>
+                    </tr> 
+                    <?php } ?>
                 </tbody>
-            </table>
+            </table> 
         </div>
-        <!-- END Responsive Full Content -->
+            
+
+    </div>
+    <!-- Fim lista dinamica da equipe -->
+    
+    <!-- Example Block -->
+    <div class="block">
+        <!-- Example Title -->
+        <div class="block-title">
+            <h2>Adicionar Membro Equipe</h2>
+        </div>
+        <!-- END Example Title -->
+
+        <!-- Formulário de Conteúdo para adicionar contato -->
+        <!-- Add Contact Content -->
+        
+                <form action="<?php echo site_url('index.php/dashboard/adicionarEquipe'); ?>" method="post" class="form-horizontal form-bordered">
+                    <div class="form-group">
+                        <label class="col-xs-3 control-label text-muted">Sem Imagem</label>
+                        <div class="col-xs-9">
+                            <i class="fa fa-fw fa-upload"></i> <a href="#modal-foto_membro" data-toggle="modal">Enviar Foto</a><br>
+                            <i class="fa fa-fw fa-picture-o"></i> <a href="javascript:void(0)">Escolher da biblioteca</a>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-3 control-label" for="add-membro-nome">Nome</label>
+                        <div class="col-xs-6">
+                            <input type="hidden" value="<?php echo $Membro['Id_MembroEquipe']; ?>" name="membro_id" />
+                            <input type="text" id="add-contact-name" name="add-membro-nome" value="<?php echo $Membro['Nome']; ?>" class="form-control" placeholder="Nome Completo">
+                        </div>
+                        <div class="col-xs-3">
+                            
+                            <label class="radio-inline" for="sexo-inline-radio1">
+                                <input type="radio" id="sexo-inline-radio1" name="sexo_membro"
+                                       value="M" 
+                                       <?php if($usuario->sexo=="M") { echo "checked='TRUE'"; }?>> <i class="fa fa-child"> Masc.</i>
+                            </label>
+                        
+                            <label class="radio-inline" for="sexo-inline-radio2">
+                                <input type="radio" id="sexo-inline-radio2" name="sexo_membro" value="F"
+                                       <?php if($usuario->sexo=="F") { echo "checked='TRUE'"; }?>> <i class="fa fa-female"> Fem.</i>
+                            </label>                          
+                         </div>
+                            
+                    </div>
+                     <div class="form-group">
+                        <label class="col-xs-3 control-label" for="add-contact-CPF">CPF</label>
+                        <div class="col-xs-3">
+                            <input type="text" id="add-contact-name" name="add-membro-CPF" value="<?php echo $Membro['CPF']; ?>" class="form-control" placeholder="CPF">
+                        </div>
+                        <label class="col-xs-3 control-label" for="masked_nasc_membro">Nascimento</label>
+                        <div class="col-xs-3">
+                           <input type="text" id="masked_date" name="masked_nasc_membro" class="form-control" placeholder="Data Nascimento">
+                        </div>
+                    </div>                   
+                    <div class="form-group">
+                        <label class="col-xs-3 control-label" for="add-membro-email">Email</label>
+                        <div class="col-xs-9">
+                            <input type="email" id="add-contact-email" name="add-membro-email" value="<?php echo $Membro['Email']; ?>" class="form-control" placeholder="Email do membro">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-3 control-label" for="add-membro-phone">Telefone</label>
+                        <div class="col-xs-9">
+                            <input type="text" id="add-contact-phone" name="add-membro-phone" value="<?php echo $Membro['Telefone']; ?>" class="form-control" placeholder="(41) 0000-0000">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-3 control-label" for="add-membro-mobile">Celular</label>
+                        <div class="col-xs-9">
+                            <input type="text" id="add-contact-mobile" name="add-membro-mobile" value="<?php echo $Membro['Celular']; ?>" class="form-control" placeholder="Insira o Celular">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-3 control-label" for="add-membro-Cidade">UF/Cidade</label>
+                        <div class="col-xs-3">
+                            <input type="text" id="add-contact-UF" name="edit-membro-UF" value="<?php echo $Membro['UF']; ?>" class="form-control" placeholder="UF">
+                        </div>
+                        <div class="col-xs-6">
+                            <input type="text" id="add-contact-address" name="edit-membro-Cidade" value="<?php echo $Membro['Cidade']; ?>" class="form-control" placeholder="Cidade">
+                        </div>
+                    </div>                    
+                    <div class="form-group">
+                        <label class="col-xs-3 control-label" for="add-membro-address">CEP/Endereço</label>
+                         <div class="col-xs-3">
+                            <input type="text" id="add-contact-address" name="edit-membro-CEP"  class="form-control" placeholder="CEP">
+                        </div>
+                        <div class="col-xs-6">
+                            <input type="text" id="add-contact-address" name="edit-membro-address" value="<?php echo $Membro['Endereco']; ?>" class="form-control" placeholder="Endereço">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-3 control-label" for="add-membro-group">Grupo</label>
+                        <div class="col-xs-9">
+                            <input type="text" id="add-contact-group" name="add-membro-group" class="input-tags" value="All Contacts">
+                        </div>
+                    </div>
+                    <div class="form-group form-actions">
+
+                        <div class="col-xs-9 col-xs-offset-3">  
+                        
+                        <?php //Se estiver atualizando muda o nome do botão de adicionar e inclui um botão excluir
+                            if (isset($Membro['Nome'])){
+                                $MsgButton = 'Atualizar Membro';
+                                
+                                $varURL =  base_url()."dashboard/DeletaMembroEquipeCandidato/".$Membro['Id_MembroEquipe'];
+                                echo "<a class='btn btn-sm btn-danger' href='$varURL' ;' role='button'><i class='fa fa-eraser'></i>Apagar Membro</a>";
+                                
+                            } elseif(!isset($Membro['Nome']))  {
+                               $MsgButton = 'Adicionar Membro'; 
+                            }
+                        ?>
+                            <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-plus"></i> <?php echo $MsgButton; ?></button>
+                        </div>
+                    </div>
+                </form>
+
+                <!-- END Add Contact Content -->
         
         
-        
+        <!-- Fim de formulário de conteúdo para adicionar contato -->
     </div>
     <!-- END Example Block -->
-    
-    
-    
-    
-</div>
-<!-- END Page Content -->
-
-
-
-
    
+</div>
 
+
+ <!-- Enviar Foto Membro Modal -->
+    <div id="modal-foto_membro" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h3 class="modal-title"><i class="gi gi-user_add"></i> Enviar Foto Membro Equipe</h3>
+                </div>
+                <div class="modal-body">
+                    <?php echo $error;?> <!-- Error Message will show up here -->
+                    <?php echo form_open_multipart('dashboard/do_upload');?>
+                    <?php echo "<input type='file' name='userfile' size='20' />"; ?>
+                    <?php echo "<input type='submit' name='submit' value='upload' /> ";?>
+                    <?php echo "</form>"?>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-sm btn-primary" data-dismiss="modal">Finalizado</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Fim Enviar Foto Modal -->
+<!-- END Page Content -->
 
 <?php include 'inc/page_footer.php'; ?>
 <?php include 'inc/template_scripts.php'; ?>

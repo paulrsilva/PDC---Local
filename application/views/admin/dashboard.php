@@ -63,11 +63,21 @@ if (isset($this->session->userdata['logged_in'])) {
                     </div>
                 </div>
                 <!-- END Top Stats -->
+                <br>
+                <p>
+
             </div>
         </div>
         <!-- For best results use an image with a resolution of 2560x248 pixels (You can also use a blurred image with ratio 10:1 - eg: 1000x100 pixels - it will adjust and look great!) -->
+        
         <img src="<?php echo base_url().$cabecalho; ?>" alt="header image" class="animation-pulseSlow">
+        
+        <!-- status da parte de baixo header- adicionar partido e coligações -->
+        
+        
+        <!-- Fim status da parte de baixo -->
     </div>
+    
     <!-- END Dashboard Header -->
 
     <!-- Mini Top Stats Row -->
