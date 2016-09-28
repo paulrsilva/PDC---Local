@@ -3,6 +3,15 @@
 //session_start();
 
 
+//Definindo constantes de direitos (R+W+X+)
+// No PHP 7 usar o define ( ex. define('DEFAULT_ROLES', array('guy', 'development team'));
+// Usa o referenciamento de dtos do linux como base (R=4, W=2, X=1)
+const Dtos_Leitura = [4,5,6,7];
+const Dtos_Escrita = [2,3,6,7];
+const Dtos_Execucao = [1,3,5,7];
+
+//define('TesteConstante', 'teste2');
+
 class dashboard extends CI_Controller {
     
     public $status;
@@ -11,8 +20,17 @@ class dashboard extends CI_Controller {
     public $VarFotoCand;
     
     public $VarTeste='TESTE';
+    
 
-
+            // Usa o referenciamento de dtos do linux como base (R=4, W=2, X=1) //Definir os valores de direitos como constante
+            /** Como os valores não mudam, atribuí em constantes
+            $leitura = array(4,5,6,7);
+            $escrita = array(2,3,6,7);
+            $execucao = array (1,3,5,7);
+             * 
+             */
+    
+    //define('ValLeitura' 'testeLeitura');
 
 
     public function __construct() {
@@ -42,9 +60,9 @@ class dashboard extends CI_Controller {
                 //Se no primeiro login, sem candidato definido,
                 // envia para página de finalização de cadastro
                 
-                //$sessao_ativa = $this->verifica_sessao();
+                $sessao_ativa = $this->verifica_sessao();
                 
-                $sessao_ativa = TRUE; //Mantem sessao ativa para testes
+                //$sessao_ativa = TRUE; //Mantem sessao ativa para testes
                 
                 if (!isset($this->session->userdata['logged_in'])){
                         //verifica se o usuário está logado
@@ -835,13 +853,19 @@ class dashboard extends CI_Controller {
                         'Id_MembroEquipe' => $idMembro,
                         'Nome' => $DadosMembro->Nome,
                         'CPF' => $DadosMembro->CPF,
+                        'sexo' => $DadosMembro->sexo,
+                        'DataNascimento'=> $DadosMembro->DataNascimento,
+                        'foto' => $DadosMembro->foto,
                         'Email' => $DadosMembro->email,
+                        'CEP' => $DadosMembro->CEP,
                         'Endereco' => $DadosMembro->Endereco,
                         'Cidade' => $DadosMembro->Cidade,
                         'UF' => $DadosMembro->UF,
                         'Telefone' => $DadosMembro->Telefone,
                         'Celular' => $DadosMembro->Celular
                     );
+                
+                $data['AcessoGestao'] = $this->RetornaDireitos($DadosMembro->AcessoGestCamp);
             }
 
             //Carregando os dados que serão passados para o View
@@ -866,17 +890,83 @@ class dashboard extends CI_Controller {
             $this->load->view('/admin/'.$page, $data); 
         }   
         
-       public function adicionarEquipe(){
+        public function RetornaDireitos($atrib){
+            
+            //Constantes no topo. Linha 8
+            // Usando o padra RWX do Linux
+            
+            //R - Read | W - Write | X - Execute
+            //Verificando direitos de leitura    
+            
+             if (in_array($atrib, Dtos_Leitura )){
+                $R=TRUE;
+            } else {
+                $R = FALSE;
+            }
+            
+            if (in_array($atrib, Dtos_Escrita )){
+                $W=TRUE;
+            } else {
+                $W = FALSE;
+            }
+            
+            if (in_array($atrib, Dtos_Execucao )){
+                $X=TRUE;
+            } else {
+                $X = FALSE;
+            }     
+            
+            //Colocando os direitos num array
+            $dtos = array(
+                    'R' => $R,
+                    'W' => $W,
+                    'X' => $X
+            );       
+
+            return $dtos;
+
+            /**
+            echo '<BR>';
+            var_dump($dtos);
+            echo '<BR>';
+            
+            var_dump(Dtos_Leitura) ;
+             * 
+             */ 
+            
+        }
+
+
+        public function adicionarEquipe(){
+           
+           $this->load->helper('form', 'url', 'date');  
            //echo 'adicionando equipe';
            //var_dump($_POST);
+  
+           //$dataTeste = $this->input->post('masked_nasc_membro');
+           //Formata data para o MySQL       
+           $dateM = strtr($this->input->post('masked_nasc_membro'), '/', '-'); // substituindo o '/' pelo '-' para compatibilidade
            
+            //$nascimentoMembro = mdate( "%Y-%m-%d", strtotime($dateM)); //convertendo p/ Data p/o MySQL | por alguma razão o mdate não está rolando aqui
            
+           $nascimentoMembro = date("Y-m-d", strtotime($dateM));
+           
+           //Converte dtos da equipe para armazenamento num byte no sql
+           
+           $ValGestR = intval($this->input->post('gestaoCampanha_ler'));
+           $ValGestW = intval($this->input->post('gestaoCampanha_escrever'));
+           $ValGestX= intval($this->input->post('gestaoCampanha_executar'));  
+           
+           $AtribGestao = $ValGestR + $ValGestW + $ValGestX;
+           
+           //var_dump($AtribGestao);
+            
            // adiciona os dados enviados no form numa array
             $dataMembroEquipe = array (
                'Id_Candidato' => $this->pegaNumeroCandidato(),
                'CPF' => $this->input->post('add-membro-CPF'),
                'sexo' => $this->input->post('sexo_membro'),
-               'DataNascimento' => $this->input->post('masked_nasc_membro'),
+               'DataNascimento' => $nascimentoMembro,
                // 'foto'
                'Nome' => $this->input->post('add-membro-nome'),
                'email' =>  $this->input->post('add-membro-email'),
@@ -885,16 +975,17 @@ class dashboard extends CI_Controller {
                'Cidade' => $this->input->post('edit-membro-Cidade'),
                'UF'=> $this->input->post('edit-membro-UF'),
                'Telefone'=> $this->input->post('add-membro-phone'),
-               'Celular'=> $this->input->post('add-membro-mobile')
+               'Celular'=> $this->input->post('add-membro-mobile'),
+               'AcessoGestCamp' => $AtribGestao
            );
             
            //Verifica se o membro está sendo atualizado
-           $IdMembroAdicionado = $this->input->post('membro_id');
+           $IdMembroAdicionado = $this->input->post('membro_id'); //pega o membro_id num hidden form field
                       
            //echo $this->PDCModel->verificaMembroCadastrado($this->input->post('add-membro-email'));
            
            if ($IdMembroAdicionado !=''){
-               //echo 'atualizar membro';
+               //atualizando membro
                $this->PDCModel->AtualizaEquipeCandidato($IdMembroAdicionado,$dataMembroEquipe);
                $this->gerenciarEquipe();
            } else {          

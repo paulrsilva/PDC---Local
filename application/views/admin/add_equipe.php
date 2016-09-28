@@ -89,24 +89,32 @@
                             <label class="radio-inline" for="sexo-inline-radio1">
                                 <input type="radio" id="sexo-inline-radio1" name="sexo_membro"
                                        value="M" 
-                                       <?php if($usuario->sexo=="M") { echo "checked='TRUE'"; }?>> <i class="fa fa-child"> Masc.</i>
+                                       <?php if($Membro['sexo']=="M") { echo "checked='TRUE'"; }?>> <i class="fa fa-child"> Masc.</i>
                             </label>
                         
                             <label class="radio-inline" for="sexo-inline-radio2">
                                 <input type="radio" id="sexo-inline-radio2" name="sexo_membro" value="F"
-                                       <?php if($usuario->sexo=="F") { echo "checked='TRUE'"; }?>> <i class="fa fa-female"> Fem.</i>
+                                       <?php if($Membro['sexo']=="F") { echo "checked='TRUE'"; }?>> <i class="fa fa-female"> Fem.</i>
                             </label>                          
                          </div>
                             
                     </div>
                      <div class="form-group">
-                        <label class="col-xs-3 control-label" for="add-contact-CPF">CPF</label>
+                        <label class="col-xs-3 control-label" for="add-contact-CPF" >CPF</label>
                         <div class="col-xs-3">
                             <input type="text" id="add-contact-name" name="add-membro-CPF" value="<?php echo $Membro['CPF']; ?>" class="form-control" placeholder="CPF">
                         </div>
                         <label class="col-xs-3 control-label" for="masked_nasc_membro">Nascimento</label>
                         <div class="col-xs-3">
-                           <input type="text" id="masked_date" name="masked_nasc_membro" class="form-control" placeholder="Data Nascimento">
+                            <?php 
+                                if (isset($Membro['DataNascimento'])){
+                                     $date = new DateTime($Membro['DataNascimento']);
+                                     $dataNascimentoMembro = $date->format('d/m/Y');
+                                } else {
+                                    $dataNascimentoMembro = "";
+                                }
+                             ?>
+                            <input type="text" id="masked_date" name="masked_nasc_membro" class="form-control" value="<?php echo $dataNascimentoMembro; ?>" placeholder="Data Nascimento">
                         </div>
                     </div>                   
                     <div class="form-group">
@@ -139,21 +147,80 @@
                     <div class="form-group">
                         <label class="col-xs-3 control-label" for="add-membro-address">CEP/Endereço</label>
                          <div class="col-xs-3">
-                            <input type="text" id="add-contact-address" name="edit-membro-CEP"  class="form-control" placeholder="CEP">
+                             <input type="text" id="add-contact-address" name="edit-membro-CEP"  class="form-control" value="<?php echo $Membro['CEP']; ?>" placeholder="CEP">
                         </div>
                         <div class="col-xs-6">
                             <input type="text" id="add-contact-address" name="edit-membro-address" value="<?php echo $Membro['Endereco']; ?>" class="form-control" placeholder="Endereço">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-xs-3 control-label" for="add-membro-group">Grupo</label>
+                        <label class="col-xs-3 control-label" for="add-membro-group">Grupos </label> <!-- Adicionar descritivo -->
                         <div class="col-xs-9">
                             <input type="text" id="add-contact-group" name="add-membro-group" class="input-tags" value="All Contacts">
                         </div>
                     </div>
+                    
+                    
+                    <div class="form-group">
+                        <legend><i class="fa fa-angle-right"></i> Gestão de Direitos de Acesso</legend>
+                        <label class="col-xs-4 control-label" for="gestaoCampanha_ler"> Campanha </label> <!-- Adicionar descritivo -->
+                        <div class="col-xs-8">
+                                <label class="checkbox-inline" for="gestaoCampanha_ler">
+                                    <input type="checkbox" id="gestaoCampanha_ler" name="gestaoCampanha_ler"
+                                           <?php if($AcessoGestao["R"]){ echo "checked='TRUE'"; } ?> value="4"> Ver Informações
+                               </label>
+                               <label class="checkbox-inline" for="gestaoCampanha_escrever">
+                                   <input type="checkbox" id="gestaoCampanha_escrever"
+                                          name="gestaoCampanha_escrever" <?php if($AcessoGestao["W"]){ echo "checked='TRUE'"; } ?> value="2"> Incluir Dados
+                               </label>
+                               <label class="checkbox-inline" for="gestaoCampanha_executar">
+                                   <input type="checkbox" id="gestaoCampanha_executar" 
+                                          name="gestaoCampanha_executar" <?php if($AcessoGestao["X"]){ echo "checked='TRUE'"; } ?> value="1"> Excluir/Executar Ações
+                               </label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="col-xs-4 control-label" for="gestaoFinanceira_ler">Financeiro </label> <!-- Adicionar descritivo -->
+                        <div class="col-xs-8">
+                                <label class="checkbox-inline" for="gestaoFinanceira_ler">
+                                    <input type="checkbox" id="gestaoCampanha_ler" name="gestaoCampanha_ler"
+                                           <?php if($AcessoGestao["R"]){ echo "checked='TRUE'"; } ?> value="4"> Ver Informações
+                               </label>
+                               <label class="checkbox-inline" for="gestaoFinanceira_escrever">
+                                   <input type="checkbox" id="gestaoCampanha_escrever"
+                                          name="gestaoCampanha_escrever" <?php if($AcessoGestao["W"]){ echo "checked='TRUE'"; } ?> value="2"> Incluir Dados
+                               </label>
+                               <label class="checkbox-inline" for="gestaoFinanceira_executar">
+                                   <input type="checkbox" id="gestaoCampanha_executar" 
+                                          name="gestaoCampanha_executar" <?php if($AcessoGestao["X"]){ echo "checked='TRUE'"; } ?> value="1"> Excluir/Executar Ações
+                               </label>
+                        </div>
+                    </div>
+                    
+                    
+                    <div class="form-group">
+                        <label class="col-xs-4 control-label" for="gestaoGabinente_ler">Gabinete </label> <!-- Adicionar descritivo -->
+                        <div class="col-xs-8">
+                                <label class="checkbox-inline" for="gestaoGabinente_ler">
+                                    <input type="checkbox" id="gestaoCampanha_ler" name="gestaoCampanha_ler"
+                                           <?php if($AcessoGestao["R"]){ echo "checked='TRUE'"; } ?> value="4"> Ver Informações
+                               </label>
+                               <label class="checkbox-inline" for="gestaoGabinete_escrever">
+                                   <input type="checkbox" id="gestaoCampanha_escrever"
+                                          name="gestaoCampanha_escrever" <?php if($AcessoGestao["W"]){ echo "checked='TRUE'"; } ?> value="2"> Incluir Dados
+                               </label>
+                               <label class="checkbox-inline" for="gestaoGabinete_executar">
+                                   <input type="checkbox" id="gestaoCampanha_executar" 
+                                          name="gestaoCampanha_executar" <?php if($AcessoGestao["X"]){ echo "checked='TRUE'"; } ?> value="1"> Excluir/Executar Ações
+                               </label>
+                        </div>
+                    </div>
+                    
+                    
                     <div class="form-group form-actions">
 
-                        <div class="col-xs-9 col-xs-offset-3">  
+                        <div class="col-xs-8 col-xs-offset-4">  
                         
                         <?php //Se estiver atualizando muda o nome do botão de adicionar e inclui um botão excluir
                             if (isset($Membro['Nome'])){
@@ -177,6 +244,11 @@
         <!-- Fim de formulário de conteúdo para adicionar contato -->
     </div>
     <!-- END Example Block -->
+    <div class="block">
+        <?php var_dump($AcessoGestao); ?>
+        ---
+        <?php echo $AcessoGestao["W"]; ?>
+    </div>
    
 </div>
 
