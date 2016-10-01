@@ -18,6 +18,7 @@ class dashboard extends CI_Controller {
     public $roles;
 
     public $VarFotoCand;
+    public $VarFotoMembro;
     
     public $VarTeste='TESTE';
     
@@ -844,7 +845,29 @@ class dashboard extends CI_Controller {
             
             //carregando lista de membros da equipe
             $idDoCandidato=$this->pegaNumeroCandidato(); 
-            $data['listaEquipe'] = $this->PDCModel->listaMembrosEquipeCandidato($idDoCandidato);            
+            $data['listaEquipe'] = $this->PDCModel->listaMembrosEquipeCandidato($idDoCandidato); 
+            
+            $listaEquipe = $this->PDCModel->listaMembrosEquipeCandidato($idDoCandidato);
+            
+            //Criando array com dados atualizados de lista de equipe
+            
+            foreach ($listaEquipe->result() as $membroEquipe){
+                $dataMembrosEquipe[$membroEquipe->Id_MembroEquipe]=array(
+                  'id' => $membroEquipe->Id_MembroEquipe,
+                  'nome'  => $membroEquipe->Nome,
+                  'foto' => $this->RetornaImagemMembro($membroEquipe->foto),
+                  'email' =>  $membroEquipe->email,
+                  'Acesso' =>  $membroEquipe->Role
+                );
+            }
+            $data['MembrosEquipe'] = $dataMembrosEquipe;
+            
+            //Fim criando array com dados atualizados de lista de equipe
+            
+            
+            
+            //Carregando a lista de atribuições para membro
+            $data['atrib']=$this->PDCModel->lista_atrib();
            
             //Se o numero do membro for passado na chamada, atualiza membro
             if (isset($idMembro)){
@@ -855,17 +878,23 @@ class dashboard extends CI_Controller {
                         'CPF' => $DadosMembro->CPF,
                         'sexo' => $DadosMembro->sexo,
                         'DataNascimento'=> $DadosMembro->DataNascimento,
-                        'foto' => $DadosMembro->foto,
+                        'foto' => $this->RetornaImagemMembro($DadosMembro->foto),
                         'Email' => $DadosMembro->email,
                         'CEP' => $DadosMembro->CEP,
                         'Endereco' => $DadosMembro->Endereco,
                         'Cidade' => $DadosMembro->Cidade,
                         'UF' => $DadosMembro->UF,
                         'Telefone' => $DadosMembro->Telefone,
-                        'Celular' => $DadosMembro->Celular
+                        'Celular' => $DadosMembro->Celular,
+                        'AtribMembro' => $DadosMembro->Role
                     );
                 
-                $data['AcessoGestao'] = $this->RetornaDireitos($DadosMembro->AcessoGestCamp);
+                $data['AcessoGestaoCampanha'] = $this->RetornaDireitos($DadosMembro->AcessoGestCamp);
+                $data['AcessoGestaoFinanceira'] = $this->RetornaDireitos($DadosMembro->AcessoGestFin);
+                $data['AcessoGestaoGabinete'] = $this->RetornaDireitos($DadosMembro->AcessoGestGab);
+                
+                //Carrega Grupos do Membro
+                $data['GruposMembro']=  $this->CarregaGruposMembro($idMembro);
             }
 
             //Carregando os dados que serão passados para o View
@@ -939,10 +968,32 @@ class dashboard extends CI_Controller {
 
         public function adicionarEquipe(){
            
-           $this->load->helper('form', 'url', 'date');  
-           //echo 'adicionando equipe';
+           $this->load->helper('array', 'form', 'url', 'date');  
+
            //var_dump($_POST);
-  
+           
+           //Adicionando a imagem do membro no diretorio /placeholders/membros        
+            $config = array(
+                'upload_path' => "./images/placeholders/membros",
+                'allowed_types' => "gif|jpg|png|jpeg|pdf",
+                'overwrite' => TRUE,
+                'max_size' => "2048000", // Can be set to particular file size , here it is 2 MB(2048 Kb)
+                'max_height' => "768",
+                'max_width' => "1024",
+                'encrypt_name' => true
+             ); 
+             $this->load->library('upload', $config);
+             $this->upload->do_upload('MemberPicInput');
+             
+            $data = array('upload_data' => $this->upload->data());    
+            $extencaoNome = element('file_ext' , $data['upload_data']); //pegando extencao nome
+            
+            $fotoMembro  = element('file_name', $data['upload_data']); 
+          
+            //var_dump($data);
+            //var_dump($fotoMembro);
+           //fim aficionando imagem no diretorio /placeholders/membros
+           
            //$dataTeste = $this->input->post('masked_nasc_membro');
            //Formata data para o MySQL       
            $dateM = strtr($this->input->post('masked_nasc_membro'), '/', '-'); // substituindo o '/' pelo '-' para compatibilidade
@@ -953,13 +1004,31 @@ class dashboard extends CI_Controller {
            
            //Converte dtos da equipe para armazenamento num byte no sql
            
-           $ValGestR = intval($this->input->post('gestaoCampanha_ler'));
-           $ValGestW = intval($this->input->post('gestaoCampanha_escrever'));
-           $ValGestX= intval($this->input->post('gestaoCampanha_executar'));  
+           // Direitos para Gestão de Campanha
+           $ValGestCamp_R = intval($this->input->post('gestaoCampanha_ler'));
+           $ValGestCamp_W = intval($this->input->post('gestaoCampanha_escrever'));
+           $ValGestCamp_X= intval($this->input->post('gestaoCampanha_executar'));  
            
-           $AtribGestao = $ValGestR + $ValGestW + $ValGestX;
+           $AtribGestaoCampanha = $ValGestCamp_R + $ValGestCamp_W + $ValGestCamp_X;
            
-           //var_dump($AtribGestao);
+           //Direitos para Gestão Financeira
+           $ValGestFin_R = intval($this->input->post('gestaoFinanceira_ler'));
+           $ValGestFin_W = intval($this->input->post('gestaoFinanceira_escrever'));
+           $ValGestFin_X= intval($this->input->post('gestaoFinanceira_executar'));           
+           
+           $AtribGestaoFinanceira = $ValGestFin_R + $ValGestFin_W + $ValGestFin_X;
+           
+           //Direitos para Gestão de Gabinete
+           
+           $ValGestGab_R = intval($this->input->post('gestaoGabinente_ler'));
+           $ValGestGab_W = intval($this->input->post('gestaoGabinete_escrever'));
+           $ValGestGab_X= intval($this->input->post('gestaoGabinete_executar'));            
+           
+           $AtribGestaoGabinete = $ValGestGab_R + $ValGestGab_W  + $ValGestGab_X ;
+   
+           //var_dump($AtribGestaoCampanha);
+           //var_dump($AtribGestaoFinanceira);
+           //var_dump($AtribGestaoGabinete);
             
            // adiciona os dados enviados no form numa array
             $dataMembroEquipe = array (
@@ -967,7 +1036,7 @@ class dashboard extends CI_Controller {
                'CPF' => $this->input->post('add-membro-CPF'),
                'sexo' => $this->input->post('sexo_membro'),
                'DataNascimento' => $nascimentoMembro,
-               // 'foto'
+               'foto' =>  $fotoMembro,
                'Nome' => $this->input->post('add-membro-nome'),
                'email' =>  $this->input->post('add-membro-email'),
                'CEP' => $this->input->post('edit-membro-CEP'),
@@ -976,7 +1045,10 @@ class dashboard extends CI_Controller {
                'UF'=> $this->input->post('edit-membro-UF'),
                'Telefone'=> $this->input->post('add-membro-phone'),
                'Celular'=> $this->input->post('add-membro-mobile'),
-               'AcessoGestCamp' => $AtribGestao
+               'AcessoGestCamp' => $AtribGestaoCampanha,
+               'AcessoGestFin' => $AtribGestaoFinanceira,
+               'AcessoGestGab'=> $AtribGestaoGabinete,
+                'Role' => $this->input->post('membro-role')
            );
             
            //Verifica se o membro está sendo atualizado
@@ -987,22 +1059,26 @@ class dashboard extends CI_Controller {
            if ($IdMembroAdicionado !=''){
                //atualizando membro
                $this->PDCModel->AtualizaEquipeCandidato($IdMembroAdicionado,$dataMembroEquipe);
+               $this->PDCModel->ArmazenaGruposMembro($IdMembroAdicionado, $this->input->post('add-membro-group')); //Adicionando grupos membro em outra tabela
                $this->gerenciarEquipe();
            } else {          
-               //Se o membro não estiver sendo adicionado, simplesmente adiciona
-               //echo 'adicionar membro';
-               
+               //Se o membro não estiver sendo adicionado, simplesmente adiciona               
                //Verifica se já tem um email igual cadastrado
                if ($IdMembroExistente = $this->PDCModel->verificaMembroCadastrado($this->input->post('add-membro-email'))){
                    echo "<script type='text/javascript'> alert('Email já cadastrado'); </script> ";
                    $this->gerenciarEquipe($IdMembroExistente); 
                    //exit();
                } else {
-                    $this->PDCModel->InsereEquipeCandidato($dataMembroEquipe);
+                    $MAdicionado =  $this->PDCModel->InsereEquipeCandidato($dataMembroEquipe);
+                    $this->PDCModel->ArmazenaGruposMembro($MAdicionado, $this->input->post('add-membro-group'));
                     $this->gerenciarEquipe();
                }
                
            } 
+           
+           //Adicionando os grupos do Membro Inserido
+           
+
                       
 
 
@@ -1229,6 +1305,16 @@ class dashboard extends CI_Controller {
         }
         
         
+        public function RetornaImagemMembro($fotoMembro){
+            if ($fotoMembro!=""){
+                $caminho = "images/placeholders/membros/";
+                return $caminho.$fotoMembro;            
+            } else {
+                $caminho = "images/placeholders/avatars/";
+                $imagem="unknown-avatar.png";
+                return $caminho.$imagem;
+            }
+        }
         
         public function RetornaImagemCandidato()
         {
@@ -1263,6 +1349,18 @@ class dashboard extends CI_Controller {
         }
     
         
+        public function CarregaGruposMembro($idMembro) { //em uma string
+           
+            $gruposMembro = $this->PDCModel->CarregaGruposMembro($idMembro);
+            
+            foreach ($gruposMembro->result() as $grupo) {    
+                $listaGrupo = $grupo->Grupo.' ,'.$listaGrupo;
+            }    
+            
+            return $listaGrupo;      
+        }
+
+
         public function CarregaPalavrasChave($idCandidato){ //em uma string
             
             $PalavrasChave = $this->PDCModel->CarregaPalavrasChave($idCandidato);   
@@ -1368,20 +1466,51 @@ class dashboard extends CI_Controller {
              * 
              */
             
+            //var_dump($listaEquipe);
             
+            /**
+            $query = $this->db->query("SELECT * from Equipe WHERE Id_Candidato='$idCandidato'")->result_array();
+            $array = array();
             
-            foreach ($listaEquipe->result() as $Equipe) {
-               
-                echo "<br>";
-                //echo '--';
-                echo $Equipe->Nome;
-                /**
-                echo $row->idestado.' '.$row->nome.'<br>';
-                echo $uf['nome'];
-                 * 
-                 */
+            foreach ( $query as $key => $val )
+            {
+                $temp = array_values($val);
+                $array[] = $temp[0];
             }
             
+            var_dump($temp);
+             * 
+             */
+            
+            foreach ($listaEquipe->result() as $membroEquipe){
+                $dataMembrosEquipe[$membroEquipe->Id_MembroEquipe]=array(
+                  'id' => $membroEquipe->Id_MembroEquipe,
+                  'nome'  => $membroEquipe->Nome,
+                  'foto' => $this->RetornaImagemMembro($membroEquipe->foto),
+                  'email' =>  $membroEquipe->email,
+                  'Acesso' =>  $membroEquipe->Role
+                );
+            }
+            var_dump($dataMembrosEquipe);
+            
+            
+            $DataEquipe = array ('foto','nome');
+       
+            foreach ($listaEquipe->result() as $Equipe ) { //object version. a versao array usa result_array()
+                $DataEquipe['foto']= $this->RetornaImagemMembro($Equipe->foto);
+                $DataEquipe['nome'] = $Equipe->Nome;
+                //echo "<br>";
+                //echo '--';
+                echo $Equipe->Nome;
+                //echo $row->idestado.' '.$row->nome.'<br>';
+                //echo $uf['nome'];
+            }
+            
+           echo "numero de membros ". $listaEquipe->num_rows();
+           echo "<br>";
+            
+            var_dump($testeArray);
+            echo $DataEquipe['FotoMembro'];
             
             
             
@@ -1593,7 +1722,7 @@ class dashboard extends CI_Controller {
            
        }
        
-       public function enviaFotoCandidato($data){
+       public function enviaFotoCandidato(){
         $this->load->helper('array','date');
         $this->load->library('table'); 
         
@@ -1644,8 +1773,91 @@ class dashboard extends CI_Controller {
         $this->finalizaCadastro();
             
        }
+       
+       // cria uma função única para enviar fotos, idendificando o diretorio
+       // Para membros e candidatos, que não estão no db ainda
+       // armazena o nome do arquivo numa variavel global para iserir quando
+       // não houver cadastro no db.
+       
+       public function enviaFoto(){
+            $this->load->helper('array','date');
+            $this->load->library('user_agent'); 
+           
+            //var_dump($_POST);
+            
+            echo $this->agent->referrer(); //Origem da chamada
 
+            //echo $this->router->fetch_class(); // retorna class = controller
+            //echo $this->router->fetch_method(); //retorna o método
 
+            
+            $quem = $this->input->post('quem'); //definido no formulario. Id de quem é a foto (Candidato, Usuário ou Membro)
+            
+            $idExistente = $this->input->post('idExistente'); //se a foto enviada for de um usuário existente, será passado num hiddem no POST
+                        
+            switch ($quem){
+                case "Candidato":
+                    $caminho='./images/placeholders/candidatos';
+                    break;
+                case "Usuario":
+                    $caminho='./images/placeholders/usuarios';
+                    break;
+                case "Membro":
+                    $caminho='./images/placeholders/membros';
+                    break;
+                default:
+                    $caminho='./images/placeholders/outras';   
+            }
+            
+            $config = array(
+                'upload_path' => $caminho,
+                'allowed_types' => "gif|jpg|png|jpeg|pdf",
+                'overwrite' => TRUE,
+                'max_size' => "2048000", // Can be set to particular file size , here it is 2 MB(2048 Kb)
+                'max_height' => "768",
+                'max_width' => "1024",
+                'encrypt_name' => true
+            );   
+            
+            $this->load->library('upload', $config);  
+            $data = array('upload_data' => $this->upload->data());
+            $extencaoNome = element('file_ext' , $data['upload_data']); //pegando extencao nome
+            
+            
+            if(!$this->upload->do_upload('userfile')){
+             $data = array('upload_data' => $this->upload->data());
+             $extencaoNome = element('file_ext' , $data['upload_data']); //pegando extencao nome
+             echo "<script type='text/javascript'> alert('Falha no envio da Foto'); </script> ";
+             $uploadedDetails    = $this->upload->display_errors();
+           }else{
+               $data = array('upload_data' => $this->upload->data());
+               $extencaoNome = element('file_ext' , $data['upload_data']); //pegando extencao nome
+               echo "<script type='text/javascript'> alert('Foto Enviada'); </script> ";
+               $uploadedDetails    = $this->upload->data();    
+           }
+           
+            //folocando a foto num array para envio ao banco de dados
+            $dataFoto = array (
+                'foto' => element('file_name', $data['upload_data'])    
+            );
+                       
+           if ($quem=="Candidato"){   
+               $this->PDCModel->atualizaFotoCandidatoDB($this->PegaNumeroCandidato(),$dataFoto);  
+               $this->VarFotoCand=element('file_name', $data['upload_data']); //Colocando o nome da foto do candidato numa variável global 
+               redirect($this->agent->referrer()); //depois de atualizado envia a página para origem de chamada
+           } else if ($quem=="Membro") {
+               $this->VarFotoMembro=element('file_name', $data['upload_data']); //Colocando o nome da foto do membro numa variável global 
+               $this->PDCModel->atualizaFotoMembro($idExistente,$dataFoto);  
+               $this->VarFotoMembro=element('file_name', $data['upload_data']); //Colocando o nome da foto do membro numa variável global 
+               redirect($this->agent->referrer()); //depois de atualizado envia a página para origem de chamada
+               //var_dump($this->VarFotoMembro);
+               //var_dump($idExistente);
+           }
+ 
+       }
+       
+
+       /**
        public function do_upload(){
         
         $this->load->helper('array','date');
@@ -1728,7 +1940,7 @@ class dashboard extends CI_Controller {
           //  var_dump($data2);
           * 
           */
-   
+   /**
         }
         else
         {
@@ -1737,7 +1949,7 @@ class dashboard extends CI_Controller {
             $this->load->helper('url');
             $this->load->view('/'.$page, $error);
         }
-       }
+       } **/
       
        
        public function AtualizaFotoUserDB($idUser, $nomeArquivo){

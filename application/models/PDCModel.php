@@ -119,7 +119,7 @@ Class PDCModel extends CI_Model {
         $success = $this->db->affected_rows(); 
               
         if(!$success){
-            echo 'impossivel atualizar user';
+            //echo 'impossivel atualizar user';
             error_log('Unable to updateUserInfo('.$post['user_id'].')');
             return false;
         }
@@ -257,7 +257,30 @@ Class PDCModel extends CI_Model {
         return $query->row();
     }
 
+    public function ArmazenaGruposMembro($idMembro, $string){
+           
+           $grupos = explode(",", $string); //Convertendo para array com a ',' como delimitador
+
+           //Limpando as Palavras Chave do Candidato
+           $this->db->where('idMembro', $idMembro);
+           $this->db->delete('Grupos');
+
+           //Adicionando o novo array de palavras chave
+           foreach ($grupos as $grupo){
+               $data=array(
+                 'idMembro'  => $idMembro,
+                 'Grupo' => $grupo  
+               );
+               $this->db->insert('Grupos',$data);
+           }
+           
+           return count($grupos); //retorna o nº de palavras incluídas
+    }
     
+    public function CarregaGruposMembro($idMembro){
+        $query = $this->db->query("SELECT * from Grupos WHERE idMembro='$idMembro'");
+        return $query;
+    }
 
 
     public function CarregaPalavrasChave($idCandidato){
@@ -416,6 +439,12 @@ Class PDCModel extends CI_Model {
         return $query_result;
     }
     
+    public function lista_atrib(){
+        $query = $this->db->get('UserAtrib');
+        $query_result = $query->result();
+        return $query_result;
+    }
+    
     public function PegaUFSelecionada ($UF_db){
 
          //$query = $this->db-query("select idestado from estado where uf='PR'");
@@ -547,8 +576,21 @@ Class PDCModel extends CI_Model {
       }
       return TRUE;
     }
+    
+    public function atualizaFotoMembro($id, $data){
+        $this->db->update('Equipe',$data,"Id_MembroEquipe=$id");
+        if(!$success){
+            error_log('Impossível atualizar foto do Membro ('.$id.')');
+            return FALSE;
+        }
+        return TRUE;
+        
+    }
 
 
+    //Criar uma função única para atualizar todas as fotos
+    
+    
     public function RetornaFotoUser ($idusuario){
         $query = $this->db->query("select * from users where email='$idusuario'");
         $row = $query->row();

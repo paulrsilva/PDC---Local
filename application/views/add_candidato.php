@@ -778,7 +778,8 @@
                 </div>
                 <div class="modal-body">
                     <?php echo $error;?> <!-- Error Message will show up here -->
-                    <?php echo form_open_multipart('dashboard/enviaFotoCandidato');?>
+                    <?php echo form_open_multipart('dashboard/enviaFoto');?>
+                    <?php echo "<input type='hidden' name='quem' value='Candidato' />"; ?>
                     <?php echo "<input type='file' name='userfile' size='20' />"; ?>
                     <?php echo "<input type='submit' name='submit' value='upload' /> ";?>
                     <?php echo "</form>"?>

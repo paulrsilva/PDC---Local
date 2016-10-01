@@ -33,24 +33,29 @@
                         <th>Nome</th>
                         <th>Email</th>
                         <th>Acesso</th>
+                        <th>Status</th>
                         <th style="width: 150px;" class="text-center">Ações</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($listaEquipe->result() as $Equipe) { ?>
-                    <tr>
-                        <td class="text-center"><img src="img/placeholders/avatars/avatar<?php echo rand(1, 16); ?>.jpg" alt="avatar" class="img-circle"></td>
-                        <td><a href="page_ready_user_profile.php"><?php  echo $Equipe->Nome; ?></a></td>
-                        <td><?php  echo $Equipe->email; ?></td>
-                        <td><a href="javascript:void(0)" class="label label-warning">Trial</a></td>
-                        <td class="text-center">
-                            <div class="btn-group btn-group-xs">
-                                <a href="<?php echo base_url()."dashboard/gerenciarEquipe/$Equipe->Id_MembroEquipe" ; ?>" data-toggle="tooltip" title="Atualizar" class="btn btn-default"><i class="fa fa-pencil"></i></a>
-                                <a href="<?php echo base_url()."dashboard/DeletaMembroEquipeCandidato/$Equipe->Id_MembroEquipe" ; ?>" data-toggle="tooltip" title="Apagar" class="btn btn-danger"><i class="fa fa-times"></i></a>
-                            </div>
-                        </td>
-                    </tr> 
+                    <!-- Substituido a lista de objetos (lista equipe) por um array formatado pelo controler -->
+                    <?php foreach ($MembrosEquipe as $Equipe) { ?>
+                        <tr>
+                            <td class="text-center"><img src="<?php echo base_url().$Equipe['foto']; ?>" alt="avatar" class="img-circle" style="width:20px;height:20px"></td>
+                            <td><a href="page_ready_user_profile.php"><?php  echo $Equipe['nome']; ?></a></td>
+                            <td><?php  echo $Equipe['email']; ?></td>
+                            <td><a href="javascript:void(0)" class="label label-warning"><?php echo $Equipe['Acesso']; ?></a></td>
+                            <td><a href="javascript:void(0)" class="label label-success"> ok </a> </td>
+                            <td class="text-center">
+                                <div class="btn-group btn-group-xs">
+                                    <?php $idM=$Equipe['id']; ?>
+                                    <a href="<?php echo base_url()."dashboard/gerenciarEquipe/$idM" ; ?>" data-toggle="tooltip" title="Atualizar" class="btn btn-default"><i class="fa fa-pencil"></i></a>
+                                    <a href="<?php echo base_url()."dashboard/DeletaMembroEquipeCandidato/$idM" ; ?>" data-toggle="tooltip" title="Apagar" class="btn btn-danger"><i class="fa fa-times"></i></a>
+                                </div>
+                            </td>
+                        </tr> 
                     <?php } ?>
+                                 
                 </tbody>
             </table> 
         </div>
@@ -70,12 +75,32 @@
         <!-- Formulário de Conteúdo para adicionar contato -->
         <!-- Add Contact Content -->
         
-                <form action="<?php echo site_url('index.php/dashboard/adicionarEquipe'); ?>" method="post" class="form-horizontal form-bordered">
+        
+                <form action="<?php echo site_url('index.php/dashboard/adicionarEquipe'); ?>" method="post" enctype="multipart/form-data" class="form-horizontal form-bordered">
                     <div class="form-group">
-                        <label class="col-xs-3 control-label text-muted">Sem Imagem</label>
+                        
+                        
+                        <div class="col-xs-3">
+                                <img src="<?php echo base_url().$Membro['foto']; ?>" alt="avatar" style="width:50px;height:50px" class="img-circle pull-right">          
+                        </div>
+                             
                         <div class="col-xs-9">
+                            
+                            <?php if($Membro['Id_MembroEquipe']!=""){echo "<i class='fa fa-fw fa-upload'></i> <a href='#modal-foto_membro' data-toggle='modal'>atualizar Foto</a><br>";} ?>
+                            <?php if($Membro['Id_MembroEquipe']!=""){echo "<i class='fa fa-fw fa-picture-o'></i><a href='#'>Escolher da biblioteca</a>";} ?>
+                            
+                            <!-- OLD ONE - Sem o PHP
                             <i class="fa fa-fw fa-upload"></i> <a href="#modal-foto_membro" data-toggle="modal">Enviar Foto</a><br>
                             <i class="fa fa-fw fa-picture-o"></i> <a href="javascript:void(0)">Escolher da biblioteca</a>
+                            -->
+                            
+                            <?php if($Membro['Id_MembroEquipe']==""){echo "<input type='file' title='enviar foto membro' id='MemberPicInput' name='MemberPicInput'>enviar foto Membro Equipe</input>"; } ?>
+                          
+                            <!--
+                            <input type="file" title="enviar foto membro"  id="MemberPicInput" name="MemberPicInput">enviar foto Membro Equipe</input>
+                            -->
+                           
+                            
                         </div>
                     </div>
                     <div class="form-group">
@@ -156,26 +181,44 @@
                     <div class="form-group">
                         <label class="col-xs-3 control-label" for="add-membro-group">Grupos </label> <!-- Adicionar descritivo -->
                         <div class="col-xs-9">
-                            <input type="text" id="add-contact-group" name="add-membro-group" class="input-tags" value="All Contacts">
+                           <input type="text" id="add-contact-group" name="add-membro-group" class="input-tags" value="<?php echo $GruposMembro; ?>">
                         </div>
                     </div>
                     
                     
                     <div class="form-group">
                         <legend><i class="fa fa-angle-right"></i> Gestão de Direitos de Acesso</legend>
+                        
+                        <label class="col-xs-4 control-label" for="atrib_acesso"> Atribuições Membro </label>
+                        <div class="col-xs-4">
+                            <select id="membro-role" name="membro-role" class="select-chosen" data-placeholder="Função do Membro" style="width: 250px;">
+                              <option></option><!-- Required for data-placeholder attribute to work with Chosen plugin -->  
+
+                                <?php foreach($atrib as $atribMembro):?>
+                                    <option value="<?php echo $atribMembro->Funcao ?>"><?php echo $atribMembro->Funcao ?></option>
+                                <?php endforeach;?>  
+                                    
+                                <option selected='selected'><?php echo $Membro['AtribMembro']; ?></option>    
+                                    
+                         </select>
+                        </div>
+                    </div>
+                        
+                        
+                      <div class="form-group">   
                         <label class="col-xs-4 control-label" for="gestaoCampanha_ler"> Campanha </label> <!-- Adicionar descritivo -->
                         <div class="col-xs-8">
                                 <label class="checkbox-inline" for="gestaoCampanha_ler">
                                     <input type="checkbox" id="gestaoCampanha_ler" name="gestaoCampanha_ler"
-                                           <?php if($AcessoGestao["R"]){ echo "checked='TRUE'"; } ?> value="4"> Ver Informações
+                                           <?php if($AcessoGestaoCampanha["R"]){ echo "checked='TRUE'"; } ?> value="4"> Ver Informações
                                </label>
                                <label class="checkbox-inline" for="gestaoCampanha_escrever">
                                    <input type="checkbox" id="gestaoCampanha_escrever"
-                                          name="gestaoCampanha_escrever" <?php if($AcessoGestao["W"]){ echo "checked='TRUE'"; } ?> value="2"> Incluir Dados
+                                          name="gestaoCampanha_escrever" <?php if($AcessoGestaoCampanha["W"]){ echo "checked='TRUE'"; } ?> value="2"> Incluir Dados
                                </label>
                                <label class="checkbox-inline" for="gestaoCampanha_executar">
                                    <input type="checkbox" id="gestaoCampanha_executar" 
-                                          name="gestaoCampanha_executar" <?php if($AcessoGestao["X"]){ echo "checked='TRUE'"; } ?> value="1"> Excluir/Executar Ações
+                                          name="gestaoCampanha_executar" <?php if($AcessoGestaoCampanha["X"]){ echo "checked='TRUE'"; } ?> value="1"> Excluir/Executar Ações
                                </label>
                         </div>
                     </div>
@@ -184,16 +227,16 @@
                         <label class="col-xs-4 control-label" for="gestaoFinanceira_ler">Financeiro </label> <!-- Adicionar descritivo -->
                         <div class="col-xs-8">
                                 <label class="checkbox-inline" for="gestaoFinanceira_ler">
-                                    <input type="checkbox" id="gestaoCampanha_ler" name="gestaoCampanha_ler"
-                                           <?php if($AcessoGestao["R"]){ echo "checked='TRUE'"; } ?> value="4"> Ver Informações
+                                    <input type="checkbox" id="gestaoFinanceira_ler" name="gestaoFinanceira_ler"
+                                           <?php if($AcessoGestaoFinanceira["R"]){ echo "checked='TRUE'"; } ?> value="4"> Ver Informações
                                </label>
                                <label class="checkbox-inline" for="gestaoFinanceira_escrever">
-                                   <input type="checkbox" id="gestaoCampanha_escrever"
-                                          name="gestaoCampanha_escrever" <?php if($AcessoGestao["W"]){ echo "checked='TRUE'"; } ?> value="2"> Incluir Dados
+                                   <input type="checkbox" id="gestaoFinanceira_escreverr"
+                                          name="gestaoFinanceira_escrever" <?php if($AcessoGestaoFinanceira["W"]){ echo "checked='TRUE'"; } ?> value="2"> Incluir Dados
                                </label>
                                <label class="checkbox-inline" for="gestaoFinanceira_executar">
                                    <input type="checkbox" id="gestaoCampanha_executar" 
-                                          name="gestaoCampanha_executar" <?php if($AcessoGestao["X"]){ echo "checked='TRUE'"; } ?> value="1"> Excluir/Executar Ações
+                                          name="gestaoFinanceira_executar" <?php if($AcessoGestaoFinanceira["X"]){ echo "checked='TRUE'"; } ?> value="1"> Excluir/Executar Ações
                                </label>
                         </div>
                     </div>
@@ -203,16 +246,16 @@
                         <label class="col-xs-4 control-label" for="gestaoGabinente_ler">Gabinete </label> <!-- Adicionar descritivo -->
                         <div class="col-xs-8">
                                 <label class="checkbox-inline" for="gestaoGabinente_ler">
-                                    <input type="checkbox" id="gestaoCampanha_ler" name="gestaoCampanha_ler"
-                                           <?php if($AcessoGestao["R"]){ echo "checked='TRUE'"; } ?> value="4"> Ver Informações
+                                    <input type="checkbox" id="gestaoGabinente_ler" name="gestaoGabinente_ler"
+                                           <?php if($AcessoGestaoGabinete["R"]){ echo "checked='TRUE'"; } ?> value="4"> Ver Informações
                                </label>
                                <label class="checkbox-inline" for="gestaoGabinete_escrever">
                                    <input type="checkbox" id="gestaoCampanha_escrever"
-                                          name="gestaoCampanha_escrever" <?php if($AcessoGestao["W"]){ echo "checked='TRUE'"; } ?> value="2"> Incluir Dados
+                                          name="gestaoGabinete_escrever" <?php if($AcessoGestaoGabinete["W"]){ echo "checked='TRUE'"; } ?> value="2"> Incluir Dados
                                </label>
                                <label class="checkbox-inline" for="gestaoGabinete_executar">
-                                   <input type="checkbox" id="gestaoCampanha_executar" 
-                                          name="gestaoCampanha_executar" <?php if($AcessoGestao["X"]){ echo "checked='TRUE'"; } ?> value="1"> Excluir/Executar Ações
+                                   <input type="checkbox" id="gestaoGabinete_executar" 
+                                          name="gestaoGabinete_executar" <?php if($AcessoGestaoGabinete["X"]){ echo "checked='TRUE'"; } ?> value="1"> Excluir/Executar Ações
                                </label>
                         </div>
                     </div>
@@ -245,9 +288,15 @@
     </div>
     <!-- END Example Block -->
     <div class="block">
-        <?php var_dump($AcessoGestao); ?>
+        <?php var_dump($GruposMembro); ?>
         ---
         <?php echo $AcessoGestao["W"]; ?>
+        ---
+        <?php var_dump($MembrosEquipe); ?>
+        
+        <?php foreach ($MembrosEquipe as $Equipe) { ?>
+            <?php  echo $Equipe['nome']; ?>
+        <?php } ?>
     </div>
    
 </div>
@@ -262,8 +311,11 @@
                     <h3 class="modal-title"><i class="gi gi-user_add"></i> Enviar Foto Membro Equipe</h3>
                 </div>
                 <div class="modal-body">
+                    <?php $idExistente=$Membro['Id_MembroEquipe'] ?>
                     <?php echo $error;?> <!-- Error Message will show up here -->
-                    <?php echo form_open_multipart('dashboard/do_upload');?>
+                    <?php echo form_open_multipart('dashboard/enviaFoto');?>
+                    <?php echo "<input type='hidden' name='quem' value='Membro' />"; ?>
+                    <?php echo "<input type='hidden' name='idExistente' value='$idExistente' />"; ?>
                     <?php echo "<input type='file' name='userfile' size='20' />"; ?>
                     <?php echo "<input type='submit' name='submit' value='upload' /> ";?>
                     <?php echo "</form>"?>
