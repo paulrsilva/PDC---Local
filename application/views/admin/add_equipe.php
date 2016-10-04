@@ -40,11 +40,50 @@
                 <tbody>
                     <!-- Substituido a lista de objetos (lista equipe) por um array formatado pelo controler -->
                     <?php foreach ($MembrosEquipe as $Equipe) { ?>
+                        
+                        <?php 
+                            //colocando estilo na legenda de função do membro
+                            switch ($Equipe['Acesso']){
+                                case "Adm. Campanha":
+                                    $etiqueta='label label-info';
+                                    break;
+                                case "Adm. Gabinete":
+                                    $etiqueta='label label-primary';
+                                    break;
+                                case "Agência":
+                                    $etiqueta='label label-warning';
+                                    break;
+                                case "Equipe":
+                                    $etiqueta='label label-primary';
+                                    break;
+                                case "Func. Interno":
+                                    $etiqueta='label label-primary';
+                                    break;
+                                case "Func. Terceirizado":
+                                    $etiqueta='label label-warning';
+                                    break;
+                                case "Consultor Externo":
+                                    $etiqueta='label label-warning';
+                                    break;
+                                case "Comitê":
+                                    $etiqueta='label label-danger';
+                                    break;
+                                case "Mobilizador":
+                                    $etiqueta='label label-success';
+                                    break;
+                                default:
+                                     $etiqueta='label label-default';   
+                            }
+
+                            $caminho='images/placeholders/headers/';
+                        ?>
+                    
                         <tr>
                             <td class="text-center"><img src="<?php echo base_url().$Equipe['foto']; ?>" alt="avatar" class="img-circle" style="width:20px;height:20px"></td>
                             <td><a href="page_ready_user_profile.php"><?php  echo $Equipe['nome']; ?></a></td>
                             <td><?php  echo $Equipe['email']; ?></td>
-                            <td><a href="javascript:void(0)" class="label label-warning"><?php echo $Equipe['Acesso']; ?></a></td>
+                            
+                            <td><a href="javascript:void(0)" class="<?php echo $etiqueta ?>"><?php echo $Equipe['Acesso']; ?></a></td>
                             <td><a href="javascript:void(0)" class="label label-success"> ok </a> </td>
                             <td class="text-center">
                                 <div class="btn-group btn-group-xs">
@@ -81,7 +120,12 @@
                         
                         
                         <div class="col-xs-3">
-                                <img src="<?php echo base_url().$Membro['foto']; ?>" alt="avatar" style="width:50px;height:50px" class="img-circle pull-right">          
+                                <?php 
+                                    if(isset($Membro['foto'])){ $fotoMembro = $Membro['foto'];} 
+                                    else {$fotoMembro="/images/placeholders/avatars/unknown-avatar.png";} 
+                                
+                                 ?> 
+                                <img src="<?php echo base_url().$fotoMembro; ?>" alt="avatar" style="width:50px;height:50px" class="img-circle pull-right">          
                         </div>
                              
                         <div class="col-xs-9">
@@ -288,15 +332,17 @@
     </div>
     <!-- END Example Block -->
     <div class="block">
-        <?php var_dump($GruposMembro); ?>
+        <?php //var_dump($GruposMembro); ?>
         ---
-        <?php echo $AcessoGestao["W"]; ?>
+        <?php // echo $AcessoGestao["W"]; ?>
         ---
-        <?php var_dump($MembrosEquipe); ?>
+        <?php //var_dump($MembrosEquipe); ?>
         
-        <?php foreach ($MembrosEquipe as $Equipe) { ?>
-            <?php  echo $Equipe['nome']; ?>
-        <?php } ?>
+        <?php //foreach ($MembrosEquipe as $Equipe) { ?>
+            <?php//  echo $Equipe['nome']; ?>
+        <?php// } ?>
+        
+        <?php // echo $fotoMembro; ?>
     </div>
    
 </div>

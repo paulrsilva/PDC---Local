@@ -972,6 +972,17 @@ class dashboard extends CI_Controller {
 
            //var_dump($_POST);
            
+           //Verifica se o membro adicionado já é usuário
+           $verificaMembro = $this->input->post('add-membro-email');
+           if ($MembroJaExistente=$this->PDCModel->PegaDadosUser($verificaMembro)){
+             echo "<script type='text/javascript'> alert('O Membro $MembroJaExistente->first_name já é usuário. Convidar?'); </script> ";
+           }
+           
+           
+           
+     
+           //Fim verifica se o membro adicionado já é usuário
+           
            //Adicionando a imagem do membro no diretorio /placeholders/membros        
             $config = array(
                 'upload_path' => "./images/placeholders/membros",
