@@ -74,11 +74,11 @@ $active_group = 'default';
 $query_builder = TRUE;
 
 $db['default'] = array(
-	'dsn'	=> 'mysql:host=localhost;dbname=PDC',
-	'hostname' => 'localhost',
-	'username' => 'root',
-	'password' => '12341312',
-	'database' => 'PDC',
+	'dsn'	=> 'mysql:host=177.85.98.245;dbname=port4lfo_crm-pdc',
+	'hostname' => '177.85.98.245',
+	'username' => 'port4lfo_crm-pdc',
+	'password' => 'ASFADAS2017',
+	'database' => 'port4lfo_crm-pdc',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,
